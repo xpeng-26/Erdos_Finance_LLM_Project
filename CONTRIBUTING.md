@@ -1,5 +1,5 @@
 # Contribution
-Thank you for considering contributing to the Erdos News Finance Project! We welcome contributions from everyone. Please be aware of the contribution principles to help us maintain the codebase.
+Thank you for considering contributing to the Erdos Finance LLM Project! We welcome contributions from everyone. Please be aware of the contribution principles to help us maintain the codebase.
 
 ## Principles
 - Follow the existing code style.
@@ -41,12 +41,12 @@ Here are some guidelines to help you get started:
 	You can test the environment in one of three following ways:
 
 	(1) Run the Python file directly:
-		```bash
+		```
 		poetry run python tests/test_env/test_/test.py
 		```
 
 	(2) Run the bash shell file which controls the Python file:
-		```bash
+		```
 		bash tests/test_env/run_test_env.sh 
 		```
 
@@ -57,7 +57,7 @@ Here are some guidelines to help you get started:
 ## How to Contribute
 1. **Clone the repository to local** and change the directory to the project path.
 	```bash
-	cd <path>/ErdosNewsFinanceProject
+	cd <path>/Erdos_Finance_LLM_Project
 	```
 2. **Create a new branch**: 
 	```bash
@@ -84,7 +84,7 @@ Here are some guidelines to help you get started:
 7. **Create a Pull Request**: When you have finished all steps of a plan and want to merge your code with ours, please create a Pull Request. Go to the original repository on the GitHub webpage, click "New Pull Request" and **add the description** of your effort.
 
 ## Report Issues
-To report issues, please use the [GitHub Issues page](https://github.com/your-repo/ErdosNewsFinanceProject/issues). Provide a detailed description of the problem, steps to reproduce it, and any relevant logs or screenshots. This will help us address the issue more efficiently.
+To report issues, please use the [GitHub Issues page](https://github.com/your-repo/Finance_LLM_Project/issues). Provide a detailed description of the problem, steps to reproduce it, and any relevant logs or screenshots. This will help us address the issue more efficiently.
 
 # File Structure
 
@@ -94,15 +94,14 @@ The project is organized as follows:
 	/ErdosNewsFinanceProject
 	├── config/            					 # Experiment setup by TOML files
 	├── src/               					 # Source code files
-	│   ├── engine             				 # Code files for each feature
-	│   │   ├── ingestion/     				 # Data ingestion
-	│   │   ├── clean/         				 # Data preprocessing
-	│   │   ├── model_fin/     				 # Model scripts for finance data
-	│   │   ├── model_news/    				 # Model scripts for news data
-	│   │   ├── model_prediction/  			 # Model scripts for prediction
-	│   │   └── model_eval/    				 # Model evaluation
+	│   ├── engine             			 # Code files for each feature
+	│   │   ├── ingestion/     			 # Data ingestion
+	│   │   ├── clean/         			 # Data preprocessing
+	│   │   ├── feature/     				 # Model scripts for feature engineering via LLMs
+	│   │   ├── stratergy/    			 # Model scripts for optimizing trading stratergies
+	│   │   └── evaluation/    			 # Model evaluation
 	│   ├── utils/         					 # Utility functions (reusable functions in all other folders)
-	│   └── predict_stock_w_news.py 		 # The main file to call all drivers (steps) in enginie related to predicting stock price with news topics
+	│   └── trade_w_llm.py 		       # The main file to call all drivers (steps) in engine folders for trading
 	├── scripts/           					 # Shell scripts to run engine driver
 	├── notebook/          					 # Jupyter notebook for visualization or small experiments
 	├── data/              					 # Data files (small size, core data should store in Google Drive)

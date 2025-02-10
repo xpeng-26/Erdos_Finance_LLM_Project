@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "erdosnewsfinanceproject"
+name = "erdos_finance_llm"
 version = "0.1.0"
 description = ""
 authors = ["XW Peng <26990979+xpeng-26@users.noreply.github.com>"]
@@ -12,6 +12,7 @@ ipykernel = "^6.29.5"
 pandas = "^2.2.3"
 logging = "^0.4.9.6"
 datetime = "^5.5"
+tomli-w = "^1.2.0"
 
 
 [build-system]
