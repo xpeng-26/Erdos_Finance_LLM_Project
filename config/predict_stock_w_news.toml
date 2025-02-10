@@ -1,0 +1,59 @@
+############################################
+# pipeline for predicting stock price with news
+# set true to run the pipeline, false to skip the pipeline
+[pipeline]
+# stock
+stock_ingestion = true
+stock_preprocessing = false
+stock_model = false
+# news
+news_ingestion = false
+news_preprocessing = false
+news_model = false
+# prediction
+predict_model = false
+predict_evaluation = false
+
+
+
+
+############################################
+[info]
+# directories names
+dirs_names = ["ingestion", "clean", "engine", "model_fin", "model_news", "model_predict", "model_eval"]
+# Google Drive path (local path)
+gdrive_path = "~/Google Drive/stock_predict_w_news"
+
+
+
+
+############################################
+# parameters for each step in the pipeline
+[stock_ingestion]
+[stock_ingestion.input]
+stock_symbol_file = "data/stock_symbols.csv"
+[stock_ingestion.output]
+stock_data_file = "data/stock_data.csv"
+
+[stock_preprocessing]
+[stock_preprocessing.input]
+stock_data_file = "data/stock_data.csv"
+[stock_preprocessing.output]
+stock_data_cleaned_file = "data/stock_data_cleaned.csv"
+
+[stock_model]
+
+
+[news_ingestion]
+
+
+[news_preprocessing]
+
+
+[news_model]
+
+
+[predict_model]
+
+
+[predict_evaluation]
