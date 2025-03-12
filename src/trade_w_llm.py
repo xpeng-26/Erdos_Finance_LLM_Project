@@ -17,7 +17,7 @@ from utils.directory_tool import ensure_dir, get_directory_names
 from utils.logging_tool import initialize_logger
 
 # custom modules
-
+from engine.ingestion.ingest_stock_driver import ingest_stock_data
 
 ############################################
 def main(opt_params):
@@ -88,7 +88,8 @@ def main(opt_params):
 			logger.info('Start ingesting stock data...')
 			ensure_dir(dirs["data_raw"])
 
-			# ingest_stock(args.config)
+			# Call the ingestion function with the config and logger
+			ingest_stock_data(config, logger)
 
 			logger.info('Stock data ingestion completed.')
 

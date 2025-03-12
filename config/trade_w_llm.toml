@@ -3,7 +3,7 @@
 # set true to run the pipeline, false to skip the pipeline
 [pipeline]
 
-ingestion = false
+ingestion = true
 clean = false
 feature = false
 strategy = false
@@ -26,12 +26,18 @@ local_data_path = "/Users/xwpeng/Projects/Erdos_Finance_LLM_data"
 # evaluation: backtesting results
 dirs_names = ["logs", "config_archive", "data_raw", "data_clean", "model", "feature", "stratergy", "evalulation"]
 
+# Database settings
+db_name = "stock_daily_data.db"
+
+start_date = "2019-01-01"
+end_date = "2025-03-01"
 
 
 
 ############################################
 # parameters for each step in the pipeline
 [ingestion]
+stock_list = ["AAPL", "MSFT", "NVDA"]
 
 [clean]
 
