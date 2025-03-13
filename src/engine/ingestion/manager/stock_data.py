@@ -1,42 +1,11 @@
-import sqlite3
 import yfinance as yf
 from pathlib import Path
 from datetime import datetime, timedelta
 import json
-from dataclasses import dataclass
-from typing import Optional, Tuple, List, Literal
-from utils.directory_tool import ensure_dir
-
-@dataclass
-class UpdateTask:
-    """Data class for stock update task
-    
-    Attributes:
-        start (str): Start date in 'YYYY-MM-DD' format
-        end (str): End date in 'YYYY-MM-DD' format
-        direction (Literal['backward', 'forward', 'full']): Type of update
-        
-    Returns:
-        UpdateTask: An instance with the specified attributes
-        
-    Example:
-        >>> task = UpdateTask("2023-01-01", "2024-01-01", "forward")
-        >>> print(task.start)
-        '2023-01-01'd
-    """
-    start: str
-    end: str
-    direction: Literal['backward', 'forward', 'full']
-
-    def __post_init__(self):
-        """Validate dates after initialization"""
-        try:
-            start_date = datetime.strptime(self.start, '%Y-%m-%d')
-            end_date = datetime.strptime(self.end, '%Y-%m-%d')
-            if start_date >= end_date:
-                raise ValueError(f"Start date {self.start} must be before end date {self.end}")
-        except ValueError as e:
-            raise ValueError(f"Invalid date format or {str(e)}")
+from typing import Optional, Tuple, List
+from ..update_task import UpdateTask
+from utils.database.manager import DatabaseManager
+from utils.database.schema import create_schema
 
 class StockDataManager:
     """Manager class for stock data operations"""
@@ -44,9 +13,10 @@ class StockDataManager:
         self.config = config
         self.logger = logger
         self.raw_data_path = Path(config['info']['local_data_path']) / 'data_raw'
+        self.raw_data_path.mkdir(parents=True, exist_ok=True)
         self.record_file = self.raw_data_path / 'stock_data_download_records.json'
         self.db_path = self.raw_data_path / config['info']['db_name']
-        self.conn = None
+        self.db_manager = DatabaseManager(self.db_path, create_schema('daily_prices'))
 
     def validate_dates(self) -> bool:
         """Validate configuration dates"""
@@ -60,27 +30,6 @@ class StockDataManager:
             self.logger.error(f"Date validation error: {str(e)}")
             return False
 
-    def setup_database(self):
-        """Initialize SQLite database"""
-        try:
-            self.conn = sqlite3.connect(self.db_path)
-            self.conn.execute('''
-                CREATE TABLE IF NOT EXISTS daily_prices (
-                    date DATE,
-                    symbol TEXT,
-                    open REAL,
-                    high REAL,
-                    low REAL,
-                    close REAL,
-                    volume INTEGER,
-                    PRIMARY KEY (date, symbol)
-                )
-            ''')
-            self.conn.commit()
-        except Exception as e:
-            self.logger.error(f"Database setup error: {str(e)}")
-            raise
-
     def get_symbol_dates(self, symbol: str) -> Tuple[Optional[str], Optional[str]]:
         """Get start and end dates for symbol from records
         
@@ -91,12 +40,20 @@ class StockDataManager:
             Tuple[Optional[str], Optional[str]]: (start_date, end_date) from records,
                 or (None, None) if no records exist
         """
-        if self.record_file.exists():
-            with open(self.record_file, 'r') as f:
+        if not self.record_file.exists():
+            with open(self.record_file, 'w') as f:
+                json.dump({}, f, indent=4)
+                
+        with open(self.record_file, 'r') as f:
+            try:
                 records = json.load(f)
                 if symbol in records:
                     return (records[symbol]['last_start_date'], 
                            records[symbol]['last_end_date'])
+            except json.JSONDecodeError:
+                self.logger.warning(f"Invalid JSON in {self.record_file}, creating new records")
+                with open(self.record_file, 'w') as f:
+                    json.dump({}, f, indent=4)
         return None, None
 
     def determine_updates(self, symbol: str, record_start: Optional[str], 
@@ -201,7 +158,12 @@ class StockDataManager:
                 df_to_store = df[['Date', 'symbol', 'Open', 'High', 'Low', 'Close', 'Volume']]
                 df_to_store.columns = ['date', 'symbol', 'open', 'high', 'low', 'close', 'volume']
                 
-                df_to_store.to_sql('daily_prices', self.conn, if_exists='append', index=False)
+                # Validate data before storing
+                if df_to_store.isnull().any().any():
+                    self.logger.warning(f"Found missing values in data for {symbol}, skipping")
+                    continue
+                    
+                self.db_manager.insert(df_to_store)
                 self.logger.info(f"Successfully stored {update.direction} data for {symbol}")
                 
                 # Update record file
@@ -216,14 +178,8 @@ class StockDataManager:
             return
 
         try:
-            self.setup_database()
+            self.db_manager.setup()
             for symbol in self.config['ingestion']['stock_list']:
                 self.process_symbol(symbol)
         finally:
-            if self.conn:
-                self.conn.close()
-
-def ingest_stock_data(config: dict, logger) -> None:
-    """Entry point for stock data ingestion"""
-    manager = StockDataManager(config, logger)
-    manager.run() 
+            self.db_manager.close() 
