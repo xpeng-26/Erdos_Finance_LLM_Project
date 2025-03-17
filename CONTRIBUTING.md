@@ -107,7 +107,7 @@ The project is organized as follows:
 	├── config/            					 # Experiment setup by TOML files
 	├── src/               					 # Source code files
 	│   ├── engine             			 # Code files for each feature
-	│   │   ├── data/     			     # Data ingestion and cleaning
+	│   │   ├── ingestion/     			 # Data ingestion and cleaning
 	│   │   ├── feature/     				 # Model scripts for feature engineering via LLMs
 	│   │   ├── stratergy/    			 # Model scripts for optimizing trading stratergies
 	│   │   └── evaluation/    			 # Model evaluation
