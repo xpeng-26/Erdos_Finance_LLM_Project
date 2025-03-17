@@ -20,7 +20,6 @@ class StockDataManager:
         
         # Initialize database managers for price and factor data
         self.price_db_manager = DatabaseManager(self.db_path, create_schema('daily_prices'))
-        self.factor_db_manager = DatabaseManager(self.db_path, create_schema('technical_factors'))
 
     def validate_dates(self) -> bool:
         """Validate configuration dates"""
@@ -217,77 +216,3 @@ class StockDataManager:
         finally:
             # Close database connection
             self.price_db_manager.close()
-
-    def get_latest_price_data(self) -> Optional[pd.DataFrame]:
-        """
-        Get the latest price data from the database
-        
-        Returns:
-            Optional[pd.DataFrame]: DataFrame containing price data or None if error
-        """
-        try:
-            query = """
-                SELECT date, symbol, open, high, low, close, volume
-                FROM daily_prices
-                ORDER BY date DESC
-            """
-            df = self.price_db_manager.execute_query(query)
-            if df is not None and not df.empty:
-                df.set_index('date', inplace=True)
-                return df
-            return None
-        except Exception as e:
-            self.logger.error(f"Error getting latest price data: {str(e)}")
-            return None
-
-    def get_existing_factor_data(self) -> Optional[pd.DataFrame]:
-        """
-        Get existing factor data from the database
-        
-        Returns:
-            Optional[pd.DataFrame]: DataFrame containing factor data or None if error
-        """
-        try:
-            query = """
-                SELECT date, symbol, rsi_14, roc_10, mom_10
-                FROM technical_factors
-                ORDER BY date DESC
-            """
-            df = self.factor_db_manager.execute_query(query)
-            if df is not None and not df.empty:
-                df.set_index('date', inplace=True)
-                return df
-            return None
-        except Exception as e:
-            self.logger.error(f"Error getting existing factor data: {str(e)}")
-            return None
-
-    def store_factor_data(self, factor_df: pd.DataFrame) -> bool:
-        """
-        Store factor data in the database
-        
-        Args:
-            factor_df (pd.DataFrame): DataFrame containing factor data
-            
-        Returns:
-            bool: True if successful, False otherwise
-        """
-        try:
-            if factor_df.empty:
-                self.logger.warning("No factor data to store")
-                return False
-                
-            # Reset index to make date a column
-            factor_df = factor_df.reset_index()
-            
-            # Prepare data for storage
-            factor_df['date'] = pd.to_datetime(factor_df['date']).dt.strftime('%Y-%m-%d')
-            
-            # Store in database
-            self.factor_db_manager.insert_dataframe(factor_df, 'technical_factors')
-            self.logger.info(f"Successfully stored factor data for {len(factor_df)} records")
-            return True
-            
-        except Exception as e:
-            self.logger.error(f"Error storing factor data: {str(e)}")
-            return False 
