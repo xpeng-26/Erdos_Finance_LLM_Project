@@ -54,6 +54,18 @@ Here are some guidelines to help you get started:
 
 	You can check [here](#configure-the-experiment-and-run-scripts) for more details.
 
+## Install Some Special Dependents
+1. `TA-Lib`
+
+	Since, `TA-Lib` requires a system-level library, we cannot just use Poetry to install the ta-lib. Instead, we should
+	use Brew to install it in the local first, and then add to the poetry
+	project environment.
+	```bash
+	brew install ta-lib
+	# add to poetry project environment
+	# poetry add ta-bli
+	```
+
 ## How to Contribute
 1. **Clone the repository to local** and change the directory to the project path.
 	```bash

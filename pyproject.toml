@@ -14,6 +14,7 @@ logging = "^0.4.9.6"
 datetime = "^5.5"
 tomli-w = "^1.2.0"
 yfinance = "^0.2.54"
+ta-lib = "^0.6.3"
 
 
 [build-system]
