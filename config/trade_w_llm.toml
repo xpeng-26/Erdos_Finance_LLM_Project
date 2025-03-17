@@ -39,6 +39,14 @@ end_date = "2024-12-31"
 [ingestion]
 stock_list = ["AAPL", "MSFT", "NVDA", "GOOG"]
 
+# Technical analysis factors configuration
+factors = ["RSI", "ROC", "MOM"]
+
+[ingestion.factor_parameters]
+RSI = { timeperiod = 14 }
+ROC = { timeperiod = 10 }
+MOM = { timeperiod = 10 }
+
 [clean]
 
 [feature]

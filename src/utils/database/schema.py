@@ -61,6 +61,20 @@ def create_schema(table_schema: str) -> TableSchema:
             primary_keys=['date', 'symbol'],
             indexes=['symbol', 'date']
         )
+    elif table_schema == 'technical_factors':
+        schema = TableSchema(
+            name='technical_factors',
+            description="Technical analysis factors",
+            columns=[
+                Column('date', 'DATE', description="Trading date"),
+                Column('symbol', 'TEXT', description="Stock symbol"),
+                Column('rsi_14', 'REAL', description="Relative Strength Index (14 periods)"),
+                Column('roc_10', 'REAL', description="Rate of Change (10 periods)"),
+                Column('mom_10', 'REAL', description="Momentum (10 periods)"),
+            ],
+            primary_keys=['date', 'symbol'],
+            indexes=['symbol', 'date']
+        )
     else:
         raise ValueError(f"Invalid table schema: {table_schema}")   
     return schema 
