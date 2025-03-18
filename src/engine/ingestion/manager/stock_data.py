@@ -14,12 +14,12 @@ class StockDataManager:
         self.config = config
         self.logger = logger
         self.raw_data_path = Path(config['info']['local_data_path']) / 'data_raw'
-        self.raw_data_path.mkdir(parents=True, exist_ok=True)
         self.record_file = self.raw_data_path / 'stock_data_download_records.json'
         self.db_path = self.raw_data_path / config['info']['db_name']
         
-        # Initialize database managers for price and factor data
-        self.price_db_manager = DatabaseManager(self.db_path, create_schema('daily_prices'))
+        # Initialize database manager
+        self.db_manager = DatabaseManager(self.db_path)
+
 
     def validate_dates(self) -> bool:
         """Validate configuration dates"""
@@ -192,7 +192,7 @@ class StockDataManager:
                     continue
                 
                 # Store price data
-                self.price_db_manager.insert(price_data)
+                self.db_manager.insert(price_data)
                 self.logger.info(f"Successfully stored price data for {symbol}")
                 
                 # Update record file
@@ -207,12 +207,14 @@ class StockDataManager:
             return
 
         try:
-            # Setup database manager
-            self.price_db_manager.setup()
+            # Create daily_prices table if it doesn't exist
+            if not self.db_manager.check_table_exists('daily_prices'):
+                self.db_manager.setup_table(create_schema('daily_prices'))
             
             # Process each symbol
             for symbol in self.config['ingestion']['stock_list']:
                 self.process_symbol(symbol)
-        finally:
-            # Close database connection
-            self.price_db_manager.close()
+        except Exception as e:
+            self.logger.error(f"Error in ingestion process: {str(e)}")
+            raise
+            
