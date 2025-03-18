@@ -17,7 +17,8 @@ from utils.directory_tool import ensure_dir, get_directory_names
 from utils.logging_tool import initialize_logger
 
 # custom modules
-from engine.ingestion.stock_driver import ingest_stock_data, calculate_factors
+from ingestion.stock_driver import ingest_stock_data
+from feature.feature_engineer_driver import calculate_factors
 
 ############################################
 def main(opt_params):
