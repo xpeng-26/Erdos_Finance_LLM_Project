@@ -3,7 +3,7 @@ from pathlib import Path
 from datetime import datetime, timedelta
 import json
 from typing import Optional, Tuple, List, Dict
-from ..update_task import UpdateTask
+from .update_task import UpdateTask
 from utils.database.manager import DatabaseManager
 from utils.database.schema import create_schema
 import pandas as pd

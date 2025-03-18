@@ -106,11 +106,10 @@ The project is organized as follows:
 	/ErdosNewsFinanceProject
 	├── config/            					 # Experiment setup by TOML files
 	├── src/               					 # Source code files
-	│   ├── engine             			 # Code files for each feature
-	│   │   ├── ingestion/     			 # Data ingestion and cleaning
-	│   │   ├── feature/     				 # Model scripts for feature engineering via LLMs
-	│   │   ├── stratergy/    			 # Model scripts for optimizing trading stratergies
-	│   │   └── evaluation/    			 # Model evaluation
+	│   ├── ingestion/     			     # Data ingestion and cleaning
+	│   ├── feature/     				     # Model scripts for feature engineering via LLMs
+	│   ├── stratergy/    			     # Model scripts for optimizing trading stratergies
+	│   ├── evaluation/    			     # Model evaluation
 	│   ├── utils/         					 # Utility functions (reusable functions in all other folders)
 	│   └── trade_w_llm.py 		       # The main file to call all drivers (steps) in engine folders for trading
 	├── scripts/           					 # Shell scripts to run engine driver

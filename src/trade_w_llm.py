@@ -17,7 +17,7 @@ from utils.directory_tool import ensure_dir, get_directory_names
 from utils.logging_tool import initialize_logger
 
 # custom modules
-from engine.ingestion.stock_driver import ingest_stock_data
+from engine.ingestion.stock_driver import ingest_stock_data, calculate_factors
 
 ############################################
 def main(opt_params):
@@ -92,6 +92,16 @@ def main(opt_params):
 			ingest_stock_data(config, logger)
 
 			logger.info('Stock data ingestion completed.')
+
+		# Calculate factors
+		if config['pipeline']['feature']:
+			logger.info('Start calculating factors...')
+			calculate_factors(config, logger)
+
+			logger.info('Factors calculation completed.')
+
+
+			
 
 
 
