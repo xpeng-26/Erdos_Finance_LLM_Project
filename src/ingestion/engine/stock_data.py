@@ -192,8 +192,7 @@ class StockDataManager:
                     continue
                 
                 # Store price data
-                self.db_manager.insert(price_data)
-                self.logger.info(f"Successfully stored price data for {symbol}")
+                self.db_manager.insert(price_data, 'daily_prices')
                 
                 # Update record file
                 self.update_record_file(symbol, update)
@@ -210,10 +209,12 @@ class StockDataManager:
             # Create daily_prices table if it doesn't exist
             if not self.db_manager.check_table_exists('daily_prices'):
                 self.db_manager.setup_table(create_schema('daily_prices'))
+                self.logger.info("The daily_prices table does not exist, created daily_prices table")
             
             # Process each symbol
             for symbol in self.config['ingestion']['stock_list']:
                 self.process_symbol(symbol)
+                self.logger.info(f"Successfully stored price data for {symbol}")
         except Exception as e:
             self.logger.error(f"Error in ingestion process: {str(e)}")
             raise
