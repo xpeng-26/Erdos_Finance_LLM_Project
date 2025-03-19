@@ -63,6 +63,21 @@ class DatabaseManager:
         finally:
             self._close()
 
+    def delete_table(self, table_name: str):
+        """Delete a table from the database
+        
+        Args:
+            table_name (str): Name of the table to delete
+        """
+        try:
+            self._connect()
+            self.conn.execute(f"DROP TABLE {table_name}")
+            self.conn.commit()
+        except Exception as e:
+            raise Exception(f"Error deleting table: {str(e)}")
+        finally:
+            self._close()
+
     def insert(self, data: pd.DataFrame, table_name: str):
         """Insert data into the table
         
