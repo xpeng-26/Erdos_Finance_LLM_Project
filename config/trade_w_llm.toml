@@ -4,7 +4,7 @@
 [pipeline]
 
 ingestion = true
-feature = false
+feature = true
 strategy = false
 evaluation = false
 
@@ -39,12 +39,12 @@ end_date = "2024-12-31"
 stock_list = ["AAPL", "MSFT", "NVDA", "GOOG"]
 
 # Technical analysis factors configuration
-factors = ["RSI", "ROC", "MOM"]
+factors = ["rsi_14", "roc_10", "mom_10"]
 
 [ingestion.factor_parameters]
-RSI = { timeperiod = 14 }
-ROC = { timeperiod = 10 }
-MOM = { timeperiod = 10 }
+rsi_14 = { timeperiod = 14 }
+roc_10 = { timeperiod = 10 }
+mom_10 = { timeperiod = 10 }
 
 [clean]
 
