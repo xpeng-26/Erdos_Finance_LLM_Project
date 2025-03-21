@@ -160,6 +160,10 @@ class StockDataManager:
             df['symbol'] = symbol
             df_to_store = df[['Date', 'symbol', 'Open', 'High', 'Low', 'Close', 'Volume']]
             df_to_store.columns = ['date', 'symbol', 'open', 'high', 'low', 'close', 'volume']
+            # Convert date column to datetime index with UTC timezone
+            df_to_store = df_to_store.assign(
+                date = pd.to_datetime(df_to_store['date'], utc=True)
+            )
             
             # Validate price data before storing
             if df_to_store.isnull().any().any():

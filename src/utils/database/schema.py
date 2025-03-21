@@ -50,7 +50,7 @@ def create_schema(table_schema: str) -> TableSchema:
             name='daily_prices',
             description="Daily stock price data",
             columns=[
-                Column('date', 'DATE', description="Trading date"),
+                Column('date', 'DATE', description="Trading date in UTC timezone"),
                 Column('symbol', 'TEXT', description="Stock symbol"),
                 Column('open', 'REAL', description="Opening price"),
                 Column('high', 'REAL', description="Highest price"),
