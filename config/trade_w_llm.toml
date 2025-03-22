@@ -3,7 +3,7 @@
 # set true to run the pipeline, false to skip the pipeline
 [pipeline]
 
-ingestion = false
+ingestion = true
 feature = true
 strategy = false
 evaluation = false

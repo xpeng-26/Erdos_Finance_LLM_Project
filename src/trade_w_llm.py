@@ -86,22 +86,24 @@ def main(opt_params):
 
 	
 		if config['pipeline']['ingestion']:
+			logger.info('---------- pipeline: ingestion ----------')
 			logger.info('Start ingesting stock data...')
 			ensure_dir(dirs["data_raw"])
 
 			# Ingest stock data
 			ingest_stock_data(config, logger)
 
-			logger.info('Stock data ingestion completed.')
+			logger.info('Stock data ingestion completed.\n')
 
 
 		if config['pipeline']['feature']:
+			logger.info('---------- pipeline: feature ----------')
 			logger.info('Start calculating factors...')
 
 			# Calculate factors
 			calculate_factors(config, logger)
 
-			logger.info('Factors calculation completed.')
+			logger.info('Factors calculation completed.\n')
 
 
 			
