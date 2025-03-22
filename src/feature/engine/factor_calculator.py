@@ -17,8 +17,8 @@ class FactorCalculator:
         """Initialize the FactorCalculator with config and logger"""
         self.config = config
         self.logger = logger
-        self.factors = config['ingestion']['factors']
-        self.factor_params = config['ingestion']['factor_parameters']
+        self.factors = list(config['feature']['factor_parameters'].keys())
+        self.factor_params = config['feature']['factor_parameters']
         
         # Initialize database manager
         self.db_path = Path(config['info']['local_data_path']) / 'data_raw' / config['info']['db_name']
@@ -60,9 +60,54 @@ class FactorCalculator:
     def _init_factor_functions(self) -> None:
         """Initialize the technical analysis functions based on config"""
         self.factor_functions = {
-            'rsi_14': lambda x: talib.RSI(x, timeperiod=self.factor_params['rsi_14']['timeperiod']),
-            'roc_10': lambda x: talib.ROC(x, timeperiod=self.factor_params['roc_10']['timeperiod']),
-            'mom_10': lambda x: talib.MOM(x, timeperiod=self.factor_params['mom_10']['timeperiod'])
+            # momentum
+            'rsi_6': lambda x: talib.RSI(x['close'], timeperiod=self.factor_params['rsi_6']['timeperiod']),
+            'rsi_12': lambda x: talib.RSI(x['close'], timeperiod=self.factor_params['rsi_12']['timeperiod']),
+            'rsi_24': lambda x: talib.RSI(x['close'], timeperiod=self.factor_params['rsi_24']['timeperiod']),
+
+            'roc_14': lambda x: talib.ROC(x['close'], timeperiod=self.factor_params['roc_14']['timeperiod']),
+            'roc_30': lambda x: talib.ROC(x['close'], timeperiod=self.factor_params['roc_30']['timeperiod']),
+            'roc_60': lambda x: talib.ROC(x['close'], timeperiod=self.factor_params['roc_60']['timeperiod']),
+
+            'mom_14': lambda x: talib.MOM(x['close'], timeperiod=self.factor_params['mom_14']['timeperiod']),
+            'mom_30': lambda x: talib.MOM(x['close'], timeperiod=self.factor_params['mom_30']['timeperiod']),
+            'mom_60': lambda x: talib.MOM(x['close'], timeperiod=self.factor_params['mom_60']['timeperiod']),
+
+            # trend
+            'ma_20': lambda x: talib.SMA(x['close'], timeperiod=self.factor_params['ma_20']['timeperiod']),
+            'ma_30': lambda x: talib.SMA(x['close'], timeperiod=self.factor_params['ma_30']['timeperiod']),
+            'ma_60': lambda x: talib.SMA(x['close'], timeperiod=self.factor_params['ma_60']['timeperiod']),
+            'ma_200': lambda x: talib.SMA(x['close'], timeperiod=self.factor_params['ma_200']['timeperiod']),
+
+            'ema_20': lambda x: talib.EMA(x['close'], timeperiod=self.factor_params['ema_20']['timeperiod']),
+            'ema_30': lambda x: talib.EMA(x['close'], timeperiod=self.factor_params['ema_30']['timeperiod']),
+            'ema_60': lambda x: talib.EMA(x['close'], timeperiod=self.factor_params['ema_60']['timeperiod']),
+            'ema_200': lambda x: talib.EMA(x['close'], timeperiod=self.factor_params['ema_200']['timeperiod']),
+
+            'macd': lambda x: talib.MACD(
+                x['close'], 
+                fastperiod=self.factor_params['macd']['fastperiod'], 
+                slowperiod=self.factor_params['macd']['slowperiod'], 
+                signalperiod=self.factor_params['macd']['signalperiod']
+            ),
+
+            'adx': lambda x: talib.ADX(x['high'], x['low'], x['close'], timeperiod=self.factor_params['adx']['timeperiod']),
+
+            # volatility
+            'bbands': lambda x: talib.BBANDS(
+                x['close'], 
+                timeperiod=self.factor_params['bbands']['timeperiod'], 
+                nbdevup=self.factor_params['bbands']['nbdevup'], 
+                nbdevdn=self.factor_params['bbands']['nbdevdn']
+            ),
+            'cci': lambda x: talib.CCI(x['high'], x['low'], x['close'], timeperiod=self.factor_params['cci']['timeperiod']),
+
+            'atr': lambda x: talib.ATR(x['high'], x['low'], x['close'], timeperiod=self.factor_params['atr']['timeperiod']),
+
+            # volume
+            'obv': lambda x: talib.OBV(x['close'], x['volume']),
+
+            'ad': lambda x: talib.AD(x['high'], x['low'], x['close'], x['volume']),
         }
         for factor in self.factors:
             if factor not in self.factor_functions:
@@ -74,11 +119,21 @@ class FactorCalculator:
             return pd.DataFrame()
             
         factor_df = pd.DataFrame(index=price_df.index)
-        close_prices = price_df['close']
         
         for factor, func in self.factor_functions.items():
             try:
-                factor_df[factor.lower()] = func(close_prices)
+                if factor == 'macd':
+                    factor_macd = func(price_df)    
+                    factor_df[factor.lower() + '_fast'] = factor_macd[0]
+                    factor_df[factor.lower() + '_slow'] = factor_macd[1]
+                    factor_df[factor.lower() + '_signal'] = factor_macd[2]
+                elif factor == 'bbands':
+                    factor_bbands = func(price_df)
+                    factor_df[factor.lower() + '_upper'] = factor_bbands[0]
+                    factor_df[factor.lower() + '_middle'] = factor_bbands[1]
+                    factor_df[factor.lower() + '_lower'] = factor_bbands[2]
+                else:
+                    factor_df[factor.lower()] = func(price_df)
             except Exception as e:
                 self.logger.error(f"Error calculating {factor}: {str(e)}")
                 
@@ -89,9 +144,18 @@ class FactorCalculator:
         """Check if all configured factors exist in the factor table"""
         try:
             existing_columns = self.db_manager.query("SELECT * FROM technical_factors LIMIT 1").columns
-            config_factors = {f.lower() for f in self.factors}
             existing_factors = {col.lower() for col in existing_columns if col not in ['date', 'symbol']}
-            
+            config_factors = {f.lower() for f in self.factors}
+            if 'macd' in config_factors:
+                config_factors.remove('macd')
+                config_factors.add('macd_fast')
+                config_factors.add('macd_slow')
+                config_factors.add('macd_signal')
+            if 'bbands' in config_factors:
+                config_factors.remove('bbands')
+                config_factors.add('bbands_upper')
+                config_factors.add('bbands_middle')
+                config_factors.add('bbands_lower')
             missing_factors = config_factors - existing_factors
             if missing_factors:
                 raise ValueError(f"Missing factors in database: {missing_factors}")

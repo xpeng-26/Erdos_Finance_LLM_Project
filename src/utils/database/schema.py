@@ -68,9 +68,50 @@ def create_schema(table_schema: str) -> TableSchema:
             columns=[
                 Column('date', 'DATE', description="Trading date"),
                 Column('symbol', 'TEXT', description="Stock symbol"),
-                Column('rsi_14', 'REAL', description="Relative Strength Index (14 periods)"),
-                Column('roc_10', 'REAL', description="Rate of Change (10 periods)"),
-                Column('mom_10', 'REAL', description="Momentum (10 periods)"),
+                # momentum
+                Column('rsi_6', 'REAL', description="Relative Strength Index (6 periods)"),
+                Column('rsi_12', 'REAL', description="Relative Strength Index (12 periods)"),
+                Column('rsi_24', 'REAL', description="Relative Strength Index (24 periods)"),
+
+                Column('roc_14', 'REAL', description="Rate of Change (14 periods)"),
+                Column('roc_30', 'REAL', description="Rate of Change (30 periods)"),
+                Column('roc_60', 'REAL', description="Rate of Change (60 periods)"),
+
+                Column('mom_14', 'REAL', description="Momentum (14 periods)"),
+                Column('mom_30', 'REAL', description="Momentum (30 periods)"),
+                Column('mom_60', 'REAL', description="Momentum (60 periods)"),
+
+                # trend
+                Column('ma_20', 'REAL', description="Moving Average (20 periods)"),
+                Column('ma_30', 'REAL', description="Moving Average (30 periods)"),
+                Column('ma_60', 'REAL', description="Moving Average (60 periods)"),
+                Column('ma_200', 'REAL', description="Moving Average (200 periods)"),
+
+                Column('ema_20', 'REAL', description="Exponential Moving Average (20 periods)"),
+                Column('ema_30', 'REAL', description="Exponential Moving Average (30 periods)"),
+                Column('ema_60', 'REAL', description="Exponential Moving Average (60 periods)"),
+                Column('ema_200', 'REAL', description="Exponential Moving Average (200 periods)"),
+
+                Column('macd_fast', 'REAL', description="Moving Average Convergence Divergence (fast period)"),
+                Column('macd_slow', 'REAL', description="Moving Average Convergence Divergence (slow period)"),
+                Column('macd_signal', 'REAL', description="Moving Average Convergence Divergence (signal period)"),
+
+                Column('adx', 'REAL', description="Average Directional Index (14 periods)"),
+
+                # volatility
+                Column('bbands_upper', 'REAL', description="Bollinger Bands (upper)"),
+                Column('bbands_middle', 'REAL', description="Bollinger Bands (middle)"),
+                Column('bbands_lower', 'REAL', description="Bollinger Bands (lower)"),
+
+                Column('cci', 'REAL', description="Commodity Channel Index (14 periods)"),
+
+                Column('atr', 'REAL', description="Average True Range (14 periods)"),
+
+                # volume
+                Column('obv', 'REAL', description="On-Balance Volume"),
+
+                Column('ad', 'REAL', description="Accumulation/Distribution"),
+                
             ],
             primary_keys=['date', 'symbol'],
             indexes=['symbol', 'date']

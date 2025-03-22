@@ -3,7 +3,7 @@
 # set true to run the pipeline, false to skip the pipeline
 [pipeline]
 
-ingestion = true
+ingestion = false
 feature = true
 strategy = false
 evaluation = false
@@ -38,17 +38,53 @@ end_date = "2024-12-31"
 [ingestion]
 stock_list = ["AAPL", "MSFT", "NVDA", "GOOG"]
 
-# Technical analysis factors configuration
-factors = ["rsi_14", "roc_10", "mom_10"]
-
-[ingestion.factor_parameters]
-rsi_14 = { timeperiod = 14 }
-roc_10 = { timeperiod = 10 }
-mom_10 = { timeperiod = 10 }
-
-[clean]
-
 [feature]
+# Technical analysis factors configuration
+# trend: MA, EMA, MACD, ADX
+# momentum: RSI, ROC, MOM
+# volatility: BBANDS, CCI, ATR
+# volume: OBV, AD
+
+[feature.factor_parameters]
+# momentum
+rsi_6 = { timeperiod = 6 }
+rsi_12 = { timeperiod = 12 }
+rsi_24 = { timeperiod = 24 }
+
+roc_14 = { timeperiod = 14 } 
+roc_30 = { timeperiod = 30 }
+roc_60 = { timeperiod = 60 }
+
+mom_14 = { timeperiod = 14 } 
+mom_30 = { timeperiod = 30 }
+mom_60 = { timeperiod = 60 }
+
+# trend
+ma_20 = { timeperiod = 20 }
+ma_30 = { timeperiod = 30 }
+ma_60 = { timeperiod = 60 }
+ma_200 = { timeperiod = 200 }
+
+ema_20 = { timeperiod = 20 }
+ema_30 = { timeperiod = 30 }
+ema_60 = { timeperiod = 60 }
+ema_200 = { timeperiod = 200 } 
+
+macd = { fastperiod = 12, slowperiod = 26, signalperiod = 9 } # return 3 columns: macd, macd_signal, macd_hist
+
+adx = { timeperiod = 14 }
+
+# volatility
+bbands = { timeperiod = 20, nbdevup = 2, nbdevdn = 2 } # return 3 columns: upper, middle, lower
+
+cci = { timeperiod = 14 }
+
+atr = { timeperiod = 14 }
+
+# volume
+obv = {} 
+
+ad = {}
 
 [strategy]
 
