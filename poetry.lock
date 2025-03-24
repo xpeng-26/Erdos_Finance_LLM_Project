@@ -1135,6 +1135,20 @@ pure-eval = "*"
 tests = ["cython", "littleutils", "pygments", "pytest", "typeguard"]
 
 [[package]]
+name = "ta-lib"
+version = "0.6.3"
+description = "Python wrapper for TA-Lib"
+optional = false
+python-versions = "*"
+files = [
+    {file = "ta_lib-0.6.3.tar.gz", hash = "sha256:0c628db09b3fab6e5c26979e608b674e7aecc10359c82ba8d53f729767a856ac"},
+]
+
+[package.dependencies]
+numpy = "*"
+setuptools = "*"
+
+[[package]]
 name = "tomli-w"
 version = "1.2.0"
 description = "A lil' TOML writer"
@@ -1313,4 +1327,4 @@ testing = ["coverage[toml]", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "a8253522ed7e810b69c0c7c05cbac6bfa670d15a8f78d6aa175126b114f6087b"
+content-hash = "3dbfd4f91a1c13b4a6fd51e08bc32b350a8e4af54b3273b3d23fe1d3e4108a12"
