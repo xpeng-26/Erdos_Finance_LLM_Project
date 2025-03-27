@@ -4,6 +4,7 @@
 [pipeline]
 
 ingestion = true
+clean = false
 feature = true
 strategy = false
 evaluation = false
@@ -14,7 +15,9 @@ evaluation = false
 ############################################
 [info]
 # local path to store all data (change to your local path)
-local_data_path = "/Users/xwpeng/Projects/Erdos_Finance_LLM_data"
+# local_data_path = "/Users/xwpeng/Projects/Erdos_Finance_LLM_data"
+local_data_path = "/Users/xiaokangwang/Documents/PycharmProjects/Projects for Erdos 2025 spring/dataset"
+
 
 # directories names for data files in the local "i.e., Google Drive" path
 # data_raw: raw stock and news data

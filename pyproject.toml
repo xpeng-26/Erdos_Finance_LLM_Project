@@ -15,6 +15,11 @@ datetime = "^5.5"
 tomli-w = "^1.2.0"
 yfinance = "^0.2.54"
 ta-lib = "^0.6.3"
+gym = "^0.26.2"
+torch = "^2.6.0"
+keras = "^3.8.0"
+jupyter = "^1.1.1"
+matplotlib = "^3.10.0"
 
 
 [build-system]
