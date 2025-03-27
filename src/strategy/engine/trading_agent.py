@@ -140,35 +140,35 @@ class DDQNAgent:
     def experience_replay(self):
         if len(self.replay_memory) < self.batch_size:
             return
-        mini_batch = list(zip(*sample(self.replay_memory, self.batch_size)))
-        states, actions, rewards, next_states, not_done = mini_batch
-        # maps to the device
-        states = torch.stack(states).to(self.device)  # Stack tensors and move to device
-        actions = torch.tensor(actions, dtype=torch.int64, device=self.device).unsqueeze(1)  # Add extra dimension
-        rewards = torch.tensor(rewards, dtype=torch.float32, device=self.device).unsqueeze(1)
-        next_states = torch.stack(next_states).to(self.device)  # Stack tensors and move to device
-        not_done = torch.tensor(not_done, dtype=torch.float32, device=self.device).unsqueeze(1)
+        
+        # Sample a mini-batch and convert it to tensors efficiently
+        mini_batch = sample(self.replay_memory, self.batch_size)
+        states, actions, rewards, next_states, not_done = map(torch.as_tensor, zip(*mini_batch))
 
-        # Compute the Q-values and the target Q-values
-        current_q_values = self.online_model(states)
+        # Move tensors to device in one step
+        states, next_states = states.to(self.device), next_states.to(self.device)
+        actions = actions.to(self.device).long().unsqueeze(1)
+        rewards = rewards.to(self.device).float().unsqueeze(1)
+        not_done = not_done.to(self.device).float().unsqueeze(1)
+
+        # Compute Q-values
+        current_q_values = self.online_model(states).gather(1, actions)
+
         with torch.no_grad():
-            best_actions = self.online_model(next_states).argmax(dim=1, keepdim=True)  # Online model selects actions
-            max_next_q_values = self.target_model(next_states).gather(1, best_actions)  # Target model estimates Q-value
+            best_actions = self.online_model(next_states).argmax(dim=1, keepdim=True)
+            max_next_q_values = self.target_model(next_states).gather(1, best_actions)
             target_q_values = rewards + not_done * self.gamma * max_next_q_values
 
-        # Get Q-values for chosen actions
-        q_values = current_q_values.gather(1, actions)
-
         # Compute loss
-        loss = self.criterion(q_values, target_q_values)
+        loss = self.criterion(current_q_values, target_q_values)
         self.losses.append(loss.item())
-        
-        # Optimize the online model
+
+        # Optimize the model
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
 
-        #Update the target model after tau steps
+        # Periodically update the target model
         if self.total_steps % self.tau == 0:
             self.update_target_model()
 
