@@ -140,15 +140,14 @@ class DDQNAgent:
     def experience_replay(self):
         if len(self.replay_memory) < self.batch_size:
             return
-        mini_batch = map(np.array, zip(*sample(self.replay_memory, self.batch_size)))
-        # maps to the device
+        mini_batch = list(zip(*sample(self.replay_memory, self.batch_size)))
         states, actions, rewards, next_states, not_done = mini_batch
-        states = torch.tensor(states, dtype=torch.float32, device=self.device)
-        actions = torch.tensor(actions, dtype=torch.int64, device=self.device).unsqueeze(1)  # Add extra dimension
-        rewards = torch.tensor(rewards, dtype=torch.float32, device=self.device).unsqueeze(1)
-        next_states = torch.tensor(next_states, dtype=torch.float32, device=self.device)
-        not_done = torch.tensor(not_done, dtype=torch.float32, device=self.device).unsqueeze(1)
-
+        # maps to the device
+        states = torch.tensor(np.array(states), dtype=torch.float32, device=self.device)
+        actions = torch.tensor(np.array(actions), dtype=torch.int64, device=self.device).unsqueeze(1)  # Add extra dimension
+        rewards = torch.tensor(np.array(rewards), dtype=torch.float32, device=self.device).unsqueeze(1)
+        next_states = torch.tensor(np.array(next_states), dtype=torch.float32, device=self.device)
+        not_done = torch.tensor(np.array(not_done), dtype=torch.float32, device=self.device).unsqueeze(1)
 
         # Compute the Q-values and the target Q-values
         current_q_values = self.online_model(states)
