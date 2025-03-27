@@ -20,6 +20,9 @@ torch = "^2.6.0"
 keras = "^3.8.0"
 jupyter = "^1.1.1"
 matplotlib = "^3.10.0"
+gymnasium = "^1.1.1"
+torchinfo = "^1.8.0"
+joblib = "^1.4.2"
 
 
 [build-system]
