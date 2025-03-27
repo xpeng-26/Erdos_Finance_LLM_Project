@@ -65,7 +65,7 @@ class DDQNAgent:
         self.batch_size = self.config['strategy']['batch_size']
         self.tau = self.config['strategy']['tau']
         self.losses = []
-        self.idx = torch.arange(self.batch_size)
+        self.idx = torch.arange(self.batch_size, device=self.device)
         self.train = True
         
 
@@ -111,7 +111,7 @@ class DDQNAgent:
         if self.epsilon > np.random.rand():
             action = np.random.randint(self.action_dimension)
         else:
-            q = self.online_model(torch.tensor(state, dtype=torch.float32)).detach()
+            q = self.online_model(torch.tensor(state, dtype=torch.float32, device=self.device)).detach()
             action = torch.argmax(q).item()
         return action
 
