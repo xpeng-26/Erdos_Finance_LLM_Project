@@ -143,7 +143,8 @@ class DDQNAgent:
         
         # Sample a mini-batch and convert it to tensors efficiently
         mini_batch = sample(self.replay_memory, self.batch_size)
-        states, actions, rewards, next_states, not_done = map(torch.as_tensor, zip(*mini_batch))
+        states, actions, rewards, next_states, not_done = map(lambda x: torch.tensor(np.array(x)), zip(*mini_batch)
+                    )
 
         # Move tensors to device in one step
         states, next_states = states.to(self.device), next_states.to(self.device)
