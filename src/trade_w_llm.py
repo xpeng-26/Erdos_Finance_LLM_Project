@@ -19,6 +19,7 @@ from utils.logging_tool import initialize_logger
 # custom modules
 from ingestion.stock_driver import ingest_stock_data
 from feature.feature_engineer_driver import calculate_factors
+from strategy.train_trading_agent import train_trading_agent
 
 ############################################
 def main(opt_params):
@@ -78,6 +79,10 @@ def main(opt_params):
 			log_path = dirs["logs"],
 			log_file = log_file
 		)
+		
+		# create all the files
+		for directory in dirs.keys():
+			ensure_dir(dirs[directory])
 
 
 
@@ -104,6 +109,16 @@ def main(opt_params):
 			calculate_factors(config, logger)
 
 			logger.info('Factors calculation completed.\n')
+
+		
+		if config['pipeline']['strategy']:
+			logger.info('---------- pipeline: strategy ----------')
+			logger.info('Start trading with reinforcement learning agent...')
+
+			# Trading with reinforcement learning agent
+			train_trading_agent(config, logger)
+
+			logger.info('Trading with reinforcement learning agent completed.\n')
 
 
 			
