@@ -3,9 +3,10 @@
 # set true to run the pipeline, false to skip the pipeline
 [pipeline]
 
-ingestion = true
-feature = true
-strategy = false
+ingestion = false
+clean = false
+feature = false
+strategy = true
 evaluation = false
 
 
@@ -14,7 +15,12 @@ evaluation = false
 ############################################
 [info]
 # local path to store all data (change to your local path)
-local_data_path = "/Users/xwpeng/Projects/Erdos_Finance_LLM_data"
+# local_data_path = "/Users/xwpeng/Projects/Erdos_Finance_LLM_data"
+# local_data_path = "/Users/xiaokangwang/Documents/PycharmProjects/Projects for Erdos 2025 spring/dataset"
+
+# This is the path on the Google Drive
+local_data_path = "/content/drive/MyDrive/Erdos_2025_spring/dataset"
+
 
 # directories names for data files in the local "i.e., Google Drive" path
 # data_raw: raw stock and news data
@@ -23,7 +29,7 @@ local_data_path = "/Users/xwpeng/Projects/Erdos_Finance_LLM_data"
 # feature: extracted features from the cleaned data
 # stratergy: trading stratergies and action records
 # evaluation: backtesting results
-dirs_names = ["logs", "config_archive", "data_raw", "data_clean", "model", "feature", "stratergy", "evalulation"]
+dirs_names = ["logs", "config_archive", "data_raw", "data_clean", "models", "feature", "stratergy", "evaluation"]
 
 # Database settings
 db_name = "stock_daily_data.db"
@@ -87,6 +93,48 @@ obv = {}
 ad = {}
 
 [strategy]
+# train date
+train_start_date = "2016-01-01"
+train_end_date = "2017-12-31"
+
+# test date
+test_start_date = "2017-01-01"
+test_end_date = "2017-12-31"
+
+# trading days
+trading_days = 252
+
+# trading ticker list
+ticker = "AAPL"
+
+# trading cost bps
+trading_cost_bps = 0
+# time cost bps
+time_cost_bps = 0
+
+# training parameters
+# Hyperparameters for reinforcement learning
+gamma = 0.99 # Disconting factor
+tau = 100 # target network update frequency
+
+# Neural Network Architecture
+architecture = [256, 128, 64] # Units per layer
+learning_rate = 0.001 # Learning learning_rate
+l2_reg = 0.00001  # L2 regularization
+dropout = 0.2
+
+# Experience Replay
+replay_capacity = 1000000
+batch_size = 4096
+
+# \epsilon greedy policy
+epsilon_start = 1.0
+epsilon_end = 0.01
+epsilon_decay_steps = 250
+epsilon_exponential_decay = 0.99
+
+# max episode
+max_episodes = 1000
 
 [evaluation]
 
