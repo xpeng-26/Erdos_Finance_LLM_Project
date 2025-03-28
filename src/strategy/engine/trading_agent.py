@@ -143,14 +143,17 @@ class DDQNAgent:
         
         # Sample a mini-batch and convert it to tensors efficiently
         mini_batch = sample(self.replay_memory, self.batch_size)
-        states, actions, rewards, next_states, not_done = map(lambda x: torch.tensor(np.array(x)), zip(*mini_batch)
-                    )
+        # Unpack mini_batch and ensure proper tensor conversion
+        states, actions, rewards, next_states, not_done = zip(*mini_batch)
 
-        # Move tensors to device in one step
-        states, next_states = states.to(self.device), next_states.to(self.device)
-        actions = actions.to(self.device).long().unsqueeze(1)
-        rewards = rewards.to(self.device).float().unsqueeze(1)
-        not_done = not_done.to(self.device).float().unsqueeze(1)
+        # Convert states and next_states properly (stacking ensures correct shape)
+        states = torch.stack([torch.tensor(s, dtype=torch.float32, device=self.device) for s in states])
+        next_states = torch.stack([torch.tensor(ns, dtype=torch.float32, device=self.device) for ns in next_states])
+
+        # Convert actions, rewards, not_done (ensuring they are tensors with the right shape)
+        actions = torch.tensor(actions, dtype=torch.long, device=self.device).unsqueeze(1)
+        rewards = torch.tensor(rewards, dtype=torch.float32, device=self.device).unsqueeze(1)
+        not_done = torch.tensor(not_done, dtype=torch.float32, device=self.device).unsqueeze(1)
 
         # Compute Q-values
         current_q_values = self.online_model(states).gather(1, actions)
