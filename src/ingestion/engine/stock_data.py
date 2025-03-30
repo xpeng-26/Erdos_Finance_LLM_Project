@@ -24,8 +24,8 @@ class StockDataManager:
     def validate_dates(self) -> bool:
         """Validate configuration dates"""
         try:
-            start = datetime.strptime(self.config['info']['start_date'], '%Y-%m-%d')
-            end = datetime.strptime(self.config['info']['end_date'], '%Y-%m-%d')
+            start = datetime.strptime(self.config['ingestion']['start_date'], '%Y-%m-%d')
+            end = datetime.strptime(self.config['ingestion']['end_date'], '%Y-%m-%d')
             if start >= end:
                 raise ValueError(f"Start date ({start}) must be before end date ({end})")
             return True
@@ -63,8 +63,8 @@ class StockDataManager:
                          record_end: Optional[str]) -> List[UpdateTask]:
         """Determine required updates for a symbol"""
         updates: List[UpdateTask] = []
-        config_start = self.config['info']['start_date']
-        config_end = self.config['info']['end_date']
+        config_start = self.config['ingestion']['start_date']
+        config_end = self.config['ingestion']['end_date']
 
         # Check for backward update
         if record_start and datetime.strptime(config_start, '%Y-%m-%d') < datetime.strptime(record_start, '%Y-%m-%d'):
