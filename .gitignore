@@ -12,6 +12,7 @@ build/
 # Virtual environments
 venv/
 env/
+*.env
 .env/
 .venv/
 
@@ -47,3 +48,6 @@ htmlcov/
 
 # pytest
 .pytest_cache/ 
+
+# others
+*.mdc
