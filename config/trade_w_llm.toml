@@ -28,15 +28,16 @@ dirs_names = ["logs", "config_archive", "data_raw", "data_clean", "model", "feat
 # Database settings
 db_name = "stock_daily_data.db"
 
-start_date = "2015-01-01"
-end_date = "2024-12-31"
 
 
 
 ############################################
 # parameters for each step in the pipeline
 [ingestion]
+start_date = "2015-01-01"
+end_date = "2024-12-31"
 stock_list = ["AAPL", "MSFT", "NVDA", "GOOG"]
+news_symbols = ["AAPL", "MSFT", "NVDA", "GOOG"]
 
 [feature]
 # Technical analysis factors configuration
