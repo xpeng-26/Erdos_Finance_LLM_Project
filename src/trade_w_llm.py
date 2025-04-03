@@ -93,8 +93,8 @@ def main(opt_params):
 		# Starting pipeline
 
 	
-		if config['pipeline']['ingestion']:
-			logger.info('---------- pipeline: ingestion ----------')
+		if config['pipeline']['ingestion_stock']:
+			logger.info('---------- pipeline: ingestion_stock ----------')
 			ensure_dir(dirs["data_raw"])
 
 			# Ingest stock data
@@ -102,6 +102,8 @@ def main(opt_params):
 			ingest_stock_data(config, logger)
 			logger.info('Stock data ingestion completed.\n')
 
+		if config['pipeline']['ingestion_news']:
+			logger.info('---------- pipeline: ingestion_news ----------')
 			# Ingest news data
 			logger.info('Start ingesting news data...')
 			ingest_news_data(config, logger)
