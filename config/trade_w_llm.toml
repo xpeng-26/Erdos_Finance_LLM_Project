@@ -3,8 +3,9 @@
 # set true to run the pipeline, false to skip the pipeline
 [pipeline]
 
-ingestion = true
-feature = true
+ingestion_stock = false
+ingestion_news = true
+feature = false
 strategy = false
 evaluation = false
 
@@ -37,7 +38,21 @@ db_name = "stock_daily_data.db"
 start_date = "2015-01-01"
 end_date = "2024-12-31"
 stock_list = ["AAPL", "MSFT", "NVDA", "GOOG"]
-news_symbols = ["AAPL", "MSFT", "NVDA", "GOOG"]
+
+# news ingestion parameters
+# Maximum number of news items to retrieve per ticker
+# maximum allowed by the API is 1000
+news_limit_per_api_call = 1000
+# Maximum total number of API calls allowed
+# maximum allowed by the Free API is 25 per day, unlimited for paid users
+api_call_total_limit = 5
+# Maximum API calls allowed per minute (Alpha Vantage standard tier allows 5 calls per minute)
+api_calls_per_minute_limit = 4
+# Maximum number of news items to retrieve per ticker per day
+# not implemented yet, since Alpha Vantage does not provide such amout of news
+# news_limit_per_ticker_per_day = 100
+# overwrite the news table if it already exists
+overwrite_news_table = true
 
 [feature]
 # Technical analysis factors configuration
