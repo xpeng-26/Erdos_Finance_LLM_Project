@@ -3,9 +3,9 @@
 # set true to run the pipeline, false to skip the pipeline
 [pipeline]
 
-ingestion_stock = false
+ingestion_stock = true
 ingestion_news = true
-feature = false
+feature = true
 strategy = false
 evaluation = false
 
