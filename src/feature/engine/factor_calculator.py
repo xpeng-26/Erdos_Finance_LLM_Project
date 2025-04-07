@@ -46,8 +46,8 @@ class FactorCalculator:
     def _validate_config_periods(self) -> None:
         """Validate that the configured data period is sufficient for all timeperiods"""
         try:
-            start_date = datetime.strptime(self.config['info']['start_date'], '%Y-%m-%d')
-            end_date = datetime.strptime(self.config['info']['end_date'], '%Y-%m-%d')
+            start_date = datetime.strptime(self.config['ingestion']['start_date'], '%Y-%m-%d')
+            end_date = datetime.strptime(self.config['ingestion']['end_date'], '%Y-%m-%d')
             period_days = (end_date - start_date).days
             
             if period_days < self._get_max_timeperiod():

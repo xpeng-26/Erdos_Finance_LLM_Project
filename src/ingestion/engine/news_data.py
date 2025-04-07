@@ -37,8 +37,9 @@ class NewsDataDownloader:
         self.recent_api_calls = deque()
         
         # Initialize database manager
-        db_path = Path(config['info']['local_data_path']) / config['info']['db_name']
-        self.db_manager = DatabaseManager(db_path)
+        self.raw_data_path = Path(config['info']['local_data_path']) / 'data_raw'
+        self.db_path = self.raw_data_path / config['info']['db_name']
+        self.db_manager = DatabaseManager(self.db_path)
         
         # Set up stats file path
         self.raw_data_path = Path(config['info']['local_data_path']) / 'data_raw'
