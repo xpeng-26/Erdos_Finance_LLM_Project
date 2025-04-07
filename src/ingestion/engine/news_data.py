@@ -252,7 +252,10 @@ class NewsDataDownloader:
             batch_start_datetime = (latest_datetime + timedelta(minutes=1)).strftime('%Y-%m-%d %H:%M:%S')
             self.logger.info(f"Adjusting date range to {batch_start_datetime} to {config_end_datetime} for next batch")
                 
-        self.logger.info(f"Downloaded a total of {len(ticker_news)} news items for {symbol}")
+        # get the datetime range from ticker_news
+        earliest_datetime = min(news['datetime'] for news in ticker_news)
+        latest_datetime = max(news['datetime'] for news in ticker_news)
+        self.logger.info(f"Downloaded a total of {len(ticker_news)} news items for {symbol} from {earliest_datetime} to {latest_datetime}")
         return pd.DataFrame(ticker_news) if ticker_news else pd.DataFrame()
 
     def store_news_in_db(self, news_df, symbol):
