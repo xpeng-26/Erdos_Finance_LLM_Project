@@ -250,6 +250,10 @@ class TradingEnv(gym.Env):
         self.data_source.reset()
         self.simulator.reset()
         return self.data_source.take_step()[0]
+    def reset(self):
+        return self.reset_trading()
+    def step(self, action):
+        return self.trading_env_step(action)
 
     def render(self, mode="human"):
         """
