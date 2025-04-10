@@ -22,7 +22,6 @@ class NewsDataDownloader:
         self.api_key = os.getenv('ALPHA_VANTAGE_API_KEY')
         if not self.api_key:
             raise ValueError("API key not found in environment variables. Check that ALPHA_VANTAGE_API_KEY is set in config/confidential.env")
-        self.symbols = config['ingestion']['stock_list']
         self.start_datetime = config['ingestion']['start_date'] + ' 00:00:00' # YYYY-MM-DD HH:MM:SS
         self.end_datetime = config['ingestion']['end_date'] + ' 23:59:59' # YYYY-MM-DD HH:MM:SS
         # Get the news limitation per api call from config
@@ -38,12 +37,16 @@ class NewsDataDownloader:
         
         # Initialize database manager
         self.raw_data_path = Path(config['info']['local_data_path']) / 'data_raw'
-        self.db_path = self.raw_data_path / config['info']['db_name']
+        self.db_path = self.raw_data_path / config['info']['db_news_name']
         self.db_manager = DatabaseManager(self.db_path)
         
         # Set up stats file path
         self.raw_data_path = Path(config['info']['local_data_path']) / 'data_raw'
         self.stats_file = self.raw_data_path / 'news_stats.json'
+        
+        # read the stock_symbol_list file
+        stock_symbol_list_df = pd.read_csv(self.raw_data_path / config['ingestion']['stock_symbol_list'])
+        self.symbols = stock_symbol_list_df['Symbol'].tolist()
 
     def create_news_stats(self):
         """
@@ -166,8 +169,23 @@ class NewsDataDownloader:
         self.recent_api_calls.append(current_time)
         self.logger.info(f"Making API call {self.api_call_count}/{self.api_call_total_limit}")
         
-        response = requests.get(url, params=params)
-        return response.json()
+        # Add retry logic for connection issues
+        max_retries = 5
+        retry_count = 0
+        
+        while retry_count < max_retries:
+            try:
+                response = requests.get(url, params=params)
+                return response.json()
+            except (requests.exceptions.ChunkedEncodingError, requests.exceptions.ConnectionError) as e:
+                retry_count += 1
+                self.logger.warning(f"Connection error: {str(e)}. Retry {retry_count}/{max_retries}")
+                if retry_count < max_retries:
+                    # Wait a bit before retrying (exponential backoff)
+                    time.sleep(2 ** retry_count)
+                else:
+                    self.logger.error(f"Failed to connect after {max_retries} retries")
+                    raise
 
     def download_ticker_news(self, symbol):
         """
@@ -195,8 +213,8 @@ class NewsDataDownloader:
                 'function': 'NEWS_SENTIMENT',
                 'tickers': symbol,
                 'apikey': self.api_key,
-                'time_from': batch_start_datetime.strftime('%Y%m%dT0000'),
-                'time_to': config_end_datetime.strftime('%Y%m%dT0000'),
+                'time_from': batch_start_datetime.strftime('%Y%m%dT%H%M'),
+                'time_to': config_end_datetime.strftime('%Y%m%dT%H%M'),
                 'limit': self.news_limit_per_api_call,
                 'sort': 'EARLIEST'
             }
@@ -247,16 +265,21 @@ class NewsDataDownloader:
                 break
             
             # If reached the limitation, need to paginate by adjusting the date range
-            latest_datetime = max(news['date_time'] for news in batch_news)
+            latest_datetime = max(news['datetime'] for news in batch_news)
             # Update batch_start_datetime to be one minute after the latest date
-            batch_start_datetime = (latest_datetime + timedelta(minutes=1)).strftime('%Y-%m-%d %H:%M:%S')
+            batch_start_datetime = str(latest_datetime + timedelta(minutes=1))
+            batch_start_datetime = datetime.strptime(batch_start_datetime, '%Y-%m-%d %H:%M:%S')
             self.logger.info(f"Adjusting date range to {batch_start_datetime} to {config_end_datetime} for next batch")
                 
         # get the datetime range from ticker_news
-        earliest_datetime = min(news['datetime'] for news in ticker_news)
-        latest_datetime = max(news['datetime'] for news in ticker_news)
-        self.logger.info(f"Downloaded a total of {len(ticker_news)} news items for {symbol} from {earliest_datetime} to {latest_datetime}")
-        return pd.DataFrame(ticker_news) if ticker_news else pd.DataFrame()
+        if ticker_news:
+             earliest_datetime = min(news['datetime'] for news in ticker_news)
+             latest_datetime = max(news['datetime'] for news in ticker_news)
+             self.logger.info(f"Downloaded a total of {len(ticker_news)} news items for {symbol} from {earliest_datetime} to {latest_datetime}")
+             return pd.DataFrame(ticker_news)
+        else:
+             self.logger.warning(f"No news data downloaded for {symbol} in the entire date range")
+             return pd.DataFrame()
 
     def store_news_in_db(self, news_df, symbol):
         """
