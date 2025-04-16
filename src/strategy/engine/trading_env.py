@@ -78,7 +78,7 @@ class DataSource:
         obs = self.data.iloc[self.offset + self.step].values
         market_return = self.data.iloc[self.offset + self.step]["return"]
         self.step += 1
-        done = self.step > self.trading_days
+        done = self.step >= self.trading_days
         return obs, market_return, done
 
 
@@ -230,6 +230,12 @@ class TradingEnv(gym.Env):
             action, type(action)
         )
         observation, market_return, done = self.data_source.take_step()
+
+        if done:
+    # Provide some final reward/info if needed, or just return
+            reward = 0.0
+            info = {"nav": self.simulator.navs[self.simulator.step - 1]}
+            return observation, reward, done, info
         reward, info = self.simulator.take_step(
             action=action, market_return=market_return
         )
@@ -250,10 +256,29 @@ class TradingEnv(gym.Env):
         self.data_source.reset()
         self.simulator.reset()
         return self.data_source.take_step()[0]
-    def reset(self):
-        return self.reset_trading()
+    def reset(self, *, seed: int = None, options: dict = None):
+        if seeding is not None:
+            self.np_random, seed = seeding.np_random()
+        else:
+            self.np_random, seed = seeding.np_random()
+        self.data_source.reset()
+        self.simulator.reset()
+        observation = self.data_source.take_step()[0]
+        observation = np.array(observation, dtype=np.float32)
+        info = {}
+        return observation, info
+        
     def step(self, action):
-        return self.trading_env_step(action)
+        # Execute one time step using your existing logic.
+        obs, reward, done, info = self.trading_env_step(action)
+        obs = np.array(obs, dtype=np.float32)
+    
+        # Map your 'done' flag to 'terminated', and assume no truncation.
+        terminated = done      # 'terminated' reflects that an episode ended naturally.
+        truncated = False      # 'truncated' could be used if you implement time limits, etc.
+    
+        # Return five values as required by Gymnasium: (obs, reward, terminated, truncated, info)
+        return obs, reward, terminated, truncated, info
 
     def render(self, mode="human"):
         """
