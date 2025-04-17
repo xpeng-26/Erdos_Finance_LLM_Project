@@ -10,6 +10,7 @@ import os
 import argparse
 import errno
 import datetime
+import warnings
 
 # utils
 from utils.config_tool import parse_config, save_config_copy
@@ -116,7 +117,9 @@ def main(opt_params):
 			logger.info('Start trading with reinforcement learning agent...')
 
 			# Trading with reinforcement learning agent
-			train_trading_agent(config, logger)
+			with warnings.catch_warnings():
+				warnings.filterwarnings("ignore", category=UserWarning)	
+				train_trading_agent(config, logger)
 
 			logger.info('Trading with reinforcement learning agent completed.\n')
 
