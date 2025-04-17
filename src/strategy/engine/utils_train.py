@@ -44,7 +44,7 @@ def keep_recent_files(directory, pattern, max_files, logger):
 
 ####################################################################################################
 # Define the load checkpoint function
-def load_checkpoint(trading_agent, model_path, device, logger, env):
+def load_checkpoint(trading_agent, model_path, device, logger):
     """
     Load the latest checkpoint if it exists.
 
@@ -56,7 +56,7 @@ def load_checkpoint(trading_agent, model_path, device, logger, env):
     Returns:
         int: The episode to resume training from, or 1 if no checkpoint exists.
     """
-    checkpoint_path = os.path.join(model_path, f'trading_agent_{env}_checkpoint_latest.pt')
+    checkpoint_path = os.path.join(model_path, 'trading_agent_checkpoint_latest.pt')
     if os.path.exists(checkpoint_path):
         logger.info(f"Loading checkpoint from {checkpoint_path}...")
         checkpoint = torch.load(checkpoint_path, map_location=device)
@@ -77,7 +77,7 @@ def load_checkpoint(trading_agent, model_path, device, logger, env):
         return 1
     
 # Define the save checkpoint function
-def save_checkpoint(trading_agent, episode, config, model_path, navs, market_navs, diffs, logger, env):
+def save_checkpoint(trading_agent, episode, config, model_path, navs, market_navs, diffs, logger):
     """
     Save the model, optimizer, and training results as a checkpoint.
 
@@ -106,12 +106,12 @@ def save_checkpoint(trading_agent, episode, config, model_path, navs, market_nav
 
     # Save with a timestamped name
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    checkpoint_path_timestamped = os.path.join(model_path, f'trading_agent_{env}_checkpoint_{timestamp}.pt')
+    checkpoint_path_timestamped = os.path.join(model_path, f'trading_agent_checkpoint_{timestamp}.pt')
     torch.save(checkpoint, checkpoint_path_timestamped)
     logger.info(f"Checkpoint saved: {checkpoint_path_timestamped}")
 
     # Save with a fixed name for the latest checkpoint
-    checkpoint_path_latest = os.path.join(model_path, f'trading_agent_{env}_checkpoint_latest.pt')
+    checkpoint_path_latest = os.path.join(model_path, 'trading_agent_checkpoint_latest.pt')
     torch.save(checkpoint, checkpoint_path_latest)
     logger.info(f"Latest checkpoint saved: {checkpoint_path_latest}")
 
@@ -136,12 +136,12 @@ def save_checkpoint(trading_agent, episode, config, model_path, navs, market_nav
     # Save results to CSV
     result_path = os.path.join(config['info']['local_data_path'], 'evaluation')
     os.makedirs(result_path, exist_ok=True)
-    results_path = os.path.join(result_path, f'training_results_{env}_{timestamp}.csv')
+    results_path = os.path.join(result_path, f'training_results_{timestamp}.csv')
     results.to_csv(results_path)
     logger.info(f"Training results saved: {results_path}")
 
     # Keep only the 10 most recent files
-    keep_recent_files(result_path, f'training_results_{env}', 10, logger)
-    keep_recent_files(model_path, f'trading_agent_{env}_checkpoint', 10, logger)
+    keep_recent_files(result_path, 'training_results', 10, logger)
+    keep_recent_files(model_path, 'trading_agent_checkpoint', 10, logger)
 
 

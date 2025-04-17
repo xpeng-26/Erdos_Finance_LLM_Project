@@ -12,7 +12,6 @@ from gymnasium import register
 import numpy as np
 
 import gymnasium as gym
-from gymnasium import spaces
 import torch
 from torchinfo import summary
 
@@ -34,54 +33,31 @@ def train_trading_agent(config, logger):
     trading_days = config["strategy"]["trading_days"]
     max_episodes = config["strategy"]["max_episodes"]
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    # Get the environment
-    env = config['strategy']['environment']
     # register the environment
-    if env == 'single':
-        register(
-            id='trading-v0',
-            entry_point='strategy.engine.trading_env:TradingEnv',
-            max_episode_steps=trading_days
-        )
-        # make the environment
-        trading_environment = gym.make('trading-v0', config=config, logger=logger)
-    elif env == 'portfolio':
-        register(
-            id='trading-port-v0',
-            entry_point='strategy.engine.trading_env_portfolio:TradingEnv',
-            max_episode_steps=trading_days
-        )
-        # make the environment
-        trading_environment = gym.make('trading-port-v0', config=config, logger=logger)
-    
-    logger.info(f'Environment: {env}')
+    register(
+        id='trading-v0',
+        entry_point='strategy.engine.trading_env:TradingEnv',
+        max_episode_steps=trading_days
+    )
+    # make the environment
+    trading_environment = gym.make('trading-v0', config=config, logger=logger)
     seed = 42
     trading_environment.reset(seed = seed, options=None)
 
     # Get environment parameters
-    if isinstance(trading_environment.action_space, spaces.Discrete):
-        state_dimension = trading_environment.observation_space.shape[0]
-        flattened_state_dimension = state_dimension
-        action_dimension = trading_environment.action_space.n
-    elif isinstance(trading_environment.action_space, spaces.MultiDiscrete):
-        state_dimension = trading_environment.observation_space.shape
-        flattened_state_dimension = np.prod(state_dimension)
-        action_dimension = trading_environment.action_space.nvec
-        # If you need the total number of possible actions
-        total_actions = np.prod(action_dimension)
-    else:
-        raise ValueError(f"Unsupported action space type: {type(trading_environment.action_space)}")
+    state_dimension = trading_environment.observation_space.shape[0]
+    action_dimension = trading_environment.action_space.n
     max_episode_steps = trading_environment.spec.max_episode_steps
 
     # Create the trading agent
     trading_agent = DDQNAgent(
         config=config, logger=logger, state_dimension=state_dimension, action_dimension=action_dimension, device=device
     )
-    logger.info(summary(trading_agent.online_model, input_size=(1, flattened_state_dimension)))
+    logger.info(summary(trading_agent.online_model, input_size=(1, state_dimension)))
 
     # If there is a checkpoint, load it
     # Load the latest checkpoint if it exists
-    start_episode = load_checkpoint(trading_agent, model_path, device, logger, env)
+    start_episode = load_checkpoint(trading_agent, model_path, device, logger)
 
 
     # Initialize the variables
@@ -109,7 +85,7 @@ def train_trading_agent(config, logger):
     for episode in range(start_episode, max_episodes+1):
         this_state = trading_environment.unwrapped.reset_trading()
         for episode_step in range(max_episode_steps):
-            action = trading_agent.epsilon_greedy(this_state.reshape(-1, flattened_state_dimension))
+            action = trading_agent.epsilon_greedy(this_state.reshape(-1, state_dimension))
             next_state, reward, done, _ = trading_environment.unwrapped.trading_env_step(action)
 
             # Convert next_state, reward, done to tensors on the same device
@@ -147,22 +123,22 @@ def train_trading_agent(config, logger):
         if episode % 10 == 0:
             track_results(episode, np.mean(navs[-100:]), np.mean(navs[-10:]),
                         np.mean(market_navs[-100:]), np.mean(market_navs[-10:]),
-                        np.mean([diff > 0 for diff in diffs[-100:]]), time() - start, trading_agent.epsilon)
+                        np.mean([diff > 0 for diff in diffs[-100:]])/min(len(diffs),100), time() - start, trading_agent.epsilon)
         
         # if agent has been winning for a while, stop training
         if len(diffs) > 25 and all([r > 0 for r in diffs[-25:]]):
             # print the tail of the result
-            logger.infor(f'The agent has been winning for a while, stop training, the tail is {result.tail()}')
+            print(result.tail())
             break
 
         # Save the checkpoint every 10 episodes
         if episode % 10 == 0:
-            save_checkpoint(trading_agent, episode, config, model_path, navs, market_navs, diffs, logger, env)
+            save_checkpoint(trading_agent, episode, config, model_path, navs, market_navs, diffs, logger)
     
     logger.info(f'Finished training after {format_time(time() - start)}')
     # save the final model
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    torch.save(trading_agent.online_model.state_dict(), os.path.join(model_path, f'final_model_{env}_{timestamp}.pth'))
+    torch.save(trading_agent.online_model.state_dict(), os.path.join(model_path, f'final_model_{timestamp}.pth'))
     # save the final results
     results = pd.DataFrame({
         'Episode': list(range(1, len(navs) + 1)),
@@ -170,10 +146,7 @@ def train_trading_agent(config, logger):
         'Market': market_navs,
         'Difference': diffs
     })
-    # Add rolling strategy win percentage
-    results['Strategy Wins (%)'] = (results.Difference > 0).rolling(100).sum()
-
-    results.to_csv(os.path.join(result_path, f'final_results_{env}_{timestamp}.csv'))
+    results.to_csv(os.path.join(result_path, f'final_results_{timestamp}.csv'))
     
 
     # Close the environment

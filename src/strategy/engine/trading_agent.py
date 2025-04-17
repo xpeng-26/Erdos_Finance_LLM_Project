@@ -23,8 +23,6 @@ class DDQNAgent:
         self.config = config
         self.logger = logger
         self.state_dimension = state_dimension
-
-        self.is_multi_discrete = isinstance(action_dimension, np.ndarray)
         self.action_dimension = action_dimension
         replay_capacity = self.config['strategy']['replay_capacity']
         self.replay_memory = deque([],maxlen=replay_capacity)
@@ -69,18 +67,11 @@ class DDQNAgent:
         self.losses = []
         self.idx = torch.arange(self.batch_size, device=self.device)
         self.train = True
-
-    def build_model(self, trainable=True):
-        """Build the neural network model."""
-        if self.is_multi_discrete:
-            return self.build_multi_head_model(trainable)
-        else:
-            return self.build_single_head_model(trainable)
         
 
-    def build_single_head_model(self, trainable = True):
+    def build_model(self, trainable = True):
         """
-        Build model for Discrete action space.
+        Build the neural network model.
         """
         model = nn.Sequential()
         for i, layer in enumerate(self.architecture):
@@ -102,51 +93,6 @@ class DDQNAgent:
                 param.requires_grad = False
 
         return model
-    
-
-    def build_multi_head_model(self, trainable=True):
-        """Build model for MultiDiscrete action space."""
-        class MultiHeadNetwork(nn.Module):
-            def __init__(self, state_dim, action_dims, architecture, dropout):
-                super().__init__()
-                # Shared layers
-                self.shared = nn.ModuleList()
-                current_dim = state_dim[0]*state_dim[1]
-                for units in architecture:
-                    self.shared.append(nn.Linear(current_dim, units))
-                    self.shared.append(nn.ReLU())
-                    current_dim = units
-                
-                self.dropout = nn.Dropout(p=dropout)
-                # Separate output head for each action dimension
-                self.heads = nn.ModuleList([
-                    nn.Linear(architecture[-1], dim) for dim in action_dims
-                ])
-
-            def forward(self, x):
-                # Flatten the input state tensor (batch_size, 4, 36) -> (batch_size, 144)
-                x = x.view(x.size(0), -1)  # Flatten the state tensor
-                
-                # Forward through shared layers
-                for layer in self.shared:
-                    x = layer(x)
-                x = self.dropout(x)
-
-                # Get output from each head
-                outputs = [head(x) for head in self.heads]
-                return outputs
-
-        model = MultiHeadNetwork(
-            self.state_dimension,
-            self.action_dimension,
-            self.architecture,
-            self.config['strategy']['dropout']
-        )
-
-        if not trainable:
-            for param in model.parameters():
-                param.requires_grad = False
-        return model
         
         
 
@@ -158,22 +104,16 @@ class DDQNAgent:
         
 
     def epsilon_greedy(self, state):
-        """Implement the epsilon-greedy policy."""
+        """"
+        Implement the epsilon-greedy policy
+        """
         self.total_steps += 1
         if self.epsilon > np.random.rand():
-            if self.is_multi_discrete:
-                return [np.random.randint(dim) for dim in self.action_dimension]
-            else:
-                return np.random.randint(self.action_dimension)
+            action = np.random.randint(self.action_dimension)
         else:
-            state_tensor = torch.tensor(state, dtype=torch.float32, device=self.device)
-            with torch.no_grad():
-                q_values = self.online_model(state_tensor)
-                if self.is_multi_discrete:
-                    return [q.argmax().item() for q in q_values]
-                else:
-                    return q_values.argmax().item()
-
+            q = self.online_model(torch.tensor(state, dtype=torch.float32, device=self.device)).detach()
+            action = torch.argmax(q).item()
+        return action
 
     def memorize_transition(self, state, action, reward, next_state, not_done):
         """"
@@ -211,42 +151,22 @@ class DDQNAgent:
         next_states = torch.stack([torch.tensor(ns, dtype=torch.float32, device=self.device) for ns in next_states])
 
         # Convert actions, rewards, not_done (ensuring they are tensors with the right shape)
+        actions = torch.tensor(actions, dtype=torch.long, device=self.device).unsqueeze(1)
         rewards = torch.tensor(rewards, dtype=torch.float32, device=self.device).unsqueeze(1)
         not_done = torch.tensor(not_done, dtype=torch.float32, device=self.device).unsqueeze(1)
 
-        # Update the multi-discrete actions model
-        if self.is_multi_discrete:
-            actions = [torch.tensor(a, dtype=torch.long, device=self.device) for a in zip(*actions)]
-            current_q_values = self.online_model(states)
-            current_q_selected = [q.gather(1, a.unsqueeze(1)) for q, a in zip(current_q_values, actions)]
-            
-            with torch.no_grad():
-                next_q_values = self.online_model(next_states)
-                best_actions = [q.argmax(dim=1, keepdim=True) for q in next_q_values]
-                target_q_values = self.target_model(next_states)
-                max_next_q_values = [q.gather(1, a) for q, a in zip(target_q_values, best_actions)]
-                target_q = [rewards + not_done * self.gamma * nq for nq in max_next_q_values]
+        # Compute Q-values
+        current_q_values = self.online_model(states).gather(1, actions)
 
-            loss = sum(self.criterion(cq, tq) for cq, tq in zip(current_q_selected, target_q))
+        with torch.no_grad():
+            best_actions = self.online_model(next_states).argmax(dim=1, keepdim=True)
+            max_next_q_values = self.target_model(next_states).gather(1, best_actions)
+            target_q_values = rewards + not_done * self.gamma * max_next_q_values
 
-        # Update the discrete actions model
-        else:
-            # The actions
-            actions = torch.tensor(actions, dtype=torch.long, device=self.device).unsqueeze(1)
-            # Compute Q-values
-            current_q_values = self.online_model(states).gather(1, actions)
-
-            with torch.no_grad():
-                best_actions = self.online_model(next_states).argmax(dim=1, keepdim=True)
-                max_next_q_values = self.target_model(next_states).gather(1, best_actions)
-                target_q_values = rewards + not_done * self.gamma * max_next_q_values
-
-            # Compute loss
-            loss = self.criterion(current_q_values, target_q_values)
-        
-        
-        # Store the loss
+        # Compute loss
+        loss = self.criterion(current_q_values, target_q_values)
         self.losses.append(loss.item())
+
         # Optimize the model
         self.optimizer.zero_grad()
         loss.backward()
