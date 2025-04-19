@@ -101,8 +101,8 @@ train_start_date = "2016-01-01"
 train_end_date = "2017-12-31"
 
 # test date
-test_start_date = "2017-01-01"
-test_end_date = "2018-12-31"
+eval_start_date = "2016-01-01"
+eval_end_date = "2018-12-31"
 
 # trading days
 trading_days = 252
@@ -114,8 +114,8 @@ ticker = "AAPL"
 tickers = ["AAPL", "MSFT", "NVDA", "GOOG"]
 
 # trading environment: Choose one environment
-#environment = "single"
-environment = "portfolio"
+environment = "single"
+#environment = "portfolio"
 
 # trading cost bps
 trading_cost_bps = 0
