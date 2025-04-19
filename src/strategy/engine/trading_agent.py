@@ -11,6 +11,7 @@ import torch.optim as optim
 
 ####################################################################################################
 # Define the Double Deep Q-learning Agent (DDQNAgent) class
+# Add other features
 class DDQNAgent:
     """
     A class to implement the Double Deep Q-learning Agent.

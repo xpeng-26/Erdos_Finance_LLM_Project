@@ -106,6 +106,7 @@ def save_checkpoint(trading_agent, episode, config, model_path, navs, market_nav
 
     # Save with a timestamped name
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    # Save the checkpoint with a timestamp
     checkpoint_path_timestamped = os.path.join(model_path, f'trading_agent_{env}_checkpoint_{timestamp}.pt')
     torch.save(checkpoint, checkpoint_path_timestamped)
     logger.info(f"Checkpoint saved: {checkpoint_path_timestamped}")

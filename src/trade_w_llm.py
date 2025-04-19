@@ -118,7 +118,8 @@ def main(opt_params):
 
 			# Trading with reinforcement learning agent
 			with warnings.catch_warnings():
-				warnings.filterwarnings("ignore", category=UserWarning)	
+				warnings.filterwarnings("ignore", category=UserWarning)
+					
 				train_trading_agent(config, logger)
 
 			logger.info('Trading with reinforcement learning agent completed.\n')
