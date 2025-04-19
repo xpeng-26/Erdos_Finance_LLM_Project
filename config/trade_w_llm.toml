@@ -17,8 +17,7 @@ evaluation = false
 [info]
 # local path to store all data (change to your local path)
 # local_data_path = "/Users/xwpeng/Projects/Erdos_Finance_LLM_data"
-local_data_path = "/Users/xiaokangwang/Documents/PycharmProjects/Projects for Erdos 2025 spring/dataset"
-#local_data_path = "/Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset"
+# local_data_path = "/Users/xiaokangwang/Documents/PycharmProjects/Projects for Erdos 2025 spring/dataset"
 
 # This is the path on the Google Drive
 local_data_path = "/content/drive/MyDrive/Erdos_2025_spring/dataset"
@@ -111,11 +110,6 @@ trading_days = 252
 
 # trading ticker list
 ticker = "AAPL"
-tickers = ["AAPL", "MSFT", "NVDA", "GOOG"]
-
-# trading environment: Choose one environment
-environment = "single"
-#environment = "portfolio"
 
 # trading cost bps
 trading_cost_bps = 0
