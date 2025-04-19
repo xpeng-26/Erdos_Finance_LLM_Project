@@ -21,7 +21,7 @@ local_data_path = "/Users/xiaokangwang/Documents/PycharmProjects/Projects for Er
 #local_data_path = "/Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset"
 
 # This is the path on the Google Drive
-# local_data_path = "/content/drive/MyDrive/Erdos_2025_spring/dataset"
+local_data_path = "/content/drive/MyDrive/Erdos_2025_spring/dataset"
 
 
 # directories names for data files in the local "i.e., Google Drive" path
@@ -122,9 +122,6 @@ trading_cost_bps = 0
 # time cost bps
 time_cost_bps = 0
 
-# Resolution of the actions
-resolution = 11
-
 # training parameters
 # Hyperparameters for reinforcement learning
 gamma = 0.99 # Disconting factor
@@ -134,7 +131,7 @@ tau = 100 # target network update frequency
 architecture = [256, 128, 64] # Units per layer
 learning_rate = 0.001 # Learning learning_rate
 l2_reg = 0.00001  # L2 regularization
-dropout = 0.01
+dropout = 0.2
 
 # Experience Replay
 replay_capacity = 1000000
