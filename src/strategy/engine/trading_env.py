@@ -24,9 +24,14 @@ class DataSource:
         self.logger = logger
         self.trading_days = self.config["strategy"]["trading_days"]
         self.ticker = self.config["strategy"]["ticker"]
+        self.evaluation = self.config["pipeline"]["evaluation"]
         
-        self.start_date = self.config["strategy"]["train_start_date"]
-        self.end_date = self.config["strategy"]["train_end_date"]
+        if self.evaluation:
+            self.start_date = self.config["strategy"]["eval_start_date"]
+            self.end_date = self.config["strategy"]["eval_end_date"]
+        else:
+            self.start_date = self.config["strategy"]["train_start_date"]
+            self.end_date = self.config["strategy"]["train_end_date"]
 
         self.data = self.load_data()  # Load data from the source
         self.min_values = (
@@ -49,8 +54,12 @@ class DataSource:
             "data_raw",
             self.config["info"]["db_name"],
         )
+
         # Query the database
-        Query = f"SELECT * FROM daily_prices d LEFT JOIN technical_factors t ON d.date = t.date WHERE t.symbol = '{self.ticker}' AND d.symbol = '{self.ticker}' AND DATE(d.date) >= '{self.start_date}' AND DATE(d.date) <= '{self.end_date}' ORDER BY d.date"
+        Query = f"""SELECT * FROM daily_prices d LEFT JOIN technical_factors t 
+        ON d.date = t.date WHERE t.symbol = '{self.ticker}' AND d.symbol = '{self.ticker}' 
+        AND DATE(d.date) >= '{self.start_date}' AND DATE(d.date) <= '{self.end_date}' ORDER BY d.date"""
+
         # Run the query and return the data
         db = sqlite3.connect(path)
         df = pd.read_sql_query(Query, db)

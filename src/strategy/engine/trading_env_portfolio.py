@@ -28,9 +28,14 @@ class DataSource:
         self.tickers = self.config["strategy"]["tickers"]
         self.tickers_num = len(self.tickers)
         #######################################
+        self.evaluation = self.config["pipeline"]["evaluation"]
         
-        self.start_date = self.config["strategy"]["train_start_date"]
-        self.end_date = self.config["strategy"]["train_end_date"]
+        if self.evaluation:
+            self.start_date = self.config["strategy"]["eval_start_date"]
+            self.end_date = self.config["strategy"]["eval_end_date"]
+        else:
+            self.start_date = self.config["strategy"]["train_start_date"]
+            self.end_date = self.config["strategy"]["train_end_date"]
 
         self.data = self.load_data()  # Load data from the source
 
