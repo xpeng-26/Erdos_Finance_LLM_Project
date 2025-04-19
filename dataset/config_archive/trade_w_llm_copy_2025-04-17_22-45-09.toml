@@ -1,0 +1,144 @@
+[pipeline]
+ingestion = false
+clean = false
+feature = false
+strategy = true
+evaluation = false
+
+[info]
+local_data_path = "/Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset"
+dirs_names = [
+    "logs",
+    "config_archive",
+    "data_raw",
+    "data_clean",
+    "models",
+    "feature",
+    "stratergy",
+    "evaluation",
+]
+db_name = "stock_daily_data.db"
+start_date = "2015-01-01"
+end_date = "2024-12-31"
+
+[ingestion]
+stock_list = [
+    "AAPL",
+    "MSFT",
+    "NVDA",
+    "GOOG",
+]
+
+[feature.factor_parameters.rsi_6]
+timeperiod = 6
+
+[feature.factor_parameters.rsi_12]
+timeperiod = 12
+
+[feature.factor_parameters.rsi_24]
+timeperiod = 24
+
+[feature.factor_parameters.roc_14]
+timeperiod = 14
+
+[feature.factor_parameters.roc_30]
+timeperiod = 30
+
+[feature.factor_parameters.roc_60]
+timeperiod = 60
+
+[feature.factor_parameters.mom_14]
+timeperiod = 14
+
+[feature.factor_parameters.mom_30]
+timeperiod = 30
+
+[feature.factor_parameters.mom_60]
+timeperiod = 60
+
+[feature.factor_parameters.ma_20]
+timeperiod = 20
+
+[feature.factor_parameters.ma_30]
+timeperiod = 30
+
+[feature.factor_parameters.ma_60]
+timeperiod = 60
+
+[feature.factor_parameters.ma_200]
+timeperiod = 200
+
+[feature.factor_parameters.ema_20]
+timeperiod = 20
+
+[feature.factor_parameters.ema_30]
+timeperiod = 30
+
+[feature.factor_parameters.ema_60]
+timeperiod = 60
+
+[feature.factor_parameters.ema_200]
+timeperiod = 200
+
+[feature.factor_parameters.macd]
+fastperiod = 12
+slowperiod = 26
+signalperiod = 9
+
+[feature.factor_parameters.adx]
+timeperiod = 14
+
+[feature.factor_parameters.bbands]
+timeperiod = 20
+nbdevup = 2
+nbdevdn = 2
+
+[feature.factor_parameters.cci]
+timeperiod = 14
+
+[feature.factor_parameters.atr]
+timeperiod = 14
+
+[feature.factor_parameters.obv]
+
+[feature.factor_parameters.ad]
+
+[strategy]
+train_start_date = "2016-01-01"
+train_end_date = "2017-12-31"
+test_start_date = "2017-01-01"
+test_end_date = "2018-12-31"
+trading_days = 252
+ticker = "AAPL"
+tickers = [
+    "AAPL",
+    "MSFT",
+    "NVDA",
+    "GOOG",
+]
+environment = "portfolio"
+trading_cost_bps = 0
+time_cost_bps = 0
+resolution = 11
+gamma = 0.99
+tau = 100
+architecture = [
+    256,
+    128,
+    64,
+]
+learning_rate = 0.001
+l2_reg = 1e-05
+dropout = 0.01
+replay_capacity = 1000000
+batch_size = 4096
+epsilon_start = 1.0
+epsilon_end = 0.01
+epsilon_decay_steps = 250
+epsilon_exponential_decay = 0.99
+max_episodes = 1000
+
+[evaluation]
+
+[date]
+today = "2025-04-17_22-45-09"

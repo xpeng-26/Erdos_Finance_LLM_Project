@@ -1,0 +1,8 @@
+2025-04-17 17:51:30 - INFO - Data loaded from /Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset/data_raw/stock_daily_data.db, extract ticker: ['AAPL', 'MSFT', 'NVDA', 'GOOG']
+2025-04-17 17:52:38 - INFO - Model saved to /Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset/models
+2025-04-17 21:52:59 - INFO - Backtesting on period: 2017-01-01 → 2017-12-31
+2025-04-17 21:53:34 - INFO - Data loaded from /Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset/data_raw/stock_daily_data.db, extract ticker: ['AAPL', 'MSFT', 'NVDA', 'GOOG']
+2025-04-17 21:53:42 - INFO - Data loaded from /Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset/data_raw/stock_daily_data.db, extract ticker: ['AAPL', 'MSFT', 'NVDA', 'GOOG']
+2025-04-17 21:57:55 - INFO - Data loaded from /Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset/data_raw/stock_daily_data.db, extract ticker: ['AAPL', 'MSFT', 'NVDA', 'GOOG']
+2025-04-17 21:58:25 - INFO - Data loaded from /Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset/data_raw/stock_daily_data.db, extract ticker: ['AAPL', 'MSFT', 'NVDA', 'GOOG']
+2025-04-17 21:58:34 - INFO - Data loaded from /Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset/data_raw/stock_daily_data.db, extract ticker: ['AAPL', 'MSFT', 'NVDA', 'GOOG']

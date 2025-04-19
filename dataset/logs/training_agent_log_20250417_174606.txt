@@ -1,0 +1,1 @@
+2025-04-17 17:46:07 - INFO - Data loaded from /Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset/data_raw/stock_daily_data.db, extract ticker: ['AAPL', 'MSFT', 'NVDA', 'GOOG']

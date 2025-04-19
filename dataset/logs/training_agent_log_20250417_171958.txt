@@ -1,0 +1,10 @@
+2025-04-17 17:29:58 - INFO - Data loaded from /Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset/data_raw/stock_daily_data.db, extract ticker: ['AAPL', 'MSFT', 'NVDA', 'GOOG']
+2025-04-17 17:32:40 - INFO - Data loaded from /Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset/data_raw/stock_daily_data.db, extract ticker: ['AAPL', 'MSFT', 'NVDA', 'GOOG']
+2025-04-17 17:33:56 - ERROR - Environment check failed: `reset()` must return a tuple (obs, info)
+2025-04-17 17:42:12 - INFO - Data loaded from /Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset/data_raw/stock_daily_data.db, extract ticker: ['AAPL', 'MSFT', 'NVDA', 'GOOG']
+2025-04-17 17:42:24 - INFO - Data loaded from /Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset/data_raw/stock_daily_data.db, extract ticker: ['AAPL', 'MSFT', 'NVDA', 'GOOG']
+2025-04-17 17:42:26 - ERROR - Environment check failed: The reset() method must accept a `seed` parameter
+2025-04-17 17:45:40 - INFO - Data loaded from /Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset/data_raw/stock_daily_data.db, extract ticker: ['AAPL', 'MSFT', 'NVDA', 'GOOG']
+2025-04-17 17:45:42 - ERROR - Environment check failed: The reset() method must accept a `seed` parameter
+2025-04-17 17:45:44 - ERROR - Environment check failed: The reset() method must accept a `seed` parameter
+2025-04-17 17:45:59 - ERROR - Environment check failed: The reset() method must accept a `seed` parameter

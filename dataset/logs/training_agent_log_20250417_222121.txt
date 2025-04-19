@@ -1,0 +1,404 @@
+2025-04-17 22:21:23 - INFO - Data loaded from /Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset/data_raw/stock_daily_data.db, extract ticker: ['AAPL', 'MSFT', 'NVDA', 'GOOG']
+2025-04-17 22:22:31 - INFO - Model saved to /Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset/models
+2025-04-17 22:22:55 - INFO - Backtesting on period: 2017-01-01 → 2018-12-31
+2025-04-17 22:22:56 - INFO - Data loaded from /Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset/data_raw/stock_daily_data.db, extract ticker: ['AAPL', 'MSFT', 'NVDA', 'GOOG']
+2025-04-17 22:23:00 - INFO - [Step 000] action=[10  6  8 10], reward=0.0253, nav=1.0000
+2025-04-17 22:23:00 - INFO - [Step 001] action=[10  6  8 10], reward=0.0141, nav=1.0141
+2025-04-17 22:23:00 - INFO - [Step 002] action=[10  6  8 10], reward=0.0243, nav=1.0387
+2025-04-17 22:23:00 - INFO - [Step 003] action=[10  6  8 10], reward=0.0389, nav=1.0792
+2025-04-17 22:23:00 - INFO - [Step 004] action=[10  6  8 10], reward=-0.0760, nav=0.9971
+2025-04-17 22:23:00 - INFO - [Step 005] action=[10  6  8 10], reward=0.0434, nav=1.0404
+2025-04-17 22:23:00 - INFO - [Step 006] action=[10  6  8 10], reward=-0.0295, nav=1.0097
+2025-04-17 22:23:00 - INFO - [Step 007] action=[10  6  8 10], reward=-0.0006, nav=1.0091
+2025-04-17 22:23:00 - INFO - [Step 008] action=[10  6  8 10], reward=0.0170, nav=1.0263
+2025-04-17 22:23:00 - INFO - [Step 009] action=[10  6  8 10], reward=0.0202, nav=1.0470
+2025-04-17 22:23:00 - INFO - [Step 010] action=[10  6  8 10], reward=0.0145, nav=1.0622
+2025-04-17 22:23:00 - INFO - [Step 011] action=[10  6  8 10], reward=0.0216, nav=1.0852
+2025-04-17 22:23:00 - INFO - [Step 012] action=[10  6  8 10], reward=-0.0062, nav=1.0784
+2025-04-17 22:23:00 - INFO - [Step 013] action=[10  6  8 10], reward=0.0014, nav=1.0799
+2025-04-17 22:23:00 - INFO - [Step 014] action=[3 4 1 3], reward=-0.0647, nav=1.0100
+2025-04-17 22:23:00 - INFO - [Step 015] action=[ 3  4  1 10], reward=0.0190, nav=1.0292
+2025-04-17 22:23:00 - INFO - [Step 016] action=[3 4 1 3], reward=-0.0013, nav=1.0279
+2025-04-17 22:23:00 - INFO - [Step 017] action=[3 4 1 3], reward=0.0111, nav=1.0394
+2025-04-17 22:23:00 - INFO - [Step 018] action=[3 4 1 3], reward=0.0289, nav=1.0694
+2025-04-17 22:23:00 - INFO - [Step 019] action=[3 4 1 3], reward=0.0096, nav=1.0797
+2025-04-17 22:23:00 - INFO - [Step 020] action=[10  6  8 10], reward=0.0097, nav=1.0902
+2025-04-17 22:23:00 - INFO - [Step 021] action=[10  6  8 10], reward=-0.0292, nav=1.0583
+2025-04-17 22:23:00 - INFO - [Step 022] action=[10  6  8 10], reward=0.0694, nav=1.1318
+2025-04-17 22:23:00 - INFO - [Step 023] action=[10  6  8 10], reward=-0.0056, nav=1.1254
+2025-04-17 22:23:00 - INFO - [Step 024] action=[10  6  8 10], reward=-0.0034, nav=1.1215
+2025-04-17 22:23:00 - INFO - [Step 025] action=[10  6  8 10], reward=0.0395, nav=1.1659
+2025-04-17 22:23:00 - INFO - [Step 026] action=[10  6  8 10], reward=0.0185, nav=1.1875
+2025-04-17 22:23:00 - INFO - [Step 027] action=[10  6  8 10], reward=0.0623, nav=1.2615
+2025-04-17 22:23:00 - INFO - [Step 028] action=[10  6  8 10], reward=0.0404, nav=1.3125
+2025-04-17 22:23:00 - INFO - [Step 029] action=[10  6  8 10], reward=-0.0147, nav=1.2931
+2025-04-17 22:23:00 - INFO - [Step 030] action=[10  6  8 10], reward=0.0257, nav=1.3264
+2025-04-17 22:23:00 - INFO - [Step 031] action=[10  6  8 10], reward=0.0254, nav=1.3601
+2025-04-17 22:23:00 - INFO - [Step 032] action=[10  6  8 10], reward=0.0640, nav=1.4471
+2025-04-17 22:23:00 - INFO - [Step 033] action=[10  6  8 10], reward=-0.0206, nav=1.4173
+2025-04-17 22:23:00 - INFO - [Step 034] action=[10  6  8 10], reward=0.0128, nav=1.4354
+2025-04-17 22:23:00 - INFO - [Step 035] action=[10  6  8 10], reward=-0.0064, nav=1.4262
+2025-04-17 22:23:00 - INFO - [Step 036] action=[10  6  8 10], reward=0.0146, nav=1.4470
+2025-04-17 22:23:00 - INFO - [Step 037] action=[10  6  8 10], reward=0.0236, nav=1.4811
+2025-04-17 22:23:00 - INFO - [Step 038] action=[10  7  7 10], reward=0.0072, nav=1.4918
+2025-04-17 22:23:00 - INFO - [Step 039] action=[10  7  7 10], reward=0.1738, nav=1.7511
+2025-04-17 22:23:00 - INFO - [Step 040] action=[10  7  7 10], reward=0.0413, nav=1.8234
+2025-04-17 22:23:00 - INFO - [Step 041] action=[10  7  7 10], reward=0.0255, nav=1.8700
+2025-04-17 22:23:00 - INFO - [Step 042] action=[10  8  7 10], reward=0.0536, nav=1.9702
+2025-04-17 22:23:00 - INFO - [Step 043] action=[10  8  7 10], reward=0.0436, nav=2.0560
+2025-04-17 22:23:00 - INFO - [Step 044] action=[ 7  9 10  9], reward=-0.1526, nav=1.7423
+2025-04-17 22:23:00 - INFO - [Step 045] action=[ 7  9 10  9], reward=0.0721, nav=1.8679
+2025-04-17 22:23:00 - INFO - [Step 046] action=[ 7  9 10  9], reward=0.0303, nav=1.9244
+2025-04-17 22:23:00 - INFO - [Step 047] action=[7 4 9 3], reward=0.0470, nav=2.0149
+2025-04-17 22:23:00 - INFO - [Step 048] action=[7 4 9 3], reward=-0.0024, nav=2.0101
+2025-04-17 22:23:00 - INFO - [Step 049] action=[7 4 9 3], reward=0.0096, nav=2.0294
+2025-04-17 22:23:00 - INFO - [Step 050] action=[7 4 9 3], reward=0.0173, nav=2.0646
+2025-04-17 22:23:00 - INFO - [Step 051] action=[7 4 9 3], reward=0.0186, nav=2.1031
+2025-04-17 22:23:00 - INFO - [Step 052] action=[7 4 9 3], reward=0.0196, nav=2.1444
+2025-04-17 22:23:00 - INFO - [Step 053] action=[7 4 9 3], reward=-0.0173, nav=2.1072
+2025-04-17 22:23:00 - INFO - [Step 054] action=[7 4 9 3], reward=0.0052, nav=2.1182
+2025-04-17 22:23:00 - INFO - [Step 055] action=[7 4 9 3], reward=0.0255, nav=2.1721
+2025-04-17 22:23:00 - INFO - [Step 056] action=[7 4 9 3], reward=0.0217, nav=2.2193
+2025-04-17 22:23:00 - INFO - [Step 057] action=[7 4 9 3], reward=-0.0030, nav=2.2126
+2025-04-17 22:23:00 - INFO - [Step 058] action=[7 4 9 3], reward=0.0124, nav=2.2401
+2025-04-17 22:23:00 - INFO - [Step 059] action=[7 4 9 3], reward=0.0399, nav=2.3295
+2025-04-17 22:23:00 - INFO - [Step 060] action=[7 4 9 3], reward=-0.0961, nav=2.1056
+2025-04-17 22:23:00 - INFO - [Step 061] action=[7 3 7 5], reward=-0.0218, nav=2.0596
+2025-04-17 22:23:00 - INFO - [Step 062] action=[7 4 9 3], reward=0.0165, nav=2.0935
+2025-04-17 22:23:00 - INFO - [Step 063] action=[7 4 9 3], reward=-0.0095, nav=2.0737
+2025-04-17 22:23:00 - INFO - [Step 064] action=[7 4 9 3], reward=-0.0095, nav=2.0539
+2025-04-17 22:23:00 - INFO - [Step 065] action=[7 4 9 3], reward=-0.0121, nav=2.0291
+2025-04-17 22:23:00 - INFO - [Step 066] action=[7 4 9 3], reward=0.0584, nav=2.1476
+2025-04-17 22:23:00 - INFO - [Step 067] action=[7 4 9 3], reward=-0.0187, nav=2.1075
+2025-04-17 22:23:00 - INFO - [Step 068] action=[7 4 9 3], reward=0.0213, nav=2.1524
+2025-04-17 22:23:00 - INFO - [Step 069] action=[7 4 9 3], reward=-0.0067, nav=2.1380
+2025-04-17 22:23:00 - INFO - [Step 070] action=[7 4 9 3], reward=-0.0011, nav=2.1357
+2025-04-17 22:23:00 - INFO - [Step 071] action=[7 4 9 3], reward=-0.0224, nav=2.0877
+2025-04-17 22:23:00 - INFO - [Step 072] action=[7 4 9 3], reward=-0.0575, nav=1.9677
+2025-04-17 22:23:00 - INFO - [Step 073] action=[7 4 9 3], reward=0.0436, nav=2.0534
+2025-04-17 22:23:00 - INFO - [Step 074] action=[7 4 9 3], reward=-0.0546, nav=1.9412
+2025-04-17 22:23:00 - INFO - [Step 075] action=[7 4 9 3], reward=-0.0093, nav=1.9231
+2025-04-17 22:23:00 - INFO - [Step 076] action=[7 4 9 3], reward=-0.0371, nav=1.8517
+2025-04-17 22:23:00 - INFO - [Step 077] action=[7 4 9 3], reward=0.0352, nav=1.9169
+2025-04-17 22:23:00 - INFO - [Step 078] action=[7 4 9 3], reward=-0.0116, nav=1.8947
+2025-04-17 22:23:00 - INFO - [Step 079] action=[7 4 9 3], reward=0.0355, nav=1.9619
+2025-04-17 22:23:00 - INFO - [Step 080] action=[7 4 9 3], reward=0.0432, nav=2.0466
+2025-04-17 22:23:00 - INFO - [Step 081] action=[7 4 9 3], reward=0.0114, nav=2.0699
+2025-04-17 22:23:00 - INFO - [Step 082] action=[7 4 9 3], reward=0.0452, nav=2.1634
+2025-04-17 22:23:00 - INFO - [Step 083] action=[7 4 9 3], reward=0.0088, nav=2.1824
+2025-04-17 22:23:00 - INFO - [Step 084] action=[7 4 9 3], reward=0.0353, nav=2.2595
+2025-04-17 22:23:00 - INFO - [Step 085] action=[7 4 9 3], reward=0.0026, nav=2.2654
+2025-04-17 22:23:00 - INFO - [Step 086] action=[7 4 9 3], reward=0.0155, nav=2.3005
+2025-04-17 22:23:00 - INFO - [Step 087] action=[7 4 9 3], reward=0.0086, nav=2.3204
+2025-04-17 22:23:00 - INFO - [Step 088] action=[7 4 9 3], reward=0.0073, nav=2.3372
+2025-04-17 22:23:00 - INFO - [Step 089] action=[7 4 9 3], reward=0.0013, nav=2.3403
+2025-04-17 22:23:00 - INFO - [Step 090] action=[7 4 9 3], reward=0.0033, nav=2.3481
+2025-04-17 22:23:00 - INFO - [Step 091] action=[7 4 9 3], reward=-0.0137, nav=2.3161
+2025-04-17 22:23:00 - INFO - [Step 092] action=[7 4 9 3], reward=0.0068, nav=2.3318
+2025-04-17 22:23:00 - INFO - [Step 093] action=[7 4 9 3], reward=-0.0470, nav=2.2222
+2025-04-17 22:23:00 - INFO - [Step 094] action=[7 4 9 3], reward=0.0094, nav=2.2431
+2025-04-17 22:23:00 - INFO - [Step 095] action=[7 4 9 3], reward=-0.0198, nav=2.1987
+2025-04-17 22:23:00 - INFO - [Step 096] action=[7 4 9 3], reward=0.0119, nav=2.2248
+2025-04-17 22:23:00 - INFO - [Step 097] action=[7 4 9 3], reward=0.0251, nav=2.2805
+2025-04-17 22:23:00 - INFO - [Step 098] action=[ 7  9 10  9], reward=-0.0036, nav=2.2722
+2025-04-17 22:23:00 - INFO - [Step 099] action=[ 7  9 10  9], reward=0.0217, nav=2.3215
+2025-04-17 22:23:00 - INFO - [Step 100] action=[7 4 9 3], reward=0.0439, nav=2.4233
+2025-04-17 22:23:00 - INFO - [Step 101] action=[7 4 9 3], reward=-0.0008, nav=2.4215
+2025-04-17 22:23:00 - INFO - [Step 102] action=[7 4 9 3], reward=0.0049, nav=2.4333
+2025-04-17 22:23:00 - INFO - [Step 103] action=[ 7  9 10  9], reward=-0.0638, nav=2.2782
+2025-04-17 22:23:00 - INFO - [Step 104] action=[7 4 9 3], reward=-0.0162, nav=2.2412
+2025-04-17 22:23:00 - INFO - [Step 105] action=[10  6  1 10], reward=0.0713, nav=2.4010
+2025-04-17 22:23:00 - INFO - [Step 106] action=[10  6  1 10], reward=0.0023, nav=2.4066
+2025-04-17 22:23:00 - INFO - [Step 107] action=[10  6  1 10], reward=-0.0040, nav=2.3970
+2025-04-17 22:23:00 - INFO - [Step 108] action=[10  6  1 10], reward=-0.0757, nav=2.2156
+2025-04-17 22:23:00 - INFO - [Step 109] action=[10  6  1 10], reward=-0.0012, nav=2.2129
+2025-04-17 22:23:00 - INFO - [Step 110] action=[ 7  9 10  9], reward=-0.0255, nav=2.1565
+2025-04-17 22:23:00 - INFO - [Step 111] action=[10  6  1 10], reward=0.0725, nav=2.3129
+2025-04-17 22:23:00 - INFO - [Step 112] action=[10  6  1 10], reward=0.0177, nav=2.3539
+2025-04-17 22:23:00 - INFO - [Step 113] action=[10  6  1 10], reward=-0.0147, nav=2.3193
+2025-04-17 22:23:00 - INFO - [Step 114] action=[10  6  1 10], reward=-0.0087, nav=2.2991
+2025-04-17 22:23:00 - INFO - [Step 115] action=[10  6  1 10], reward=0.0150, nav=2.3336
+2025-04-17 22:23:00 - INFO - [Step 116] action=[10  6  1 10], reward=0.0185, nav=2.3768
+2025-04-17 22:23:00 - INFO - [Step 117] action=[10  6  8 10], reward=0.0308, nav=2.4499
+2025-04-17 22:23:00 - INFO - [Step 118] action=[10  7  7 10], reward=0.0474, nav=2.5661
+2025-04-17 22:23:00 - INFO - [Step 119] action=[10  7  7 10], reward=-0.0069, nav=2.5484
+2025-04-17 22:23:00 - INFO - [Step 120] action=[10  8  7 10], reward=-0.0526, nav=2.4143
+2025-04-17 22:23:00 - INFO - [Step 121] action=[10  7  7 10], reward=-0.0052, nav=2.4017
+2025-04-17 22:23:00 - INFO - [Step 122] action=[10  6  8 10], reward=0.0222, nav=2.4551
+2025-04-17 22:23:00 - INFO - [Step 123] action=[10  6  8 10], reward=-0.0486, nav=2.3358
+2025-04-17 22:23:00 - INFO - [Step 124] action=[10  6  8 10], reward=0.0639, nav=2.4849
+2025-04-17 22:23:00 - INFO - [Step 125] action=[10  6  8 10], reward=0.0018, nav=2.4894
+2025-04-17 22:23:00 - INFO - [Step 126] action=[10  6  1 10], reward=0.0073, nav=2.5075
+2025-04-17 22:23:00 - INFO - [Step 127] action=[10  6  1 10], reward=-0.0308, nav=2.4303
+2025-04-17 22:23:00 - INFO - [Step 128] action=[ 7  9 10  9], reward=0.0753, nav=2.6134
+2025-04-17 22:23:00 - INFO - [Step 129] action=[10  6  8 10], reward=0.0260, nav=2.6814
+2025-04-17 22:23:00 - INFO - [Step 130] action=[ 7  9 10  9], reward=0.0105, nav=2.7095
+2025-04-17 22:23:00 - INFO - [Step 131] action=[ 7  9 10  9], reward=-0.0208, nav=2.6530
+2025-04-17 22:23:00 - INFO - [Step 132] action=[ 7  9 10  9], reward=-0.0533, nav=2.5116
+2025-04-17 22:23:00 - INFO - [Step 133] action=[3 4 1 3], reward=-0.0210, nav=2.4588
+2025-04-17 22:23:00 - INFO - [Step 134] action=[10  7 10 10], reward=0.0771, nav=2.6483
+2025-04-17 22:23:00 - INFO - [Step 135] action=[10  6  8 10], reward=0.0270, nav=2.7200
+2025-04-17 22:23:00 - INFO - [Step 136] action=[ 7  9 10  9], reward=0.0583, nav=2.8786
+2025-04-17 22:23:00 - INFO - [Step 137] action=[ 7  9 10  9], reward=-0.0009, nav=2.8761
+2025-04-17 22:23:00 - INFO - [Step 138] action=[ 7  9 10  9], reward=0.0416, nav=2.9957
+2025-04-17 22:23:00 - INFO - [Step 139] action=[ 7  9 10  9], reward=-0.0052, nav=2.9801
+2025-04-17 22:23:00 - INFO - [Step 140] action=[ 7  9 10  9], reward=0.0065, nav=2.9994
+2025-04-17 22:23:00 - INFO - [Step 141] action=[ 7  9 10  9], reward=0.0013, nav=3.0033
+2025-04-17 22:23:00 - INFO - [Step 142] action=[ 7  9 10  9], reward=0.0482, nav=3.1482
+2025-04-17 22:23:00 - INFO - [Step 143] action=[ 7  9 10  9], reward=0.0120, nav=3.1858
+2025-04-17 22:23:00 - INFO - [Step 144] action=[ 7  9 10  9], reward=0.0279, nav=3.2747
+2025-04-17 22:23:00 - INFO - [Step 145] action=[ 7  9 10  9], reward=0.0150, nav=3.3238
+2025-04-17 22:23:00 - INFO - [Step 146] action=[7 4 9 3], reward=0.0336, nav=3.4356
+2025-04-17 22:23:00 - INFO - [Step 147] action=[7 4 9 3], reward=0.0028, nav=3.4452
+2025-04-17 22:23:00 - INFO - [Step 148] action=[7 4 9 3], reward=0.0190, nav=3.5107
+2025-04-17 22:23:00 - INFO - [Step 149] action=[7 4 9 3], reward=0.0240, nav=3.5949
+2025-04-17 22:23:00 - INFO - [Step 150] action=[7 4 9 3], reward=0.0013, nav=3.5996
+2025-04-17 22:23:00 - INFO - [Step 151] action=[7 4 9 3], reward=-0.0026, nav=3.5901
+2025-04-17 22:23:00 - INFO - [Step 152] action=[ 7  9 10  9], reward=-0.0163, nav=3.5317
+2025-04-17 22:23:00 - INFO - [Step 153] action=[ 7  9 10  9], reward=0.0125, nav=3.5760
+2025-04-17 22:23:00 - INFO - [Step 154] action=[ 7  9 10  9], reward=-0.0217, nav=3.4985
+2025-04-17 22:23:00 - INFO - [Step 155] action=[ 7  9 10  9], reward=0.0190, nav=3.5649
+2025-04-17 22:23:00 - INFO - [Step 156] action=[ 7  9 10  9], reward=-0.0297, nav=3.4590
+2025-04-17 22:23:00 - INFO - [Step 157] action=[ 7  9 10  9], reward=0.0177, nav=3.5204
+2025-04-17 22:23:00 - INFO - [Step 158] action=[ 7  9 10  9], reward=0.1795, nav=4.1523
+2025-04-17 22:23:00 - INFO - [Step 159] action=[ 7  9 10  9], reward=0.0312, nav=4.2817
+2025-04-17 22:23:00 - INFO - [Step 160] action=[ 7  9 10  9], reward=0.0196, nav=4.3654
+2025-04-17 22:23:00 - INFO - [Step 161] action=[ 7  9 10  9], reward=-0.0021, nav=4.3562
+2025-04-17 22:23:00 - INFO - [Step 162] action=[ 7  9 10  9], reward=0.0118, nav=4.4074
+2025-04-17 22:23:00 - INFO - [Step 163] action=[ 7  9 10  9], reward=0.0473, nav=4.6158
+2025-04-17 22:23:00 - INFO - [Step 164] action=[ 7  9 10  9], reward=0.0122, nav=4.6721
+2025-04-17 22:23:00 - INFO - [Step 165] action=[ 7  9 10  9], reward=0.0195, nav=4.7633
+2025-04-17 22:23:00 - INFO - [Step 166] action=[ 7  9 10  9], reward=0.0044, nav=4.7843
+2025-04-17 22:23:00 - INFO - [Step 167] action=[ 7  0 10  9], reward=-0.0342, nav=4.6206
+2025-04-17 22:23:00 - INFO - [Step 168] action=[10  7  7 10], reward=0.0437, nav=4.8224
+2025-04-17 22:23:00 - INFO - [Step 169] action=[10  6  8 10], reward=-0.0218, nav=4.7173
+2025-04-17 22:23:00 - INFO - [Step 170] action=[10  7 10 10], reward=-0.0062, nav=4.6883
+2025-04-17 22:23:00 - INFO - [Step 171] action=[ 7  9 10  9], reward=-0.0455, nav=4.4748
+2025-04-17 22:23:00 - INFO - [Step 172] action=[10  7 10 10], reward=0.0337, nav=4.6257
+2025-04-17 22:23:00 - INFO - [Step 173] action=[ 7  9 10  9], reward=-0.0293, nav=4.4900
+2025-04-17 22:23:00 - INFO - [Step 174] action=[ 7  9 10  9], reward=0.0128, nav=4.5472
+2025-04-17 22:23:00 - INFO - [Step 175] action=[ 7  9 10  9], reward=0.0580, nav=4.8111
+2025-04-17 22:23:00 - INFO - [Step 176] action=[ 7  9 10  9], reward=0.0002, nav=4.8118
+2025-04-17 22:23:00 - INFO - [Step 177] action=[ 7  9 10  9], reward=0.0158, nav=4.8878
+2025-04-17 22:23:00 - INFO - [Step 178] action=[ 7  9 10  9], reward=0.0024, nav=4.8994
+2025-04-17 22:23:00 - INFO - [Step 179] action=[ 7  9 10  9], reward=-0.0163, nav=4.8196
+2025-04-17 22:23:00 - INFO - [Step 180] action=[ 7  9 10  9], reward=-0.1313, nav=4.1869
+2025-04-17 22:23:00 - INFO - [Step 181] action=[3 4 1 3], reward=0.0455, nav=4.3775
+2025-04-17 22:23:00 - INFO - [Step 182] action=[10  6  1 10], reward=0.0297, nav=4.5075
+2025-04-17 22:23:00 - INFO - [Step 183] action=[3 4 1 3], reward=-0.1122, nav=4.0019
+2025-04-17 22:23:00 - INFO - [Step 184] action=[3 4 1 3], reward=-0.0176, nav=3.9314
+2025-04-17 22:23:00 - INFO - [Step 185] action=[3 4 1 3], reward=-0.0321, nav=3.8051
+2025-04-17 22:23:00 - INFO - [Step 186] action=[3 9 1 3], reward=-0.0251, nav=3.7097
+2025-04-17 22:23:00 - INFO - [Step 187] action=[ 7  9 10  9], reward=-0.0191, nav=3.6388
+2025-04-17 22:23:00 - INFO - [Step 188] action=[ 7  9 10  9], reward=0.0527, nav=3.8304
+2025-04-17 22:23:00 - INFO - [Step 189] action=[ 7  9 10  9], reward=-0.0217, nav=3.7472
+2025-04-17 22:23:00 - INFO - [Step 190] action=[3 9 1 7], reward=-0.0237, nav=3.6585
+2025-04-17 22:23:00 - INFO - [Step 191] action=[3 4 1 3], reward=0.0000, nav=3.6585
+2025-04-17 22:23:00 - INFO - [Step 192] action=[ 7  9 10  9], reward=-0.0773, nav=3.3757
+2025-04-17 22:23:00 - INFO - [Step 193] action=[ 7  9 10  9], reward=0.0539, nav=3.5578
+2025-04-17 22:23:00 - INFO - [Step 194] action=[ 7  9 10  9], reward=-0.0321, nav=3.4437
+2025-04-17 22:23:00 - INFO - [Step 195] action=[ 7  9 10  9], reward=-0.0065, nav=3.4212
+2025-04-17 22:23:00 - INFO - [Step 196] action=[ 7  9 10  9], reward=-0.0023, nav=3.4133
+2025-04-17 22:23:00 - INFO - [Step 197] action=[ 7  9 10  9], reward=-0.0063, nav=3.3916
+2025-04-17 22:23:00 - INFO - [Step 198] action=[3 4 1 3], reward=-0.0187, nav=3.3281
+2025-04-17 22:23:00 - INFO - [Step 199] action=[3 4 1 3], reward=0.0045, nav=3.3432
+2025-04-17 22:23:00 - INFO - [Step 200] action=[3 4 1 3], reward=-0.0029, nav=3.3334
+2025-04-17 22:23:00 - INFO - [Step 201] action=[3 4 1 3], reward=0.0343, nav=3.4479
+2025-04-17 22:23:00 - INFO - [Step 202] action=[10  7 10 10], reward=-0.0707, nav=3.2041
+2025-04-17 22:23:00 - INFO - [Step 203] action=[10  6  8 10], reward=0.0867, nav=3.4819
+2025-04-17 22:23:00 - INFO - [Step 204] action=[3 9 1 3], reward=0.0223, nav=3.5597
+2025-04-17 22:23:00 - INFO - [Step 205] action=[ 7  9 10  9], reward=-0.0375, nav=3.4263
+2025-04-17 22:23:00 - INFO - [Step 206] action=[ 7  9 10  9], reward=0.0322, nav=3.5367
+2025-04-17 22:23:00 - INFO - [Step 207] action=[ 7  9 10  9], reward=-0.0017, nav=3.5308
+2025-04-17 22:23:00 - INFO - [Step 208] action=[ 7  9 10  9], reward=-0.0002, nav=3.5300
+2025-04-17 22:23:00 - INFO - [Step 209] action=[ 7  9 10  9], reward=0.0131, nav=3.5761
+2025-04-17 22:23:00 - INFO - [Step 210] action=[ 7  9 10  9], reward=0.0378, nav=3.7114
+2025-04-17 22:23:00 - INFO - [Step 211] action=[ 7  9 10  9], reward=-0.0323, nav=3.5913
+2025-04-17 22:23:00 - INFO - [Step 212] action=[ 7  9 10  9], reward=0.0668, nav=3.8313
+2025-04-17 22:23:00 - INFO - [Step 213] action=[ 7  9 10  9], reward=-0.0027, nav=3.8209
+2025-04-17 22:23:00 - INFO - [Step 214] action=[ 7  9 10  9], reward=0.0265, nav=3.9222
+2025-04-17 22:23:00 - INFO - [Step 215] action=[ 7  9 10  9], reward=0.0414, nav=4.0844
+2025-04-17 22:23:00 - INFO - [Step 216] action=[ 7  9 10  9], reward=0.0380, nav=4.2395
+2025-04-17 22:23:00 - INFO - [Step 217] action=[ 7  9 10  9], reward=-0.0347, nav=4.0924
+2025-04-17 22:23:00 - INFO - [Step 218] action=[ 7  9 10  9], reward=-0.0047, nav=4.0731
+2025-04-17 22:23:00 - INFO - [Step 219] action=[ 7  9 10  9], reward=0.0553, nav=4.2983
+2025-04-17 22:23:00 - INFO - [Step 220] action=[ 7  9 10  9], reward=-0.0079, nav=4.2642
+2025-04-17 22:23:00 - INFO - [Step 221] action=[ 7  9 10  9], reward=-0.0453, nav=4.0710
+2025-04-17 22:23:00 - INFO - [Step 222] action=[ 7  9 10  9], reward=0.0453, nav=4.2554
+2025-04-17 22:23:00 - INFO - [Step 223] action=[ 7  9 10  9], reward=-0.0293, nav=4.1308
+2025-04-17 22:23:00 - INFO - [Step 224] action=[ 7  9 10  9], reward=-0.1465, nav=3.5256
+2025-04-17 22:23:00 - INFO - [Step 225] action=[ 7  9 10  9], reward=-0.2015, nav=2.8152
+2025-04-17 22:23:00 - INFO - [Step 226] action=[3 9 1 7], reward=0.1587, nav=3.2620
+2025-04-17 22:23:00 - INFO - [Step 227] action=[3 9 1 7], reward=0.0000, nav=3.2620
+2025-04-17 22:23:00 - INFO - [Step 228] action=[ 7  9 10  9], reward=0.0000, nav=3.2620
+2025-04-17 22:23:00 - INFO - [Step 229] action=[ 7  9 10  9], reward=0.1527, nav=3.7600
+2025-04-17 22:23:00 - INFO - [Step 230] action=[7 4 9 3], reward=0.0472, nav=3.9376
+2025-04-17 22:23:00 - INFO - [Step 231] action=[ 7  9 10  9], reward=0.0229, nav=4.0278
+2025-04-17 22:23:00 - INFO - [Step 232] action=[ 7  9 10  9], reward=0.0886, nav=4.3847
+2025-04-17 22:23:00 - INFO - [Step 233] action=[ 7  9 10  9], reward=0.0935, nav=4.7948
+2025-04-17 22:23:00 - INFO - [Step 234] action=[ 7  9 10  9], reward=-0.0163, nav=4.7166
+2025-04-17 22:23:00 - INFO - [Step 235] action=[ 7  9 10  9], reward=0.0329, nav=4.8720
+2025-04-17 22:23:00 - INFO - [Step 236] action=[7 4 9 3], reward=-0.0401, nav=4.6765
+2025-04-17 22:23:00 - INFO - [Step 237] action=[7 4 9 3], reward=0.0060, nav=4.7046
+2025-04-17 22:23:00 - INFO - [Step 238] action=[7 4 9 3], reward=0.0460, nav=4.9208
+2025-04-17 22:23:00 - INFO - [Step 239] action=[7 4 9 3], reward=0.0312, nav=5.0742
+2025-04-17 22:23:00 - INFO - [Step 240] action=[7 4 9 3], reward=-0.0242, nav=4.9512
+2025-04-17 22:23:00 - INFO - [Step 241] action=[7 4 9 3], reward=-0.0208, nav=4.8481
+2025-04-17 22:23:00 - INFO - [Step 242] action=[7 4 9 3], reward=-0.0598, nav=4.5582
+2025-04-17 22:23:00 - INFO - [Step 243] action=[7 4 9 3], reward=0.0219, nav=4.6580
+2025-04-17 22:23:00 - INFO - [Step 244] action=[7 4 9 3], reward=0.0103, nav=4.7060
+2025-04-17 22:23:00 - INFO - [Step 245] action=[ 7  9 10  9], reward=0.0163, nav=4.7827
+2025-04-17 22:23:00 - INFO - [Step 246] action=[ 7  9 10  9], reward=0.0085, nav=4.8233
+2025-04-17 22:23:00 - INFO - [Step 247] action=[3 9 1 7], reward=0.0290, nav=4.9632
+2025-04-17 22:23:00 - INFO - [Step 248] action=[3 9 1 7], reward=0.0000, nav=4.9632
+2025-04-17 22:23:00 - INFO - [Step 249] action=[3 9 1 7], reward=0.0000, nav=4.9632
+2025-04-17 22:23:00 - INFO - [Step 250] action=[3 9 1 7], reward=0.0000, nav=4.9632
+2025-04-17 22:23:00 - INFO - [Step 251] action=[3 9 1 7], reward=0.0000, nav=4.9632
+2025-04-17 22:23:00 - INFO - [Step 252] action=[ 7  9 10  9], reward=0.0000, nav=4.9632
+2025-04-17 22:23:00 - INFO - [Step 253] action=[7 4 9 3], reward=-0.0065, nav=4.9307
+2025-04-17 22:23:00 - INFO - [Step 254] action=[7 4 9 3], reward=-0.0617, nav=4.6265
+2025-04-17 22:23:00 - INFO - [Step 255] action=[7 4 9 3], reward=0.0216, nav=4.7263
+2025-04-17 22:23:00 - INFO - [Step 256] action=[3 4 1 3], reward=-0.0240, nav=4.6130
+2025-04-17 22:23:00 - INFO - [Step 257] action=[3 4 1 3], reward=0.1085, nav=5.1136
+2025-04-17 22:23:00 - INFO - [Step 258] action=[3 4 1 3], reward=0.1152, nav=5.7025
+2025-04-17 22:23:00 - INFO - [Step 259] action=[3 4 1 3], reward=-0.2036, nav=4.5418
+2025-04-17 22:23:00 - INFO - [Step 260] action=[3 4 1 3], reward=0.1948, nav=5.4266
+2025-04-17 22:23:00 - INFO - [Step 261] action=[3 9 1 7], reward=0.0310, nav=5.5947
+2025-04-17 22:23:00 - INFO - [Step 262] action=[3 9 1 7], reward=0.0000, nav=5.5947
+2025-04-17 22:23:00 - INFO - [Step 263] action=[3 9 1 7], reward=0.0000, nav=5.5947
+2025-04-17 22:23:00 - INFO - [Step 264] action=[3 9 1 7], reward=0.0000, nav=5.5947
+2025-04-17 22:23:00 - INFO - [Step 265] action=[3 4 1 3], reward=0.0000, nav=5.5947
+2025-04-17 22:23:00 - INFO - [Step 266] action=[3 9 1 7], reward=0.0114, nav=5.6585
+2025-04-17 22:23:00 - INFO - [Step 267] action=[3 9 1 7], reward=0.0000, nav=5.6585
+2025-04-17 22:23:00 - INFO - [Step 268] action=[3 9 1 7], reward=0.0000, nav=5.6585
+2025-04-17 22:23:00 - INFO - [Step 269] action=[3 4 1 3], reward=0.0000, nav=5.6585
+2025-04-17 22:23:00 - INFO - [Step 270] action=[3 4 1 3], reward=0.0343, nav=5.8526
+2025-04-17 22:23:00 - INFO - [Step 271] action=[3 4 1 3], reward=-0.0778, nav=5.3971
+2025-04-17 22:23:00 - INFO - [Step 272] action=[3 4 1 3], reward=0.0183, nav=5.4959
+2025-04-17 22:23:00 - INFO - [Step 273] action=[3 4 1 3], reward=-0.0264, nav=5.3509
+2025-04-17 22:23:00 - INFO - [Step 274] action=[3 9 1 7], reward=-0.0949, nav=4.8430
+2025-04-17 22:23:00 - INFO - [Step 275] action=[3 9 1 7], reward=0.0000, nav=4.8430
+2025-04-17 22:23:00 - INFO - [Step 276] action=[3 9 1 7], reward=0.0000, nav=4.8430
+2025-04-17 22:23:00 - INFO - [Step 277] action=[3 9 1 7], reward=0.0000, nav=4.8430
+2025-04-17 22:23:00 - INFO - [Step 278] action=[3 9 1 7], reward=0.0000, nav=4.8430
+2025-04-17 22:23:00 - INFO - [Step 279] action=[3 9 1 7], reward=0.0000, nav=4.8430
+2025-04-17 22:23:00 - INFO - [Step 280] action=[3 9 1 7], reward=0.0000, nav=4.8430
+2025-04-17 22:23:00 - INFO - [Step 281] action=[3 9 1 7], reward=0.0000, nav=4.8430
+2025-04-17 22:23:00 - INFO - [Step 282] action=[3 9 1 7], reward=0.0000, nav=4.8430
+2025-04-17 22:23:00 - INFO - [Step 283] action=[3 9 1 7], reward=0.0000, nav=4.8430
+2025-04-17 22:23:00 - INFO - [Step 284] action=[3 9 1 7], reward=0.0000, nav=4.8430
+2025-04-17 22:23:00 - INFO - [Step 285] action=[3 9 1 7], reward=0.0000, nav=4.8430
+2025-04-17 22:23:00 - INFO - [Step 286] action=[3 9 1 7], reward=0.0000, nav=4.8430
+2025-04-17 22:23:00 - INFO - [Step 287] action=[3 9 1 7], reward=0.0000, nav=4.8430
+2025-04-17 22:23:00 - INFO - [Step 288] action=[3 9 1 3], reward=0.0000, nav=4.8430
+2025-04-17 22:23:00 - INFO - [Step 289] action=[3 9 1 7], reward=-0.0053, nav=4.8173
+2025-04-17 22:23:00 - INFO - [Step 290] action=[3 9 1 3], reward=0.0000, nav=4.8173
+2025-04-17 22:23:00 - INFO - [Step 291] action=[3 9 1 3], reward=-0.0440, nav=4.6054
+2025-04-17 22:23:00 - INFO - [Step 292] action=[3 9 1 3], reward=0.0215, nav=4.7043
+2025-04-17 22:23:00 - INFO - [Step 293] action=[3 9 1 3], reward=-0.0049, nav=4.6814
+2025-04-17 22:23:00 - INFO - [Step 294] action=[3 9 1 3], reward=0.0590, nav=4.9577
+2025-04-17 22:23:00 - INFO - [Step 295] action=[3 9 1 3], reward=-0.0129, nav=4.8938
+2025-04-17 22:23:00 - INFO - [Step 296] action=[3 9 1 3], reward=0.0099, nav=4.9421
+2025-04-17 22:23:00 - INFO - [Step 297] action=[3 9 1 7], reward=0.0162, nav=5.0222
+2025-04-17 22:23:00 - INFO - [Step 298] action=[3 9 1 7], reward=0.0000, nav=5.0222
+2025-04-17 22:23:00 - INFO - [Step 299] action=[3 9 1 7], reward=0.0000, nav=5.0222
+2025-04-17 22:23:00 - INFO - [Step 300] action=[3 9 1 3], reward=0.0000, nav=5.0222
+2025-04-17 22:23:00 - INFO - [Step 301] action=[3 9 1 3], reward=0.0036, nav=5.0402
+2025-04-17 22:23:00 - INFO - [Step 302] action=[3 9 1 7], reward=-0.0047, nav=5.0164
+2025-04-17 22:23:00 - INFO - [Step 303] action=[3 9 1 7], reward=0.0000, nav=5.0164
+2025-04-17 22:23:00 - INFO - [Step 304] action=[3 9 1 3], reward=0.0000, nav=5.0164
+2025-04-17 22:23:00 - INFO - [Step 305] action=[3 9 1 3], reward=-0.0068, nav=4.9824
+2025-04-17 22:23:00 - INFO - [Step 306] action=[3 9 1 3], reward=-0.0729, nav=4.6193
+2025-04-17 22:23:00 - INFO - [Step 307] action=[3 9 1 3], reward=-0.0503, nav=4.3871
+2025-04-17 22:23:00 - INFO - [Step 308] action=[3 9 1 3], reward=-0.0112, nav=4.3380
+2025-04-17 22:23:00 - INFO - [Step 309] action=[3 9 1 7], reward=-0.0034, nav=4.3232
+2025-04-17 22:23:00 - INFO - [Step 310] action=[3 9 1 7], reward=0.0000, nav=4.3232
+2025-04-17 22:23:00 - INFO - [Step 311] action=[3 9 1 3], reward=0.0000, nav=4.3232
+2025-04-17 22:23:00 - INFO - [Step 312] action=[3 9 1 3], reward=0.0051, nav=4.3452
+2025-04-17 22:23:00 - INFO - [Step 313] action=[3 9 1 3], reward=-0.0191, nav=4.2623
+2025-04-17 22:23:00 - INFO - [Step 314] action=[3 9 1 3], reward=0.0139, nav=4.3217
+2025-04-17 22:23:00 - INFO - [Step 315] action=[3 9 1 3], reward=-0.0309, nav=4.1881
+2025-04-17 22:23:00 - INFO - [Step 316] action=[3 9 1 3], reward=0.0232, nav=4.2855
+2025-04-17 22:23:00 - INFO - [Step 317] action=[3 9 1 3], reward=-0.0196, nav=4.2014
+2025-04-17 22:23:00 - INFO - [Step 318] action=[3 9 1 3], reward=0.0315, nav=4.3336
+2025-04-17 22:23:00 - INFO - [Step 319] action=[3 9 1 3], reward=-0.0193, nav=4.2500
+2025-04-17 22:23:00 - INFO - [Step 320] action=[3 9 1 3], reward=0.0344, nav=4.3961
+2025-04-17 22:23:00 - INFO - [Step 321] action=[3 9 1 3], reward=0.0288, nav=4.5226
+2025-04-17 22:23:00 - INFO - [Step 322] action=[3 9 1 3], reward=0.0869, nav=4.9158
+2025-04-17 22:23:00 - INFO - [Step 323] action=[3 9 1 3], reward=-0.0206, nav=4.8144
+2025-04-17 22:23:00 - INFO - [Step 324] action=[3 9 1 3], reward=0.0447, nav=5.0296
+2025-04-17 22:23:00 - INFO - [Step 325] action=[3 9 1 3], reward=-0.0396, nav=4.8303
+2025-04-17 22:23:00 - INFO - [Step 326] action=[3 9 1 3], reward=0.0140, nav=4.8977
+2025-04-17 22:23:00 - INFO - [Step 327] action=[3 9 1 3], reward=-0.0468, nav=4.6685
+2025-04-17 22:23:00 - INFO - [Step 328] action=[3 9 1 3], reward=0.0569, nav=4.9340
+2025-04-17 22:23:00 - INFO - [Step 329] action=[3 9 1 3], reward=-0.0476, nav=4.6993
+2025-04-17 22:23:00 - INFO - [Step 330] action=[3 9 1 3], reward=-0.0488, nav=4.4700
+2025-04-17 22:23:00 - INFO - [Step 331] action=[3 9 1 3], reward=-0.0325, nav=4.3247
+2025-04-17 22:23:00 - INFO - [Step 332] action=[3 9 1 3], reward=-0.0132, nav=4.2678
+2025-04-17 22:23:00 - INFO - [Step 333] action=[3 9 1 3], reward=0.0288, nav=4.3907
+2025-04-17 22:23:00 - INFO - [Step 334] action=[3 9 1 3], reward=-0.0632, nav=4.1132
+2025-04-17 22:23:00 - INFO - [Step 335] action=[3 9 1 3], reward=-0.0083, nav=4.0790
+2025-04-17 22:23:00 - INFO - [Step 336] action=[3 9 1 3], reward=0.0126, nav=4.1306
+2025-04-17 22:23:00 - INFO - [Step 337] action=[3 9 1 3], reward=-0.0380, nav=3.9737
+2025-04-17 22:23:00 - INFO - [Step 338] action=[3 9 1 3], reward=0.0189, nav=4.0487
+2025-04-17 22:23:00 - INFO - [Step 339] action=[3 9 1 3], reward=0.0042, nav=4.0656
+2025-04-17 22:23:00 - INFO - [Step 340] action=[3 9 1 3], reward=-0.0075, nav=4.0351
+2025-04-17 22:23:00 - INFO - [Step 341] action=[3 9 1 3], reward=-0.0227, nav=3.9436
+2025-04-17 22:23:00 - INFO - [Step 342] action=[3 9 1 3], reward=-0.0295, nav=3.8272
+2025-04-17 22:23:00 - INFO - [Step 343] action=[3 9 1 3], reward=-0.0513, nav=3.6309
+2025-04-17 22:23:00 - INFO - [Step 344] action=[3 9 1 3], reward=-0.0011, nav=3.6268
+2025-04-17 22:23:00 - INFO - [Step 345] action=[3 9 1 3], reward=0.0551, nav=3.8268
+2025-04-17 22:23:00 - INFO - [Step 346] action=[3 9 1 3], reward=0.0588, nav=4.0518
+2025-04-17 22:23:00 - INFO - [Step 347] action=[3 9 1 3], reward=-0.0078, nav=4.0204
+2025-04-17 22:23:00 - INFO - [Step 348] action=[3 9 1 3], reward=-0.0557, nav=3.7964
+2025-04-17 22:23:00 - INFO - [Step 349] action=[3 9 1 3], reward=-0.0506, nav=3.6044
+2025-04-17 22:23:00 - INFO - [Step 350] action=[3 9 1 3], reward=-0.0089, nav=3.5721
+2025-04-17 22:23:00 - INFO - [Step 351] action=[3 9 1 3], reward=-0.0116, nav=3.5306
+2025-04-17 22:23:00 - INFO - [Step 352] action=[3 9 1 3], reward=-0.0186, nav=3.4648
+2025-04-17 22:23:00 - INFO - [Step 353] action=[3 9 1 3], reward=-0.0118, nav=3.4239
+2025-04-17 22:23:00 - INFO - [Step 354] action=[3 9 1 3], reward=-0.0038, nav=3.4110
+2025-04-17 22:23:00 - INFO - [Step 355] action=[3 9 1 3], reward=0.0198, nav=3.4787
+2025-04-17 22:23:00 - INFO - [Step 356] action=[3 9 1 3], reward=-0.0019, nav=3.4722
+2025-04-17 22:23:00 - INFO - [Step 357] action=[3 9 1 3], reward=-0.0345, nav=3.3523
+2025-04-17 22:23:00 - INFO - [Step 358] action=[3 9 1 3], reward=0.0340, nav=3.4663
+2025-04-17 22:23:00 - INFO - [Step 359] action=[3 9 1 3], reward=-0.0013, nav=3.4618
+2025-04-17 22:23:00 - INFO - [Step 360] action=[3 4 1 3], reward=0.0274, nav=3.5565
+2025-04-17 22:23:00 - INFO - [Step 361] action=[3 4 1 3], reward=-0.0017, nav=3.5506
+2025-04-17 22:23:00 - INFO - [Step 362] action=[3 4 1 3], reward=-0.0067, nav=3.5266
+2025-04-17 22:23:00 - INFO - [Step 363] action=[3 4 1 3], reward=-0.0525, nav=3.3415
+2025-04-17 22:23:00 - INFO - [Step 364] action=[3 4 1 3], reward=-0.0204, nav=3.2734
+2025-04-17 22:23:00 - INFO - [Step 365] action=[3 9 1 3], reward=-0.0437, nav=3.1302
+2025-04-17 22:23:00 - INFO - [Step 366] action=[3 9 1 3], reward=-0.0401, nav=3.0045
+2025-04-17 22:23:00 - INFO - [Step 367] action=[3 9 1 3], reward=0.0000, nav=3.0045
+2025-04-17 22:23:00 - INFO - [Step 368] action=[3 9 1 3], reward=-0.0489, nav=2.8575
+2025-04-17 22:23:00 - INFO - [Step 369] action=[3 4 1 3], reward=0.0016, nav=2.8621
+2025-04-17 22:23:00 - INFO - [Step 370] action=[3 4 1 3], reward=-0.0084, nav=2.8381
+2025-04-17 22:23:00 - INFO - [Step 371] action=[3 4 1 3], reward=0.0089, nav=2.8635
+2025-04-17 22:23:00 - INFO - [Step 372] action=[ 3  4  1 10], reward=0.0627, nav=3.0432
+2025-04-17 22:23:00 - INFO - [Step 373] action=[3 4 1 3], reward=0.0190, nav=3.1010
+2025-04-17 22:23:00 - INFO - [Step 374] action=[3 4 1 3], reward=0.0217, nav=3.1684
+2025-04-17 22:23:00 - INFO - [Step 375] action=[3 4 1 3], reward=-0.0078, nav=3.1437
+2025-04-17 22:23:00 - INFO - [Step 376] action=[3 9 1 3], reward=-0.0462, nav=2.9985
+2025-04-17 22:23:00 - INFO - [Step 377] action=[3 4 1 3], reward=0.0299, nav=3.0883
+2025-04-17 22:23:00 - INFO - [Step 378] action=[3 4 1 3], reward=-0.0574, nav=2.9111
+2025-04-17 22:23:00 - INFO - [Step 379] action=[3 4 1 3], reward=-0.0091, nav=2.8846
+2025-04-17 22:23:00 - INFO - [Step 380] action=[3 9 1 3], reward=0.0606, nav=3.0594
+2025-04-17 22:23:00 - INFO - [Step 381] action=[3 9 1 3], reward=-0.0040, nav=3.0470
+2025-04-17 22:23:00 - INFO - [Step 382] action=[3 9 1 3], reward=0.0006, nav=3.0487
+2025-04-17 22:23:00 - INFO - [Step 383] action=[3 9 1 3], reward=-0.0135, nav=3.0076
+2025-04-17 22:23:00 - INFO - [Step 384] action=[3 9 1 3], reward=0.0263, nav=3.0866
+2025-04-17 22:23:00 - INFO - [Step 385] action=[3 9 1 3], reward=-0.0262, nav=3.0057
+2025-04-17 22:23:00 - INFO - [Step 386] action=[3 9 1 3], reward=-0.0194, nav=2.9475
+2025-04-17 22:23:00 - INFO - [Step 387] action=[3 9 1 3], reward=0.0169, nav=2.9973
+2025-04-17 22:23:00 - INFO - [Step 388] action=[3 9 1 3], reward=-0.0305, nav=2.9059
+2025-04-17 22:23:00 - INFO - [Step 389] action=[3 9 1 3], reward=-0.0425, nav=2.7824
+2025-04-17 22:23:00 - INFO - [Step 390] action=[3 9 1 3], reward=-0.0390, nav=2.6738
+2025-04-17 22:23:00 - INFO - [Step 391] action=[3 9 1 3], reward=0.0008, nav=2.6760
+2025-04-17 22:23:00 - INFO - [Step 392] action=[3 9 1 3], reward=-0.0125, nav=2.6427
+2025-04-17 22:23:00 - INFO - [Step 393] action=[3 9 1 3], reward=0.0745, nav=2.8395
+2025-04-17 22:23:00 - INFO - [Step 394] action=[3 9 1 3], reward=0.0521, nav=2.9874
+2025-04-17 22:23:00 - INFO - [Step 395] action=[3 9 1 3], reward=0.0289, nav=3.0737
+2025-04-17 22:23:00 - INFO - [Step 396] action=[3 9 1 3], reward=-0.0135, nav=3.0322
+2025-04-17 22:23:00 - INFO - [Step 397] action=[3 9 1 3], reward=0.1808, nav=3.5805
+2025-04-17 22:23:00 - INFO - [Step 398] action=[3 9 1 3], reward=0.0447, nav=3.7406
+2025-04-17 22:23:00 - INFO - [Step 399] action=[3 9 1 3], reward=-0.1178, nav=3.2998

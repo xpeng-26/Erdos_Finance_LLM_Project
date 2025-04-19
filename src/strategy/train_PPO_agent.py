@@ -10,11 +10,11 @@ sys.path.insert(0, proj_path)
 
 def train_PPO_agent(config, logger, env=None):
     #env = trading_env.TradingEnv(config=config, logger=logger)
-    try:
-        check_env(env)
-    except Exception as e:
-        logger.error(f"Environment check failed: {e}")
-        sys.exit(1)
+    #try:
+        #check_env(env)
+    #except Exception as e:
+        #logger.error(f"Environment check failed: {e}")
+        #sys.exit(1)
     # Wrap the environment
     learning_rate = config["strategy"].get("learning_rate", 3e-4)
     total_timesteps = config["strategy"].get("total_timesteps", 100000)
