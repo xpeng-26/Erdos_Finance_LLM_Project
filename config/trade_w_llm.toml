@@ -17,8 +17,8 @@ evaluation = false
 [info]
 # local path to store all data (change to your local path)
 # local_data_path = "/Users/xwpeng/Projects/Erdos_Finance_LLM_data"
-#local_data_path = "/Users/xiaokangwang/Documents/PycharmProjects/Projects for Erdos 2025 spring/dataset"
-local_data_path = "/Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset"
+local_data_path = "/Users/xiaokangwang/Documents/PycharmProjects/Projects for Erdos 2025 spring/dataset"
+#local_data_path = "/Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset"
 
 # This is the path on the Google Drive
 # local_data_path = "/content/drive/MyDrive/Erdos_2025_spring/dataset"
@@ -95,6 +95,7 @@ obv = {}
 ad = {}
 
 [strategy]
+# DDQNAgent
 # train date
 train_start_date = "2016-01-01"
 train_end_date = "2017-12-31"
@@ -148,6 +149,9 @@ epsilon_exponential_decay = 0.99
 # max episode
 max_episodes = 1000
 
+# PPO
+PPO_learning_rate = 3e-4
+PPO_total_time_step = 100000
 [evaluation]
 
 

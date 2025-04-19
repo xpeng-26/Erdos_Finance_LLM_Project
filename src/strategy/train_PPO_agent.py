@@ -8,16 +8,17 @@ proj_path = os.path.abspath(os.path.join(os.getcwd(), "../src"))
 sys.path.insert(0, proj_path)
 
 
-def train_PPO_agent(config, logger, env=None):
-    #env = trading_env.TradingEnv(config=config, logger=logger)
-    #try:
-        #check_env(env)
-    #except Exception as e:
-        #logger.error(f"Environment check failed: {e}")
-        #sys.exit(1)
-    # Wrap the environment
-    learning_rate = config["strategy"].get("learning_rate", 3e-4)
-    total_timesteps = config["strategy"].get("total_timesteps", 100000)
+def train_PPO_agent(config, logger):
+
+    # Get the model path
+    model_path = os.path.join(config['info']['local_data_path'], 'models')
+    os.makedirs(model_path, exist_ok=True)
+    result_path = os.path.join(config['info']['local_data_path'], 'evaluation')
+    os.makedirs(result_path, exist_ok=True)
+
+    # Environment parameters
+    learning_rate = config["strategy"]['PPO_learning_rate']
+    total_timesteps = config["strategy"]['PPO_total_time_step']
 
     model = PPO("MlpPolicy", env, verbose=1, learning_rate=learning_rate)
     
@@ -32,3 +33,4 @@ def train_PPO_agent(config, logger, env=None):
     # Save the model 
     return model
 
+def train_A2C_agent(config, logger, )

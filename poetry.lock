@@ -3331,6 +3331,21 @@ files = [
 ]
 
 [[package]]
+name = "sb3-contrib"
+version = "2.6.0"
+description = "Contrib package of Stable Baselines3, experimental code."
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "sb3_contrib-2.6.0-py3-none-any.whl", hash = "sha256:7440d2a47dcd2996c6f44286a059245f62433d2565951c445673c6a83742ecc2"},
+    {file = "sb3_contrib-2.6.0.tar.gz", hash = "sha256:eaf7f3268706ee878140decfc743b58e96182e73b5c14872e1c7017ca31e465f"},
+]
+
+[package.dependencies]
+stable_baselines3 = ">=2.6.0,<3.0"
+
+[[package]]
 name = "send2trash"
 version = "1.8.3"
 description = "Send file to trash natively under Mac OS X, Windows and Linux"
@@ -3403,6 +3418,31 @@ files = [
     {file = "soupsieve-2.6-py3-none-any.whl", hash = "sha256:e72c4ff06e4fb6e4b5a9f0f55fe6e81514581fca1515028625d0f299c602ccc9"},
     {file = "soupsieve-2.6.tar.gz", hash = "sha256:e2e68417777af359ec65daac1057404a3c8a5455bb8abc36f1a9866ab1a51abb"},
 ]
+
+[[package]]
+name = "stable-baselines3"
+version = "2.6.0"
+description = "Pytorch version of Stable Baselines, implementations of reinforcement learning algorithms."
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "stable_baselines3-2.6.0-py3-none-any.whl", hash = "sha256:d4a4c95b5593c6135a5764767d829498677559069110aa3768fe1254f1c457e3"},
+    {file = "stable_baselines3-2.6.0.tar.gz", hash = "sha256:972ef537a9a8f2b9de06cdca87ef1f33df5fc8239cfe64fed88976d7c799c2f7"},
+]
+
+[package.dependencies]
+cloudpickle = "*"
+gymnasium = ">=0.29.1,<1.2.0"
+matplotlib = "*"
+numpy = ">=1.20,<3.0"
+pandas = "*"
+torch = ">=2.3,<3.0"
+
+[package.extras]
+docs = ["sphinx (>=5,<9)", "sphinx-autobuild", "sphinx-rtd-theme (>=1.3.0)", "sphinx_copybutton", "sphinxcontrib.spelling"]
+extra = ["ale-py (>=0.9.0)", "opencv-python", "pillow", "psutil", "pygame", "rich", "tensorboard (>=2.9.1)", "tqdm"]
+tests = ["black (>=25.1.0,<26)", "mypy", "pytest", "pytest-cov", "pytest-env", "pytest-xdist", "ruff (>=0.3.1)"]
 
 [[package]]
 name = "stack-data"
@@ -3856,4 +3896,4 @@ testing = ["coverage[toml]", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.13"
-content-hash = "2ea295f9c27daf608aff5126820ecff53d889f0c06610bcf83e0d9cf37243ea0"
+content-hash = "3e4399c1722c29c3e99dc2a64cba04c59eff849971a4687494993564eefbeaac"
