@@ -1,4 +1,0 @@
-2025-04-17 17:45:40 - INFO - Data loaded from /Users/zxmath/Documents/GitHub/Erdos_Finance_LLM_Project/dataset/data_raw/stock_daily_data.db, extract ticker: ['AAPL', 'MSFT', 'NVDA', 'GOOG']
-2025-04-17 17:45:42 - ERROR - Environment check failed: The reset() method must accept a `seed` parameter
-2025-04-17 17:45:44 - ERROR - Environment check failed: The reset() method must accept a `seed` parameter
-2025-04-17 17:45:59 - ERROR - Environment check failed: The reset() method must accept a `seed` parameter
