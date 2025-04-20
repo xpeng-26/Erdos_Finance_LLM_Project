@@ -109,6 +109,7 @@ def train_trading_agent(config, logger):
         this_state = trading_environment.unwrapped.reset_trading()
         for episode_step in range(max_episode_steps):
             action = trading_agent.epsilon_greedy(this_state.reshape(-1, flattened_state_dimension))
+            
             next_state, reward, done, _ = trading_environment.unwrapped.trading_env_step(action)
 
             # Convert next_state, reward, done to tensors on the same device
@@ -129,6 +130,8 @@ def train_trading_agent(config, logger):
     
         # get results of last step
         final = result.iloc[-1]
+        
+    
 
         # apply return (net of cost) of last action to last starting nav 
         nav = final.nav * (1 + final.strategy_return)
@@ -151,7 +154,7 @@ def train_trading_agent(config, logger):
         # if agent has been winning for a while, stop training
         if len(diffs) > 25 and all([r > 0 for r in diffs[-25:]]):
             # print the tail of the result
-            logger.infor(f'The agent has been winning for a while, stop training, the tail is {result.tail()}')
+            logger.info(f'The agent has been winning for a while, stop training, the tail is {result.tail()}')
             break
 
         # Save the checkpoint every 10 episodes
