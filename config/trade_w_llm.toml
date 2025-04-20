@@ -17,10 +17,10 @@ evaluation = false
 [info]
 # local path to store all data (change to your local path)
 # local_data_path = "/Users/xwpeng/Projects/Erdos_Finance_LLM_data"
-# local_data_path = "/Users/xiaokangwang/Documents/PycharmProjects/Projects for Erdos 2025 spring/dataset"
+local_data_path = "/Users/xiaokangwang/Documents/PycharmProjects/Projects for Erdos 2025 spring/dataset"
 
 # This is the path on the Google Drive
-local_data_path = "/content/drive/MyDrive/Erdos_2025_spring/dataset"
+#local_data_path = "/content/drive/MyDrive/Erdos_2025_spring/dataset"
 
 
 # directories names for data files in the local "i.e., Google Drive" path
@@ -113,8 +113,8 @@ ticker = "AAPL"
 tickers = ["AAPL", "MSFT", "NVDA", "GOOG"]
 
 # trading environment: Choose one environment
-environment = "single"
-#environment = "portfolio"
+#environment = "single"
+environment = "portfolio"
 
 # trading cost bps
 trading_cost_bps = 0
@@ -149,9 +149,6 @@ max_episodes = 1000
 PPO_learning_rate = 3e-3
 PPO_time_steps = 10000
 
-# PPO
-PPO_learning_rate = 3e-4
-PPO_total_time_step = 100000
 [evaluation]
 
 
