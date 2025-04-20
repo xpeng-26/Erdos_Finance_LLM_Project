@@ -110,6 +110,11 @@ trading_days = 252
 
 # trading ticker list
 ticker = "AAPL"
+tickers = ["AAPL", "MSFT", "NVDA", "GOOG"]
+
+# trading environment: Choose one environment
+environment = "single"
+#environment = "portfolio"
 
 # trading cost bps
 trading_cost_bps = 0
@@ -140,10 +145,15 @@ epsilon_exponential_decay = 0.99
 # max episode
 max_episodes = 1000
 
+# PPO parameters
+PPO_learning_rate = 3e-3
+PPO_time_steps = 10000
+
 # PPO
 PPO_learning_rate = 3e-4
 PPO_total_time_step = 100000
 [evaluation]
+
 
 
 
