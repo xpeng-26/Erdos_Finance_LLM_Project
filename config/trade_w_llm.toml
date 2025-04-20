@@ -109,8 +109,8 @@ ticker = "AAPL"
 tickers = ["AAPL", "MSFT", "NVDA", "GOOG"]
 
 # trading environment: Choose one environment
-#environment = "single"
-environment = "portfolio"
+environment = "single"
+#environment = "portfolio"
 
 # trading cost bps
 trading_cost_bps = 0
