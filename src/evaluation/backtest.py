@@ -109,7 +109,7 @@ def backtest_DDQN_agent(config, logger, model_path):
     df = trading_environment.unwrapped.simulator.result()
 
     
-    """
+    
     plt.figure(figsize=(10,5))
     plt.plot(df.nav, label="DDQN NAV")
     plt.plot(df.market_nav, label="Market NAV", linestyle="--")
@@ -119,7 +119,7 @@ def backtest_DDQN_agent(config, logger, model_path):
     plt.legend()
     plt.grid(True)
     plt.show()
-    """
+   
 
     return df, actions, equity_curve
 
@@ -139,7 +139,7 @@ def backtest_PPO_agent(config, logger, model_path):
     equity_curve = []
     actions = []
     steps = 0
-    model = PPO.load(model_path, env=env, device=device)
+    model = PPO.load(model_path, env=env)
     while not done:
         # Get the action (deterministic for backtest)
         action, _ = model.predict(obs, deterministic=True)
