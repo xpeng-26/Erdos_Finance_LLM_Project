@@ -4,8 +4,9 @@
 [pipeline]
 
 ingestion_stock = false
-ingestion_news = true
-feature = false
+ingestion_news = false
+feature_factor = false
+feature_news = true
 strategy = false
 evaluation = false
 
@@ -104,6 +105,12 @@ atr = { timeperiod = 14 }
 obv = {} 
 
 ad = {}
+
+[feature.llm_model]
+# LLAMA_MODEL in the CONTRIBUTING.md
+model_path = "~/Tools/llm_tools/models/gemma/gemma-3-4b-it-q4_0.gguf"
+# LLAMA_LIB_OUTPUT in the CONTRIBUTING.md
+lib_path = "~/Tools/llm_tools/lib/libllama.dylib"
 
 [strategy]
 

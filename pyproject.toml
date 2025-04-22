@@ -16,6 +16,8 @@ tomli-w = "^1.2.0"
 yfinance = "^0.2.54"
 ta-lib = "^0.6.3"
 dotenv = "^0.9.9"
+llama-cpp-python = "^0.3.8"
+jsonschema = "^4.23.0"
 
 
 [build-system]
