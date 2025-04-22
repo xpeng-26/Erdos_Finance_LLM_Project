@@ -96,11 +96,11 @@ ad = {}
 [strategy]
 # train date
 train_start_date = "2016-01-01"
-train_end_date = "2017-12-31"
+train_end_date = "2022-12-31"
 
 # test date
-test_start_date = "2017-01-01"
-test_end_date = "2017-12-31"
+eval_start_date = "2016-01-01"
+eval_end_date = "2014-12-31"
 
 # trading days
 trading_days = 252
