@@ -21,6 +21,7 @@ from utils.logging_tool import initialize_logger
 from ingestion.stock_driver import ingest_stock_data
 from feature.feature_engineer_driver import calculate_factors
 from strategy.train_trading_agent import train_trading_agent
+from strategy.train_PPO_agent import train_PPO_agent, train_A2C_agent
 
 ############################################
 def main(opt_params):
@@ -115,12 +116,22 @@ def main(opt_params):
 		if config['pipeline']['strategy']:
 			logger.info('---------- pipeline: strategy ----------')
 			logger.info('Start trading with reinforcement learning agent...')
+			# Train which agent
+			agent = config['strategy']['agent']
+			if agent == 'DDQN':
+				logger.info('Training with DDQN agent...')
+				# Trading with reinforcement learning agent
+				with warnings.catch_warnings():
+					warnings.filterwarnings("ignore", category=UserWarning)
+					train_trading_agent(config, logger)
 
-			# Trading with reinforcement learning agent
-			with warnings.catch_warnings():
-				warnings.filterwarnings("ignore", category=UserWarning)
-					
-				train_trading_agent(config, logger)
+			elif agent == 'PPO':
+				logger.info('Training with PPO agent...')
+				train_PPO_agent(config, logger)
+
+			elif agent == 'A2C':
+				logger.info('Training with A2C agent...')
+				train_A2C_agent(config, logger)
 
 			logger.info('Trading with reinforcement learning agent completed.\n')
 
