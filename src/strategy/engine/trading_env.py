@@ -260,6 +260,38 @@ class TradingEnv(gym.Env):
         self.simulator.reset()
         return self.data_source.take_step()[0]
     
+    ############
+    # These functions are for the stable_baselines3
+    def reset(self, *, seed: int = None, options: dict = None):
+   
+        if seed is not None:
+            self.np_random, _ = seeding.np_random(seed)
+        else:
+            self.np_random, _ = seeding.np_random()
+
+    
+        self.data_source.reset()
+        self.simulator.reset()
+
+    #
+        obs, _, _ = self.data_source.take_step()
+        obs = np.array(obs, dtype=np.float32)
+
+   
+        return obs, {} 
+    
+    def step(self, action):
+        # Execute one time step using your existing logic.
+        obs, reward, done, info = self.trading_env_step(action)
+        obs = np.array(obs, dtype=np.float32)
+    
+        # Map your 'done' flag to 'terminated', and assume no truncation.
+        terminated = done      # 'terminated' reflects that an episode ended naturally.
+        truncated = False      # 'truncated' could be used if you implement time limits, etc.
+    
+        # Return five values as required by Gymnasium: (obs, reward, terminated, truncated, info)
+        return obs, reward, terminated, truncated, info
+    
 
     def render(self, mode="human"):
         """

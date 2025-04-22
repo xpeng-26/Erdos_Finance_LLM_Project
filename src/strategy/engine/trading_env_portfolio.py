@@ -36,10 +36,10 @@ class DataSource:
 
         ############## Change here ##################
         self.min_values = (
-            self.data.groupby('symbol').min().reset_index(drop=True)
+            self.data.drop(['date_seq'], axis = 1).groupby('symbol').min().reset_index(drop=True)
         )  # Return the min values of the data, this will be used to build the gym environment
         self.max_values = (
-            self.data.groupby('symbol').max().reset_index(drop=True)
+            self.data.drop(['date_seq'], axis = 1).groupby('symbol').max().reset_index(drop=True)
         )  # Return the max values of the data, this will be used to build the gym environment
         #######################################
 
@@ -112,7 +112,7 @@ class DataSource:
     def take_step(self):
         """Returns data for current trading day and done signal"""
         ########## Change here ##################
-        obs = self.data[self.data['date_seq'] == self.offset + self.step].drop(['date_seq'], axis=1).values.reshape(self.tickers_num, -1)
+        obs = self.data[self.data['date_seq'] == self.offset + self.step].drop(['date_seq','symbol'], axis=1).values.reshape(self.tickers_num, -1)
         market_return = self.data[self.data['date_seq'] == self.offset + self.step]["return"].values
         #######################################
         self.step += 1
@@ -346,6 +346,9 @@ class TradingEnv(gym.Env):
         self.data_source.reset()
         self.simulator.reset()
         return self.data_source.take_step()[0]
+    
+    ############
+    # These functions are for the stable_baselines3
     def reset(self, *, seed: int = None, options: dict = None):
    
         if seed is not None:
