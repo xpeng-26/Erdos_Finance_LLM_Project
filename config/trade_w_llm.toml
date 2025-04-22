@@ -94,6 +94,12 @@ obv = {}
 ad = {}
 
 [strategy]
+# the agent we want to train
+#agent = "DDQN"
+#agent = "PPO"
+agent = "A2C"
+
+
 # train date
 train_start_date = "2016-01-01"
 train_end_date = "2022-12-31"
@@ -110,8 +116,8 @@ ticker = "AAPL"
 tickers = ["AAPL", "MSFT", "NVDA", "GOOG"]
 
 # trading environment: Choose one environment
-#environment = "single"
-environment = "portfolio"
+environment = "single"
+#environment = "portfolio"
 
 # trading cost bps
 trading_cost_bps = 0
@@ -147,7 +153,11 @@ max_episodes = 1000
 
 # PPO parameters
 PPO_learning_rate = 3e-3
-PPO_time_steps = 10000
+PPO_time_steps = 1000
+
+# A2C parameters
+A2C_learning_rate = 3e-3
+A2C_time_steps = 1000
 
 [evaluation]
 
