@@ -25,6 +25,8 @@ torchinfo = "^1.8.0"
 joblib = "^1.4.2"
 sb3-contrib = "^2.6.0"
 dotenv = "^0.9.9"
+llama-cpp-python = "^0.3.8"
+jsonschema = "^4.23.0"
 
 
 [build-system]
