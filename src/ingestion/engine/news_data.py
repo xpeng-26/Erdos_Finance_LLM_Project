@@ -56,10 +56,11 @@ class NewsDataDownloader:
         self.stats_file = self.raw_data_path / "news_stats.json"
 
         # read the stock_symbol_list file
-        stock_symbol_list_df = pd.read_csv(
-            self.raw_data_path / config["ingestion"]["stock_symbol_list"]
-        )
-        self.symbols = stock_symbol_list_df["Symbol"].tolist()
+        # stock_symbol_list_df = pd.read_csv(
+        #     self.raw_data_path / config["ingestion"]["stock_symbol_list"]
+        # )
+        # self.symbols = stock_symbol_list_df["Symbol"].tolist()
+        self.symbols = config["ingestion"]["stock_list"]
 
     def create_news_stats(self):
         """
@@ -188,18 +189,19 @@ class NewsDataDownloader:
         self.api_call_count += 1
         current_time = datetime.now()
         self.recent_api_calls.append(current_time)
-        self.logger.info(
-            f"Making API call {self.api_call_count}/{self.api_call_total_limit}"
-        )
 
         # Add retry logic for connection issues
-        max_retries = 5
+        max_retries = 10
         retry_count = 0
 
         while retry_count < max_retries:
             try:
                 response = requests.get(url, params=params)
-                return response.json()
+                response_json = response.json()
+                self.logger.info(
+                    f"API call {self.api_call_count}/{self.api_call_total_limit} completed, {response_json['items']} news items retrieved"
+                )
+                return response_json
             except (
                 requests.exceptions.ChunkedEncodingError,
                 requests.exceptions.ConnectionError,
@@ -235,7 +237,8 @@ class NewsDataDownloader:
             f"Downloading news for {symbol} from {batch_start_datetime} to {config_end_datetime}"
         )
 
-        # download news by batch, 1000 max news items per batch (one api call)
+        # batch_size_list = []
+        # one_more_try = 0
 
         # continue if the batch_start_date_time is 1 minute before the config_end_date_time
         while (config_end_datetime - batch_start_datetime).total_seconds() >= 60:
@@ -297,10 +300,11 @@ class NewsDataDownloader:
 
             ticker_news.extend(batch_news)
 
-            # If we got fewer items than the limit, we've done for this ticker
-            if batch_size < int(self.news_limit_per_api_call):
+            # Determine if we already retrieved all news items for this ticker in this date range
+            batch_size_threshold = min(int(self.news_limit_per_api_call)/2, 50)
+            if batch_size < batch_size_threshold:
                 self.logger.info(
-                    f"Retrieved {batch_size} news items (fewer than limit). No more pagination needed."
+                    f"Retrieved {batch_size} news items (fewer than {batch_size_threshold}). No more pagination needed."
                 )
                 break
 
@@ -399,6 +403,7 @@ class NewsDataDownloader:
             if self.db_manager.check_table_exists("news") and self.overwrite_news_table:
                 self.db_manager.delete_table("news")
                 self.logger.info("News table deleted in the database")
+            
             # Create the news table if it doesn't exist
             self.db_manager.setup_table(create_schema("news"))
             self.logger.info("News table created in the database")
