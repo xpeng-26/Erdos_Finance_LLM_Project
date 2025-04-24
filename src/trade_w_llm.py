@@ -20,8 +20,9 @@ from utils.logging_tool import initialize_logger
 # custom modules
 from ingestion.stock_driver import ingest_stock_data
 from feature.feature_engineer_driver import calculate_factors
-from strategy.train_trading_agent import train_trading_agent
+from strategy.train_trading_agent import train_trading_agent, dump_final_DDQN
 from strategy.train_PPO_agent import train_PPO_agent, train_A2C_agent
+from evaluation.evaluation import evaluation_main
 
 ############################################
 def main(opt_params):
@@ -134,6 +135,17 @@ def main(opt_params):
 				train_A2C_agent(config, logger)
 
 			logger.info('Trading with reinforcement learning agent completed.\n')
+
+		if config['pipeline']['evaluation']:
+			logger.info('---------- pipeline: evaluation ----------')
+			logger.info('Start evaluating the trading strategy...')
+			# Dump the final model
+			dump_final_DDQN(config, logger)
+			logger.info('Final model dumped.\n')
+			# Evaluate the trading strategy
+			evaluation_main(config, logger)
+			# evaluate_trading_strategy(config, logger)
+			logger.info('Trading strategy evaluation completed.\n')
 
 
 			

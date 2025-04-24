@@ -181,6 +181,68 @@ def train_trading_agent(config, logger):
     # Close the environment
     trading_environment.close()
 
+###################################################################################################
+# dump the latest final model
+def dump_final_DDQN(config, logger):
+
+     # Get the model path
+    model_path = os.path.join(config['info']['local_data_path'], 'models')
+    os.makedirs(model_path, exist_ok=True)
+
+     # Get the configuration parameters
+    trading_days = config["strategy"]["trading_days"]
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    # Get the environment
+    env = config['strategy']['environment']
+    # register the environment
+    if env == 'single':
+        register(
+            id='trading-v0',
+            entry_point='strategy.engine.trading_env:TradingEnv',
+            max_episode_steps=trading_days
+        )
+        # make the environment
+        trading_environment = gym.make('trading-v0', config=config, logger=logger)
+    elif env == 'portfolio':
+        register(
+            id='trading-port-v0',
+            entry_point='strategy.engine.trading_env_portfolio:TradingEnv',
+            max_episode_steps=trading_days
+        )
+        # make the environment
+        trading_environment = gym.make('trading-port-v0', config=config, logger=logger)
+    
+    logger.info(f'Environment: {env}')
+
+    # Get environment parameters
+    if isinstance(trading_environment.action_space, spaces.Discrete):
+        state_dimension = trading_environment.observation_space.shape[0]
+        flattened_state_dimension = state_dimension
+        action_dimension = trading_environment.action_space.n
+    elif isinstance(trading_environment.action_space, spaces.MultiDiscrete):
+        state_dimension = trading_environment.observation_space.shape
+        flattened_state_dimension = np.prod(state_dimension)
+        action_dimension = trading_environment.action_space.nvec
+        # If you need the total number of possible actions
+        total_actions = np.prod(action_dimension)
+    else:
+        raise ValueError(f"Unsupported action space type: {type(trading_environment.action_space)}")
+    
+     # Create the trading agent
+    trading_agent = DDQNAgent(
+        config=config, logger=logger, state_dimension=state_dimension, action_dimension=action_dimension, device=device
+    )
+    logger.info(summary(trading_agent.online_model, input_size=(1, flattened_state_dimension)))
+    # Load the latest checkpoint if it exists
+    load_final_model(trading_agent, model_path, device, logger, env)
+    # save the final model
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    joblib.dump(trading_agent.online_model, os.path.join(model_path, f'final_model_{env}_{timestamp}.joblib'))
+    logger.info(f'Final model saved to {os.path.join(model_path, f"final_model_{env}_{timestamp}.joblib")}')
+    # Close the environment
+    trading_environment.close()
+    logger.info(f'Finished dumping final model')
+
 
 
 
