@@ -66,19 +66,11 @@ class LlmAnalyst:
                 "analysis": {
                     "type": "object",
                     "properties": {
-                        "historical_event": {"type": "string"},
-                        "historical_event_analysis": {"type": "string"},
-                        "counterfactual_news": {"type": "string"},
-                        "counterfactual_analysis": {"type": "string"},
                         "business_structure_analysis": {"type": "string"},
                         "market_reaction": {"type": "string"},
                         "overall_analysis": {"type": "string"},
                     },
                     "required": [
-                        "historical_event",
-                        "historical_event_analysis",
-                        "counterfactual_news",
-                        "counterfactual_analysis",
                         "business_structure_analysis",
                         "market_reaction",
                         "overall_analysis",
@@ -105,12 +97,6 @@ class LlmAnalyst:
             "adjustment_mid": instance["adjustment"]["mid_term"],
             "adjustment_long": instance["adjustment"]["long_term"],
             "overall_analysis": instance["analysis"]["overall_analysis"],
-            "historical_event": instance["analysis"]["historical_event"],
-            "historical_event_analysis": instance["analysis"][
-                "historical_event_analysis"
-            ],
-            "counterfactual_news": instance["analysis"]["counterfactual_news"],
-            "counterfactual_analysis": instance["analysis"]["counterfactual_analysis"],
             "business_structure_analysis": instance["analysis"][
                 "business_structure_analysis"
             ],
@@ -255,17 +241,10 @@ class LlmAnalyst:
 
                 == Analysis Phase ==
 
-                (analysis 1: historical_event_comparison)  
-                Do you think this news is similar to any past events before 2022? Cite one such historical example, describe its market
-                impact, and explain whether a similar market reaction is likely in this case. 
-
-                (analysis 2: counterfactual_analysis)  
-                Imagine a counterfactual scenario: if the news were the opposite, what kind of business upside or benefits might the company have realized? Use this contrast to help assess the actual impact of the news.
-
-                (analysis 3: business_structure_analysis)  
+                (analysis 1: business_structure_analysis)  
                 Based on your understanding of the company's business structure, identify whether the affected product/business belongs to a core or peripheral segment, and assess the estimated impact on overall profitability (high/medium/low) and duration (short/medium/long).
 
-                (analysis 4: market_reaction)  
+                (analysis 2: market_reaction)  
                 Consider the current expectations of investors regarding this company's stock price. Analyze how this news might shift the sentiment of bullish and bearish investors and what behavioral change it may cause in the market.
 
                 == Output Phase ==
@@ -315,10 +294,6 @@ class LlmAnalyst:
                         "long_term": <float>
                     }},
                     "analysis": {{
-                        "historical_event": "<short summary within 50 words>",
-                        "historical_event_analysis": "<max 100 words>"
-                        "counterfactual_news": "<short hypothetical news within 50 words>",
-                        "counterfactual_analysis": "<counterfactual analysis within 100 words>"
                         "business_structure_analysis": "<max 100 words>",
                         "market_reaction": "<max 100 words>",
                         "overall_analysis": "<max 200 words>"
@@ -336,6 +311,11 @@ class LlmAnalyst:
         if not self.daily_db_manager.check_table_exists("news_factors"):
             self.daily_db_manager.setup_table(create_schema("news_factors"))
             self.logger.info("News factors table created")
+        else:
+            self.logger.info("News factors table already exists")
+            self.daily_db_manager.delete_table("news_factors")
+            self.daily_db_manager.setup_table(create_schema("news_factors"))
+            self.logger.info("News factors table recreated")
 
             # load the LLM model
         self._load_llm_model()
@@ -361,10 +341,6 @@ class LlmAnalyst:
                     "adjustment_mid": [None],
                     "adjustment_long": [None],
                     "overall_analysis": [None],
-                    "historical_event": [None],
-                    "historical_event_analysis": [None],
-                    "counterfactual_news": [None],
-                    "counterfactual_analysis": [None],
                     "business_structure_analysis": [None],
                     "market_reaction": [None],
                 }
