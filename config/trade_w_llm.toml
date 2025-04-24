@@ -39,12 +39,10 @@ db_news_name = "stock_news_data.db"
 # parameters for each step in the pipeline
 [ingestion]
 start_date = "2022-03-01"
-end_date = "2024-12-31"
-# for price ingestion
-stock_list = ["AAPL", "MSFT", "NVDA", "GOOG"]
-
-# for news ingestion under the directory data_raw
-stock_symbol_list = "20250408_over_medium.csv"
+end_date = "2025-02-28"
+# for price and newsingestion
+stock_list = ["AAPL", "TSM", "COST", "V", "LLY", "CVX"]
+# stock_list = "20250408_over_medium_selected.csv"
 
 # news ingestion parameters
 # Maximum number of news items to retrieve per ticker
