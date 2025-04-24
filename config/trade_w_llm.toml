@@ -4,10 +4,10 @@
 # set true to run the pipeline, false to skip the pipeline
 [pipeline]
 
-ingestion_stock = false
+ingestion_stock = true
 ingestion_news = false
-feature_factor = false
-feature_news = true
+feature_factor = true
+feature_news = false
 strategy = false
 evaluation = false
 
@@ -45,10 +45,13 @@ db_name = "stock_daily_data_aapl_cost_cvx.db"
 ############################################
 # parameters for each step in the pipeline
 [ingestion]
+# one more years to calculate the technical indicators
+cherry_start_date = "2021-03-01"
+# dates covered in the database
 start_date = "2022-03-01"
 end_date = "2025-02-28"
-# for price and newsingestion
-stock_list = ["AAPL", "TSM", "COST", "V", "LLY", "CVX"]
+# for price and news ingestion
+stock_list = ["AAPL", "COST", "CVX"]
 # stock_list = "20250408_over_medium_selected.csv"
 
 # news ingestion parameters
