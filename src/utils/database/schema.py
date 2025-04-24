@@ -238,20 +238,6 @@ def create_schema(table_schema: str) -> TableSchema:
                 ),
                 Column("news_summary", "TEXT", description="News summary"),
                 Column("overall_analysis", "TEXT", description="Overall analysis"),
-                Column("historical_event", "TEXT", description="Historical event"),
-                Column(
-                    "historical_event_analysis",
-                    "TEXT",
-                    description="Historical event analysis",
-                ),
-                Column(
-                    "counterfactual_news", "TEXT", description="Counterfactual news"
-                ),
-                Column(
-                    "counterfactual_analysis",
-                    "TEXT",
-                    description="Counterfactual analysis",
-                ),
                 Column(
                     "business_structure_analysis",
                     "TEXT",
