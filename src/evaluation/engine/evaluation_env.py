@@ -32,12 +32,35 @@ class DataSorce_single:
             "data_raw",
             self.config["info"]["db_name"],
         )
-
+        news = self.config["strategy"]["news"]
         # Query the database
-        Query = f"""SELECT * FROM daily_prices d LEFT JOIN technical_factors t 
-        ON d.date = t.date WHERE t.symbol = '{self.ticker}' AND d.symbol = '{self.ticker}' 
-        AND DATE(d.date) >= '{self.start_date}' AND DATE(d.date) <= '{self.end_date}' ORDER BY d.date"""
-
+        if news:
+            Query = f"""
+            SELECT 
+                d.*, 
+                t.*, 
+                n.sentiment_short, n.sentiment_mid, n.sentiment_long, n.adjustment_mid, n.adjustment_long 
+            FROM 
+                daily_prices d 
+            LEFT JOIN 
+                technical_factors t 
+            ON 
+                d.date = t.date AND d.symbol = t.symbol 
+            LEFT JOIN 
+                news_factors n 
+            ON 
+                DATE(d.date) = DATE(n.date) AND d.symbol = n.symbol 
+            WHERE 
+                d.symbol = '{self.ticker}' 
+                AND DATE(d.date) >= '{self.start_date}' 
+                AND DATE(d.date) <= '{self.end_date}' 
+            ORDER BY 
+                d.date
+            """
+        else:
+            Query = f"""SELECT * FROM daily_prices d LEFT JOIN technical_factors t 
+            ON d.date = t.date WHERE t.symbol = '{self.ticker}' AND d.symbol = '{self.ticker}' 
+            AND DATE(d.date) >= '{self.start_date}' AND DATE(d.date) <= '{self.end_date}' ORDER BY d.date"""
         # Run the query and return the data
         db = sqlite3.connect(path)
         df = pd.read_sql_query(Query, db)
@@ -92,19 +115,45 @@ class DataSorce_portfolio:
             "data_raw",
             self.config["info"]["db_name"],
         )
-
+        news = self.config["strategy"]["news"]
         # Query the database
         tickers = "', '".join(self.tickers)
-        Query = f"""
-        SELECT DISTINCT d.*, t.*
-        FROM daily_prices d
-        LEFT JOIN technical_factors t ON d.date = t.date AND t.symbol = d.symbol
-        WHERE t.symbol IN ('{tickers}')
-        AND d.symbol IN ('{tickers}')
-        AND DATE(d.date) >= '{self.start_date}'
-        AND DATE(d.date) <= '{self.end_date}'
-        ORDER BY d.date
-        """
+        if news:
+            Query = f"""
+            SELECT 
+                DISTINCT d.*, 
+                t.*, 
+                n.sentiment_short, n.sentiment_mid, n.sentiment_long, n.adjustment_mid, n.adjustment_long 
+            FROM 
+                daily_prices d 
+            LEFT JOIN 
+                technical_factors t 
+            ON 
+                d.date = t.date AND d.symbol = t.symbol 
+            LEFT JOIN 
+                news_factors n 
+            ON 
+                DATE(d.date) = DATE(n.date) AND d.symbol = n.symbol 
+            WHERE
+                t.symbol IN ('{tickers}') 
+                AND d.symbol IN ('{tickers}')
+                AND n.symbol IN ('{tickers}') 
+                AND DATE(d.date) >= '{self.start_date}' 
+                AND DATE(d.date) <= '{self.end_date}' 
+            ORDER BY 
+                d.date
+            """
+        else:
+            Query = f"""
+            SELECT DISTINCT d.*, t.*
+            FROM daily_prices d
+            LEFT JOIN technical_factors t ON d.date = t.date AND t.symbol = d.symbol
+            WHERE t.symbol IN ('{tickers}')
+            AND d.symbol IN ('{tickers}')
+            AND DATE(d.date) >= '{self.start_date}'
+            AND DATE(d.date) <= '{self.end_date}'
+            ORDER BY d.date
+            """
         #######################################
 
 

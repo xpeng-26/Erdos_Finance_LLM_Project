@@ -8,7 +8,7 @@ ingestion = false
 clean = false
 feature = false
 strategy = true
-evaluation = false
+evaluation = true
 
 
 
@@ -33,7 +33,8 @@ local_data_path = "/Users/xiaokangwang/Documents/PycharmProjects/Projects for Er
 dirs_names = ["logs", "config_archive", "data_raw", "data_clean", "models", "feature", "stratergy", "evaluation"]
 
 # Database settings
-db_name = "stock_daily_data.db"
+#db_name = "stock_daily_data.db"
+db_name = "stock_daily_data_aapl_cost_cvx.db"
 
 start_date = "2015-01-01"
 end_date = "2024-12-31"
@@ -95,25 +96,28 @@ ad = {}
 
 [strategy]
 # the agent we want to train
-#agent = "DDQN"
-#agent = "PPO"
-agent = "A2C"
+DDQN = true
+PPO = true
+A2C = true
+
+# Whether use news as factors
+news = true
 
 
 # train date
-train_start_date = "2016-01-01"
-train_end_date = "2022-12-31"
+train_start_date = "2022-03-01"
+train_end_date = "2023-03-21"
 
 # test date
-eval_start_date = "2016-01-01"
-eval_end_date = "2014-12-31"
+eval_start_date = "2022-03-01"
+eval_end_date = "2025-02-28"
 
 # trading days
 trading_days = 252
 
 # trading ticker list
 ticker = "AAPL"
-tickers = ["AAPL", "MSFT", "NVDA", "GOOG"]
+tickers = ["AAPL", "COST", "CVX"]
 
 # trading environment: Choose one environment
 environment = "single"

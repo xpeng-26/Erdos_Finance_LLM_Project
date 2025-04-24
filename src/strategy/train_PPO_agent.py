@@ -26,6 +26,7 @@ def train_PPO_agent(config, logger):
 
     # Get the environment
     env = config['strategy']['environment']
+    news = config['strategy']['news']
     # register the environment
     if env == 'single':
         register(
@@ -44,7 +45,7 @@ def train_PPO_agent(config, logger):
         # make the environment
         trading_environment = gym.make('trading-port-v0', config=config, logger=logger)
     
-    logger.info(f'Environment: {env}')
+    logger.info(f'Environment: {env}, With news: {news}')
     seed = 42
     trading_environment.reset(seed = seed, options=None)
 
@@ -62,7 +63,7 @@ def train_PPO_agent(config, logger):
 
     # save the final model
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    model.save(os.path.join(model_path, f"ppo_{env}_trading_agent_{timestamp}"))
+    model.save(os.path.join(model_path, f"ppo_{env}_{news}_trading_agent_{timestamp}"))
     logger.info(f"Model saved to {model_path}")
   
     
@@ -82,6 +83,7 @@ def train_A2C_agent(config, logger):
 
     # Get the environment
     env = config['strategy']['environment']
+    news = config['strategy']['news']
     # register the environment
     if env == 'single':
         register(
@@ -100,7 +102,7 @@ def train_A2C_agent(config, logger):
         # make the environment
         trading_environment = gym.make('trading-port-v0', config=config, logger=logger)
     
-    logger.info(f'Environment: {env}')
+    logger.info(f'Environment: {env}, With news: {news}')
     seed = 42
     trading_environment.reset(seed = seed, options=None)
 
@@ -116,5 +118,5 @@ def train_A2C_agent(config, logger):
     os.makedirs(model_path, exist_ok=True)
     # save the final model
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    model.save(os.path.join(model_path, f"a2c_{env}_trading_agent_{timestamp}"))
+    model.save(os.path.join(model_path, f"a2c_{env}_{news}_trading_agent_{timestamp}"))
     logger.info(f"Model saved to {model_path}")

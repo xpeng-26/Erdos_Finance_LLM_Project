@@ -58,20 +58,46 @@ class DataSource:
             "data_raw",
             self.config["info"]["db_name"],
         )
-
+        news = self.config["strategy"]["news"]
         # Query the database
         ######## Change here ##################
         tickers = "', '".join(self.tickers)
-        Query = f"""
-        SELECT DISTINCT d.*, t.*
-        FROM daily_prices d
-        LEFT JOIN technical_factors t ON d.date = t.date AND t.symbol = d.symbol
-        WHERE t.symbol IN ('{tickers}')
-        AND d.symbol IN ('{tickers}')
-        AND DATE(d.date) >= '{self.start_date}'
-        AND DATE(d.date) <= '{self.end_date}'
-        ORDER BY d.date
-        """
+        if news:
+            Query = f"""
+            SELECT 
+                DISTINCT d.*, 
+                t.*, 
+                n.sentiment_short, n.sentiment_mid, n.sentiment_long, n.adjustment_mid, n.adjustment_long 
+            FROM 
+                daily_prices d 
+            LEFT JOIN 
+                technical_factors t 
+            ON 
+                d.date = t.date AND d.symbol = t.symbol 
+            LEFT JOIN 
+                news_factors n 
+            ON 
+                DATE(d.date) = DATE(n.date) AND d.symbol = n.symbol 
+            WHERE
+                t.symbol IN ('{tickers}') 
+                AND d.symbol IN ('{tickers}')
+                AND n.symbol IN ('{tickers}') 
+                AND DATE(d.date) >= '{self.start_date}' 
+                AND DATE(d.date) <= '{self.end_date}' 
+            ORDER BY 
+                d.date
+            """
+        else:
+            Query = f"""
+            SELECT DISTINCT d.*, t.*
+            FROM daily_prices d
+            LEFT JOIN technical_factors t ON d.date = t.date AND t.symbol = d.symbol
+            WHERE t.symbol IN ('{tickers}')
+            AND d.symbol IN ('{tickers}')
+            AND DATE(d.date) >= '{self.start_date}'
+            AND DATE(d.date) <= '{self.end_date}'
+            ORDER BY d.date
+            """
         #######################################
 
 
@@ -88,7 +114,7 @@ class DataSource:
         df['symbol'] = df['symbol'].astype('category').cat.codes
         #######################################
         df['return'] = df['close'].groupby(df['symbol']).pct_change()
-        df.dropna(inplace=True)
+        df.fillna(0,inplace=True)
         df['log_return'] = df['return'].apply(lambda x: np.log(1 + x))
 
         # Add a sequential index for each symbol

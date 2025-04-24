@@ -35,6 +35,7 @@ def train_trading_agent(config, logger):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # Get the environment
     env = config['strategy']['environment']
+    news = config['strategy']['news']
     # register the environment
     if env == 'single':
         register(
@@ -53,7 +54,7 @@ def train_trading_agent(config, logger):
         # make the environment
         trading_environment = gym.make('trading-port-v0', config=config, logger=logger)
     
-    logger.info(f'Environment: {env}')
+    logger.info(f'Environment: {env} With news: {news}')
     seed = 42
     trading_environment.reset(seed = seed, options=None)
 
@@ -80,7 +81,7 @@ def train_trading_agent(config, logger):
 
     # If there is a checkpoint, load it
     # Load the latest checkpoint if it exists
-    start_episode = load_checkpoint(trading_agent, model_path, device, logger, env)
+    start_episode = load_checkpoint(trading_agent, model_path, device, logger, env, news)
 
 
     # Initialize the variables
@@ -159,12 +160,12 @@ def train_trading_agent(config, logger):
 
         # Save the checkpoint every 10 episodes
         if episode % 10 == 0:
-            save_checkpoint(trading_agent, episode, config, model_path, navs, market_navs, diffs, logger, env)
+            save_checkpoint(trading_agent, episode, config, model_path, navs, market_navs, diffs, logger, env, news)
     
     logger.info(f'Finished training after {format_time(time() - start)}')
     # save the final model
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    torch.save(trading_agent.online_model.state_dict(), os.path.join(model_path, f'final_model_{env}_{timestamp}.pth'))
+    torch.save(trading_agent.online_model.state_dict(), os.path.join(model_path, f'final_model_{env}_{news}_{timestamp}.pth'))
     # save the final results
     results = pd.DataFrame({
         'Episode': list(range(1, len(navs) + 1)),
@@ -175,7 +176,7 @@ def train_trading_agent(config, logger):
     # Add rolling strategy win percentage
     results['Strategy Wins (%)'] = (results.Difference > 0).rolling(100).sum()
 
-    results.to_csv(os.path.join(result_path, f'final_results_{env}_{timestamp}.csv'))
+    results.to_csv(os.path.join(result_path, f'final_results_{env}_{news}_{timestamp}.csv'))
     
 
     # Close the environment
@@ -194,6 +195,7 @@ def dump_final_DDQN(config, logger):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # Get the environment
     env = config['strategy']['environment']
+    news = config['strategy']['news']
     # register the environment
     if env == 'single':
         register(
@@ -212,7 +214,7 @@ def dump_final_DDQN(config, logger):
         # make the environment
         trading_environment = gym.make('trading-port-v0', config=config, logger=logger)
     
-    logger.info(f'Environment: {env}')
+    logger.info(f'Environment: {env}, With news: {news}')
 
     # Get environment parameters
     if isinstance(trading_environment.action_space, spaces.Discrete):
@@ -234,11 +236,11 @@ def dump_final_DDQN(config, logger):
     )
     logger.info(summary(trading_agent.online_model, input_size=(1, flattened_state_dimension)))
     # Load the latest checkpoint if it exists
-    load_final_model(trading_agent, model_path, device, logger, env)
+    load_final_model(trading_agent, model_path, device, logger, env, news)
     # save the final model
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    joblib.dump(trading_agent.online_model, os.path.join(model_path, f'final_model_{env}_{timestamp}.joblib'))
-    logger.info(f'Final model saved to {os.path.join(model_path, f"final_model_{env}_{timestamp}.joblib")}')
+    joblib.dump(trading_agent.online_model, os.path.join(model_path, f'final_model_{env}_{news}_{timestamp}.joblib'))
+    logger.info(f'Final model saved to {os.path.join(model_path, f"final_model_{env}_{news}_{timestamp}.joblib")}')
     # Close the environment
     trading_environment.close()
     logger.info(f'Finished dumping final model')

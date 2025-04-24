@@ -20,6 +20,7 @@ def evaluation_main(config, logger):
     os.makedirs(result_path, exist_ok=True)
     # Get the env
     env = config['strategy']['environment']
+    news = config['strategy']['news']
     if env == 'single':
         logger.info("Single environment")
         ticker_num = 1
@@ -41,7 +42,7 @@ def evaluation_main(config, logger):
     # Load the saved DDQN model
     Found_DDQN = False
     try:
-        DDQN_path = get_final_model(model_path, env, 'DDQN')
+        DDQN_path = get_final_model(model_path, env, news,'DDQN')
         model_DDQN = joblib.load(DDQN_path)
         Found_DDQN = True
         DDQN_actions = np.zeros((trading_days, ticker_num))
@@ -54,7 +55,7 @@ def evaluation_main(config, logger):
     # Load the saved PPO model
     Found_PPO = False
     try:
-        PPO_path = get_final_model(model_path, env, 'PPO')
+        PPO_path = get_final_model(model_path, env, news, 'PPO')
         model_PPO = PPO.load(PPO_path)
         Found_PPO = True
         PPO_actions = np.zeros((trading_days, ticker_num))
@@ -67,7 +68,7 @@ def evaluation_main(config, logger):
     # Load the saved A2C model
     Found_A2C = False
     try:
-        A2C_path = get_final_model(model_path, env, 'A2C')
+        A2C_path = get_final_model(model_path, env, news, 'A2C')
         model_A2C = A2C.load(A2C_path)
         Found_A2C = True
         A2C_actions = np.zeros((trading_days, ticker_num))
@@ -163,6 +164,6 @@ def evaluation_main(config, logger):
                 result[f'A2C_{i}'] = A2C_actions[:, i]
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     # Save the result
-    result.to_csv(os.path.join(result_path, f'final_results_{env}_{timestamp}.csv'))
+    result.to_csv(os.path.join(result_path, f'final_results_{env}_{news}_{timestamp}.csv'))
     logger.info(f"Results saved to {result_path}")
 

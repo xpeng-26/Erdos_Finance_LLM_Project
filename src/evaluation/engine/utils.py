@@ -21,15 +21,15 @@ def get_cost(actions_start, actions_end, trading_cost_bps, time_cost_bps):
     time_cost = 0 if np.array_equal(actions_start, actions_end) else 1
     return n_trades * trading_cost_bps + time_cost * time_cost_bps
 
-def get_final_model(model_path, env, model):
+def get_final_model(model_path, env, news, model):
     if model == 'DDQN':
-        model_name = f'final_model_{env}_'
+        model_name = f'final_model_{env}_{news}_'
         model_type = '.joblib'
     elif model == 'PPO':
-        model_name = f'ppo_{env}_trading_agent_'
+        model_name = f'ppo_{env}_{news}_trading_agent_'
         model_type = '.zip'
     elif model == 'A2C':
-        model_name = f'a2c_{env}_trading_agent_'
+        model_name = f'a2c_{env}_{news}_trading_agent_'
         model_type = '.zip'
 
     else:
