@@ -12,6 +12,37 @@ import torch.optim as optim
 ####################################################################################################
 # Define the Double Deep Q-learning Agent (DDQNAgent) class
 # Add other features
+class MultiHeadNetwork(nn.Module):
+    def __init__(self, state_dim, action_dims, architecture, dropout):
+        super().__init__()
+        # Shared layers
+        self.shared = nn.ModuleList()
+        current_dim = state_dim[0]*state_dim[1]
+        for units in architecture:
+            self.shared.append(nn.Linear(current_dim, units))
+            self.shared.append(nn.ReLU())
+            current_dim = units
+                
+        self.dropout = nn.Dropout(p=dropout)
+        # Separate output head for each action dimension
+        self.heads = nn.ModuleList([
+            nn.Linear(architecture[-1], dim) for dim in action_dims
+        ])
+
+    def forward(self, x):
+        # Flatten the input state tensor (batch_size, 4, 36) -> (batch_size, 144)
+        x = x.view(x.size(0), -1)  # Flatten the state tensor
+                
+        # Forward through shared layers
+        for layer in self.shared:
+            x = layer(x)
+        x = self.dropout(x)
+
+        # Get output from each head
+        outputs = [head(x) for head in self.heads]
+        return outputs
+
+######################################################################################################################
 class DDQNAgent:
     """
     A class to implement the Double Deep Q-learning Agent.
@@ -107,35 +138,7 @@ class DDQNAgent:
 
     def build_multi_head_model(self, trainable=True):
         """Build model for MultiDiscrete action space."""
-        class MultiHeadNetwork(nn.Module):
-            def __init__(self, state_dim, action_dims, architecture, dropout):
-                super().__init__()
-                # Shared layers
-                self.shared = nn.ModuleList()
-                current_dim = state_dim[0]*state_dim[1]
-                for units in architecture:
-                    self.shared.append(nn.Linear(current_dim, units))
-                    self.shared.append(nn.ReLU())
-                    current_dim = units
-                
-                self.dropout = nn.Dropout(p=dropout)
-                # Separate output head for each action dimension
-                self.heads = nn.ModuleList([
-                    nn.Linear(architecture[-1], dim) for dim in action_dims
-                ])
-
-            def forward(self, x):
-                # Flatten the input state tensor (batch_size, 4, 36) -> (batch_size, 144)
-                x = x.view(x.size(0), -1)  # Flatten the state tensor
-                
-                # Forward through shared layers
-                for layer in self.shared:
-                    x = layer(x)
-                x = self.dropout(x)
-
-                # Get output from each head
-                outputs = [head(x) for head in self.heads]
-                return outputs
+        
 
         model = MultiHeadNetwork(
             self.state_dimension,

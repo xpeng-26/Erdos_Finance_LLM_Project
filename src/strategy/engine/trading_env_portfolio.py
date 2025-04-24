@@ -143,7 +143,7 @@ class TradingSimulator:
 
         self.navs = np.ones(self.steps)
         self.market_navs = np.ones(self.steps)
-        self.strategy_returns = np.ones(self.steps)
+        self.strategy_returns = np.zeros(self.steps)
 
         ####### Change here ##################
         self.positions = np.zeros((self.steps, self.ticker_num))
@@ -198,7 +198,7 @@ class TradingSimulator:
         elif end_position < -1:
             normalized_portfolio = normalized_portfolio / abs(end_position)
             end_position = -1
-        self.positions[self.step] = end_position
+        self.positions[self.step] = normalized_portfolio
         #######################################
 
         ########## Change here ##################
@@ -301,7 +301,6 @@ class TradingEnv(gym.Env):
             [self.config['strategy']['resolution']] * (self.simulator.ticker_num)
         )
         #######################################
-
         ############ Change here ##################
         self.observation_space = spaces.Box(
             low=self.data_source.min_values.values.reshape(self.simulator.ticker_num, -1),

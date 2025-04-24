@@ -24,14 +24,10 @@ class DataSource:
         self.logger = logger
         self.trading_days = self.config["strategy"]["trading_days"]
         self.ticker = self.config["strategy"]["ticker"]
-        self.evaluation = self.config["pipeline"]["evaluation"]
         
-        if self.evaluation:
-            self.start_date = self.config["strategy"]["eval_start_date"]
-            self.end_date = self.config["strategy"]["eval_end_date"]
-        else:
-            self.start_date = self.config["strategy"]["train_start_date"]
-            self.end_date = self.config["strategy"]["train_end_date"]
+        # Get the start and end date for training
+        self.start_date = self.config["strategy"]["train_start_date"]
+        self.end_date = self.config["strategy"]["train_end_date"]
 
         self.data = self.load_data()  # Load data from the source
         self.min_values = (
@@ -105,7 +101,7 @@ class TradingSimulator:
         self.actions = np.zeros(self.steps)
         self.navs = np.ones(self.steps)
         self.market_navs = np.ones(self.steps)
-        self.strategy_returns = np.ones(self.steps)
+        self.strategy_returns = np.zeros(self.steps)
         self.positions = np.zeros(self.steps)
         self.costs = np.zeros(self.steps)
         self.trades = np.zeros(self.steps)
@@ -215,8 +211,8 @@ class TradingEnv(gym.Env):
         
         self.simulator = TradingSimulator(config=self.config, logger=self.logger)
         self.action_space = spaces.Discrete(3)
-
-
+        
+        # Define the observation space
         self.observation_space = spaces.Box(
             low=self.data_source.min_values.values,
             high=self.data_source.max_values.values,
