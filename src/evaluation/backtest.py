@@ -33,8 +33,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 #env = config['strategy']['environment']
 
 def backtest_DDQN_agent(config, logger, model_path):
-    test_start = config["strategy"]["test_start_date"]
-    test_end = config["strategy"]["test_end_date"]
+    test_start = config["strategy"]["eval_start_date"]
+    test_end = config["strategy"]["eval_end_date"]
     logger.info(f"Backtesting from {test_start} to {test_end} for DDQN agent")
     trading_days =  config["strategy"]["trading_days"]
     register(
