@@ -73,7 +73,7 @@ class StockDataManager:
     ) -> List[UpdateTask]:
         """Determine required updates for a symbol"""
         updates: List[UpdateTask] = []
-        config_start = self.config["ingestion"]["start_date"]
+        config_start = self.config["ingestion"]["cherry_start_date"]
         config_end = self.config["ingestion"]["end_date"]
 
         # Check for backward update

@@ -56,7 +56,7 @@ class FactorCalculator:
         """Validate that the configured data period is sufficient for all timeperiods"""
         try:
             start_date = datetime.strptime(
-                self.config["ingestion"]["start_date"], "%Y-%m-%d"
+                self.config["ingestion"]["cherry_start_date"], "%Y-%m-%d"
             )
             end_date = datetime.strptime(
                 self.config["ingestion"]["end_date"], "%Y-%m-%d"
