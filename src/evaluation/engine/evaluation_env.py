@@ -67,7 +67,7 @@ class DataSorce_single:
         self.logger.info(f"Data loaded from {path}, extract ticker: {self.ticker}")
         db.close()
         df = df.loc[:, ~df.columns.duplicated()]  # Remove duplicated columns
-        date = df['date']
+        date = df['date'][1:]
         df = df.set_index("date")
         df = df.drop(columns=["symbol"])
         df['return'] = df['close'].pct_change()
