@@ -77,11 +77,9 @@ class DataSource:
             LEFT JOIN 
                 news_factors n 
             ON 
-                DATE(d.date) = DATE(n.date) AND d.symbol = n.symbol 
+                d.date = n.date AND d.symbol = n.symbol 
             WHERE
                 t.symbol IN ('{tickers}') 
-                AND d.symbol IN ('{tickers}')
-                AND n.symbol IN ('{tickers}') 
                 AND DATE(d.date) >= '{self.start_date}' 
                 AND DATE(d.date) <= '{self.end_date}' 
             ORDER BY 

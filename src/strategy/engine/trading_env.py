@@ -68,7 +68,7 @@ class DataSource:
             LEFT JOIN 
                 news_factors n 
             ON 
-                DATE(d.date) = DATE(n.date) AND d.symbol = n.symbol 
+                d.date = n.date AND d.symbol = n.symbol 
             WHERE 
                 d.symbol = '{self.ticker}' 
                 AND DATE(d.date) >= '{self.start_date}' 

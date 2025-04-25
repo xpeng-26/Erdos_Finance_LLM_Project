@@ -49,7 +49,7 @@ class DataSorce_single:
             LEFT JOIN 
                 news_factors n 
             ON 
-                DATE(d.date) = DATE(n.date) AND d.symbol = n.symbol 
+                d.date = n.date AND d.symbol = n.symbol 
             WHERE 
                 d.symbol = '{self.ticker}' 
                 AND DATE(d.date) >= '{self.start_date}' 
@@ -134,11 +134,9 @@ class DataSorce_portfolio:
             LEFT JOIN 
                 news_factors n 
             ON 
-                DATE(d.date) = DATE(n.date) AND d.symbol = n.symbol 
+                d.date = n.date AND d.symbol = n.symbol 
             WHERE
                 t.symbol IN ('{tickers}') 
-                AND d.symbol IN ('{tickers}')
-                AND n.symbol IN ('{tickers}') 
                 AND DATE(d.date) >= '{self.start_date}' 
                 AND DATE(d.date) <= '{self.end_date}' 
             ORDER BY 
