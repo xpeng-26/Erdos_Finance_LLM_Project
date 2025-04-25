@@ -17,7 +17,7 @@ class DataSorce_single:
         self.start_date = self.config["strategy"]["eval_start_date"]
         self.end_date = self.config["strategy"]["eval_end_date"]
 
-        self.data = self.load_data()  # Load data from the source
+        self.data, self.date = self.load_data()  # Load data from the source
         self.trading_days = self.data.shape[0]  # Get the number of trading days
 
         self.step = 0  # Initialize the step counter
@@ -67,12 +67,13 @@ class DataSorce_single:
         self.logger.info(f"Data loaded from {path}, extract ticker: {self.ticker}")
         db.close()
         df = df.loc[:, ~df.columns.duplicated()]  # Remove duplicated columns
+        date = df['date']
         df = df.set_index("date")
         df = df.drop(columns=["symbol"])
         df['return'] = df['close'].pct_change()
         df = df.dropna()
 
-        return df
+        return df, date
 
     def take_step(self):
         obs = self.data.iloc[self.step].values
@@ -100,7 +101,7 @@ class DataSorce_portfolio:
         self.start_date = self.config["strategy"]["eval_start_date"]
         self.end_date = self.config["strategy"]["eval_end_date"]
 
-        self.data = self.load_data()  # Load data from the source
+        self.data, self.date = self.load_data()  # Load data from the source
         self.trading_days = self.data['date_seq'].max() - self.data['date_seq'].min() + 1
 
         self.step = 0  # Initialize the step counter
@@ -175,9 +176,10 @@ class DataSorce_portfolio:
 
         # Add a sequential index for each symbol
         df['date_seq'] = df.groupby('symbol')['date'].cumcount()
+        date = df['date'].unique()
         df = df.drop(['date'], axis=1)
         #######################################
-        return df
+        return df, date
 
     def take_step(self):
         obs = self.data[self.data['date_seq'] == self.step].drop(['date_seq','symbol'], axis=1).values.reshape(self.tickers_num, -1)

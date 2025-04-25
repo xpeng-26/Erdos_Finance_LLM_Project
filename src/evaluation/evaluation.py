@@ -36,6 +36,7 @@ def evaluation_main(config, logger):
     time_cost_bps = config["strategy"]["time_cost_bps"]
     # Load the test environment
     datasorce = make_env(config, logger)
+    
     trading_days = datasorce.trading_days
     logger.info(f"Trading days: {trading_days}")
 
@@ -131,6 +132,7 @@ def evaluation_main(config, logger):
     logger.info("Backtest finished")
     # Save the results
     result = pd.DataFrame()
+    result['date'] = datasorce.date
     result['market_navs'] = market_navs
     result['market_returns'] = market_returns
     if env == 'single':
