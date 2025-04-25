@@ -169,7 +169,7 @@ class DataSorce_portfolio:
         df['symbol'] = df['symbol'].astype('category').cat.codes
         #######################################
         df['return'] = df['close'].groupby(df['symbol']).pct_change()
-        df.dropna(inplace=True)
+        df.fillna(0,inplace=True)
         df['log_return'] = df['return'].apply(lambda x: np.log(1 + x))
 
         # Add a sequential index for each symbol
