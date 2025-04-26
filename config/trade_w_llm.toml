@@ -34,10 +34,9 @@ local_data_path = "/Users/xiaokangwang/Documents/PycharmProjects/Projects for Er
 dirs_names = ["logs", "config_archive", "data_raw", "data_clean", "models", "feature", "stratergy", "evaluation"]
 
 # Database settings
-#db_name = "stock_daily_data.db"
+db_name = "stock_daily_data.db"
 # news data for all stocks (listed in stock_symbol_list below)
 db_news_name = "stock_news_data.db"
-db_name = "stock_daily_data_aapl_cost_cvx.db"
 
 
 

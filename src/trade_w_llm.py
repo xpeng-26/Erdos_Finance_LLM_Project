@@ -86,7 +86,13 @@ def main(opt_params):
 		for directory in dirs.keys():
 			ensure_dir(dirs[directory])
 
+    if config["pipeline"]["feature_factor"]:
+        logger.info("---------- pipeline: feature_factor ----------")
 
+        # Calculate factors
+        logger.info("Start calculating factors...")
+        calculate_factors(config, logger)
+        logger.info("Factors calculation completed.\n")
 
     ############################################
     # Starting pipeline
@@ -153,6 +159,14 @@ def main(opt_params):
 			
 
 
+        # Calculate news features
+        logger.info(
+            "Start inferencing news features (sentiment score and advisory) ..."
+        )
+        inference_ai_sentiment_advisory(config, logger)
+        logger.info(
+            "News features (sentiment score and advisory) inference completed.\n"
+        )
 
 
 ############################################
