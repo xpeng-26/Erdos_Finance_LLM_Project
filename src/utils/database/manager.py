@@ -97,6 +97,43 @@ class DatabaseManager:
         finally:
             self._close()
 
+    def upsert(self, data: pd.DataFrame, table_name: str, primary_keys: list[str]):
+        """
+        UPSERT DataFrame rows into SQLite table by primary key.
+
+        Parameters:
+        - df: pandas.DataFrame
+        - conn: sqlite3.Connection
+        - table_name: str
+        - primary_keys: list[str] (column names used as composite primary key)
+        """
+        self._connect()
+        # Get all columns
+        columns = data.columns.tolist()
+
+        # Columns to be updated (exclude primary keys)
+        update_columns = [col for col in columns if col not in primary_keys]
+
+        # SQL pieces
+        placeholders = ", ".join(["?"] * len(columns))
+        column_names = ", ".join(columns)
+        conflict_keys = ", ".join(primary_keys)
+        update_clause = ", ".join([f"{col}=excluded.{col}" for col in update_columns])
+
+        # Final SQL
+        sql = f"""
+        INSERT INTO {table_name} ({column_names})
+        VALUES ({placeholders})
+        ON CONFLICT({conflict_keys}) DO UPDATE SET
+        {update_clause}
+        """
+
+        # Execute row by row
+        for _, row in data.iterrows():
+            self.conn.execute(sql, tuple(row))
+
+        self.conn.commit()
+
     def query(self, sql_query: str) -> pd.DataFrame:
         """Query data from the table
 

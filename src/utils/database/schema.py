@@ -149,6 +149,104 @@ def create_schema(table_schema: str) -> TableSchema:
             primary_keys=["date", "symbol"],
             indexes=["symbol", "date"],
         )
+    elif table_schema == "news":
+        schema = TableSchema(
+            name="news",
+            description="News data with sentiment analysis",
+            columns=[
+                Column(
+                    "id",
+                    "INTEGER",
+                    description="Unique ID for the news item (auto-increment)",
+                ),
+                Column("symbol", "TEXT", description="Stock symbol"),
+                Column(
+                    "datetime", "TIMESTAMP", description="Publication date and time"
+                ),
+                Column("title", "TEXT", description="News title"),
+                Column("source", "TEXT", description="News source"),
+                Column("summary", "TEXT", description="News summary"),
+                Column(
+                    "length_summary",
+                    "INTEGER",
+                    description="Length of the news summary",
+                ),
+                Column("url", "TEXT", description="URL to the news article"),
+                Column(
+                    "sentiment",
+                    "TEXT",
+                    description="Sentiment label for the specific ticker",
+                ),
+                Column(
+                    "sentiment_score",
+                    "REAL",
+                    description="Sentiment score for the specific ticker",
+                ),
+                Column(
+                    "overall_sentiment",
+                    "TEXT",
+                    description="Overall sentiment label for the news item",
+                ),
+                Column(
+                    "overall_sentiment_score",
+                    "REAL",
+                    description="Overall sentiment score for the news item",
+                ),
+                Column(
+                    "created_at", "TIMESTAMP", description="When the record was created"
+                ),
+                Column(
+                    "relevance_score",
+                    "REAL",
+                    description="Relevance score for the news item",
+                ),
+            ],
+            primary_keys=["id"],
+            indexes=["symbol", "datetime", "source"],
+        )
+    elif table_schema == "news_factors":
+        schema = TableSchema(
+            name="news_factors",
+            description="News factors",
+            columns=[
+                Column("symbol", "TEXT", description="Stock symbol"),
+                Column("date", "DATE", description="Trading date"),
+                Column(
+                    "sentiment_short",
+                    "REAL",
+                    description="Sentiment score for the short term",
+                ),
+                Column(
+                    "sentiment_mid",
+                    "REAL",
+                    description="Sentiment score for the medium term",
+                ),
+                Column(
+                    "sentiment_long",
+                    "REAL",
+                    description="Sentiment score for the long term",
+                ),
+                Column(
+                    "adjustment_mid",
+                    "REAL",
+                    description="Adjustment score for the medium term",
+                ),
+                Column(
+                    "adjustment_long",
+                    "REAL",
+                    description="Adjustment score for the long term",
+                ),
+                Column("news_summary", "TEXT", description="News summary"),
+                Column("overall_analysis", "TEXT", description="Overall analysis"),
+                Column(
+                    "business_structure_analysis",
+                    "TEXT",
+                    description="Business structure analysis",
+                ),
+                Column("market_reaction", "TEXT", description="Market reaction"),
+            ],
+            primary_keys=["symbol", "date"],
+        )
     else:
         raise ValueError(f"Invalid table schema: {table_schema}")
     return schema

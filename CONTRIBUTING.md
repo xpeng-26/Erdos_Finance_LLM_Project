@@ -63,7 +63,65 @@ Here are some guidelines to help you get started:
 	```bash
 	brew install ta-lib
 	# add to poetry project environment
-	# poetry add ta-bli
+	poetry add ta-lib
+	```
+
+2. `llama.cpp`
+
+	Building `llama.cpp` with Metal (Apple M Chip) support and shared library enabled.
+	- The following steps are used to build the `llama.cpp` locally to support several projects. 
+	- If you just want to touch up it for this project and want to install the pre-build version, try to use official binding tool `llama-cpp-python` or `brew install llama.cpp`.
+
+	Step 1. Download `llama.cpp`
+
+	```bash
+	LLAMA_DIR = <Path> # used to store llama.cpp and models
+	# LLAMA_DIR = ~/Tools/llm_tools
+	mkdir -p "$LLAMA_DIR"
+	cd "$LLAMA_DIR"
+	git clone  https://github.com/ggml-org/llama.cpp
+	cd llama.cpp 
+	```
+	
+	Step 2. Build the wheel
+
+	```bash
+	mkdir build && cd build
+
+	# install cmake if not installed
+	# brew install cmake
+	cmake -DLLAMA_METAL=on -DBUILD_SHARED_LIBS=on ..
+	cmake --build . --config Release
+	```
+
+	Step 3. Manage `dylib` file
+
+	```bash
+	# the path to manage all versions of .dylib files for furture usage
+	LLAMA_LIB_OUTPUT=<Path>
+	# LLAMA_LIB_OUTPUT=~/Tools/llm_tools/lib
+	mkdir -p "$LLAMA_LIB_OUTPUT"
+
+	cp bin/libllama.dylib "$LLAMA_LIB_OUTPUT"
+	```
+
+	Step 4. Download LLM model
+
+	```bash
+	# the path to store all different LLMs files
+	LLAMA_MODEL=<Path>
+	# LLAMA_MODEL=~/Tools/llm_tools/models
+	mkdir -p "$LLAMA_MODEL"
+	cd "$LLAMA_MODEL"
+
+	# download model
+	# make sure to install wget to download large files
+	# brew install wget 
+	# wget <model.gguf link>
+
+	# some model is gated, which is needed to aggree the liscence
+	# better to download via browser
+	# eg. to download gemma-3-1b-it-qat-q4_0 from https://huggingface.co/google/gemma-3-1b-it-qat-q4_0-gguf/tree/main
 	```
 
 ## How to Contribute

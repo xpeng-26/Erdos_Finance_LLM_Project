@@ -18,8 +18,12 @@ from utils.directory_tool import ensure_dir, get_directory_names
 from utils.logging_tool import initialize_logger
 
 # custom modules
-from ingestion.stock_driver import ingest_stock_data
-from feature.feature_engineer_driver import calculate_factors
+from ingestion.stock_driver import ingest_stock_data, ingest_news_data
+from feature.feature_engineer_driver import (
+    calculate_factors,
+    inference_ai_sentiment_advisory,
+)
+
 from strategy.train_trading_agent import train_trading_agent, dump_final_DDQN
 from strategy.train_PPO_agent import train_PPO_agent, train_A2C_agent
 from evaluation.evaluation import evaluation_main
@@ -31,10 +35,10 @@ def main(opt_params):
     The main function to predict stock with news.
 
     Args:
-                    opt_params: Optional parameters via argparse
+        opt_params: Optional parameters via argparse
 
     Returns:
-                    None
+        None
     """
 
     # Optional parameters
@@ -68,72 +72,96 @@ def main(opt_params):
         file_name="trade_w_llm_copy_.toml",
     )
 
-    # Logging
-    # Initialize the logger
-    ensure_dir(dirs["logs"])
-    log_file = "{}_log_{}.txt".format(
-        os.path.splitext(os.path.basename(config_filename))[0], config["date"]["today"]
-    )
-    logger = initialize_logger(log_path=dirs["logs"], log_file=log_file)
 
-    # create all the files
-    for directory in dirs.keys():
-        ensure_dir(dirs[directory])
+		# Logging
+		# Initialize the logger
+		ensure_dir(dirs["logs"])
+		log_file = "{}_log_{}.txt".format(
+			os.path.splitext(os.path.basename(config_filename))[0],
+			config["date"]['today'])
+		logger = initialize_logger(
+			log_path = dirs["logs"],
+			log_file = log_file
+		)
+		
+		# create all the files
+		for directory in dirs.keys():
+			ensure_dir(dirs[directory])
 
+      
     ############################################
     # Starting pipeline
 
-    if config["pipeline"]["ingestion"]:
-        logger.info("---------- pipeline: ingestion ----------")
-        logger.info("Start ingesting stock data...")
+    if config["pipeline"]["ingestion_stock"]:
+        logger.info("---------- pipeline: ingestion_stock ----------")
         ensure_dir(dirs["data_raw"])
 
         # Ingest stock data
+        logger.info("Start ingesting stock data...")
         ingest_stock_data(config, logger)
-
         logger.info("Stock data ingestion completed.\n")
 
-    if config["pipeline"]["feature"]:
-        logger.info("---------- pipeline: feature ----------")
-        logger.info("Start calculating factors...")
+    if config["pipeline"]["ingestion_news"]:
+        logger.info("---------- pipeline: ingestion_news ----------")
+        # Ingest news data
+        logger.info("Start ingesting news data...")
+        ingest_news_data(config, logger)
+        logger.info("News data ingestion completed.\n")
 
-        # Calculate factors
-        calculate_factors(config, logger)
+    if config["pipeline"]["feature_factor"]:
+        logger.info("---------- pipeline: feature_factor ----------")
 
-        logger.info("Factors calculation completed.\n")
+			# Calculate factors
+			logger.info('Start calculating factors...')
+			calculate_factors(config, logger)
+			logger.info('Factors calculation completed.\n')
 
-    if config["pipeline"]["strategy"]:
-        logger.info("---------- pipeline: strategy ----------")
-        logger.info("Start trading with reinforcement learning agent...")
-        # Train which agent
+		
+		if config['pipeline']['strategy']:
+			logger.info('---------- pipeline: strategy ----------')
+			logger.info('Start trading with reinforcement learning agent...')
+			# Train which agent
+			
+			if config['strategy']['DDQN']:
+				logger.info('Training with DDQN agent...')
+				# Trading with reinforcement learning agent
+				with warnings.catch_warnings():
+					warnings.filterwarnings("ignore", category=UserWarning)
+					train_trading_agent(config, logger)
 
-        if config["strategy"]["DDQN"]:
-            logger.info("Training with DDQN agent...")
-            # Trading with reinforcement learning agent
-            with warnings.catch_warnings():
-                warnings.filterwarnings("ignore", category=UserWarning)
-                train_trading_agent(config, logger)
+			if config['strategy']['PPO']:
+				logger.info('Training with PPO agent...')
+				train_PPO_agent(config, logger)
 
-        if config["strategy"]["PPO"]:
-            logger.info("Training with PPO agent...")
-            train_PPO_agent(config, logger)
+			if config['strategy']['A2C']:
+				logger.info('Training with A2C agent...')
+				train_A2C_agent(config, logger)
 
-        if config["strategy"]["A2C"]:
-            logger.info("Training with A2C agent...")
-            train_A2C_agent(config, logger)
+			logger.info('Trading with reinforcement learning agent completed.\n')
 
-        logger.info("Trading with reinforcement learning agent completed.\n")
+		if config['pipeline']['evaluation']:
+			logger.info('---------- pipeline: evaluation ----------')
+			logger.info('Start evaluating the trading strategy...')
+			# Dump the final model
+			dump_final_DDQN(config, logger)
+			logger.info('Final model dumped.\n')
+			# Evaluate the trading strategy
+			evaluation_main(config, logger)
+			# evaluate_trading_strategy(config, logger)
+			logger.info('Trading strategy evaluation completed.\n')
 
-    if config["pipeline"]["evaluation"]:
-        logger.info("---------- pipeline: evaluation ----------")
-        logger.info("Start evaluating the trading strategy...")
-        # Dump the final model
-        dump_final_DDQN(config, logger)
-        logger.info("Final model dumped.\n")
-        # Evaluate the trading strategy
-        evaluation_main(config, logger)
-        # evaluate_trading_strategy(config, logger)
-        logger.info("Trading strategy evaluation completed.\n")
+
+			
+
+
+        # Calculate news features
+        logger.info(
+            "Start inferencing news features (sentiment score and advisory) ..."
+        )
+        inference_ai_sentiment_advisory(config, logger)
+        logger.info(
+            "News features (sentiment score and advisory) inference completed.\n"
+        )
 
 
 ############################################

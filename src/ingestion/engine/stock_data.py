@@ -25,8 +25,10 @@ class StockDataManager:
     def validate_dates(self) -> bool:
         """Validate configuration dates"""
         try:
-            start = datetime.strptime(self.config["info"]["start_date"], "%Y-%m-%d")
-            end = datetime.strptime(self.config["info"]["end_date"], "%Y-%m-%d")
+            start = datetime.strptime(
+                self.config["ingestion"]["start_date"], "%Y-%m-%d"
+            )
+            end = datetime.strptime(self.config["ingestion"]["end_date"], "%Y-%m-%d")
             if start >= end:
                 raise ValueError(
                     f"Start date ({start}) must be before end date ({end})"
@@ -71,8 +73,9 @@ class StockDataManager:
     ) -> List[UpdateTask]:
         """Determine required updates for a symbol"""
         updates: List[UpdateTask] = []
-        config_start = self.config["info"]["start_date"]
-        config_end = self.config["info"]["end_date"]
+        config_start = self.config["ingestion"]["cherry_start_date"]
+        config_end = self.config["ingestion"]["end_date"]
+
 
         # Check for backward update
         if record_start and datetime.strptime(
@@ -195,6 +198,9 @@ class StockDataManager:
             # Convert date column to datetime index with UTC timezone
             df_to_store = df_to_store.assign(
                 date=pd.to_datetime(df_to_store["date"], utc=True)
+            )
+            df_to_store["date"] = pd.to_datetime(df_to_store["date"]).dt.strftime(
+                "%Y-%m-%d"
             )
 
             # Validate price data before storing
