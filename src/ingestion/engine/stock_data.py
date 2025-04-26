@@ -76,6 +76,7 @@ class StockDataManager:
         config_start = self.config["ingestion"]["cherry_start_date"]
         config_end = self.config["ingestion"]["end_date"]
 
+
         # Check for backward update
         if record_start and datetime.strptime(
             config_start, "%Y-%m-%d"

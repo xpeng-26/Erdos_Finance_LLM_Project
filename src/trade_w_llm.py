@@ -28,6 +28,7 @@ from strategy.train_trading_agent import train_trading_agent, dump_final_DDQN
 from strategy.train_PPO_agent import train_PPO_agent, train_A2C_agent
 from evaluation.evaluation import evaluation_main
 
+
 ############################################
 def main(opt_params):
     """
@@ -71,6 +72,7 @@ def main(opt_params):
         file_name="trade_w_llm_copy_.toml",
     )
 
+
 		# Logging
 		# Initialize the logger
 		ensure_dir(dirs["logs"])
@@ -86,14 +88,7 @@ def main(opt_params):
 		for directory in dirs.keys():
 			ensure_dir(dirs[directory])
 
-    if config["pipeline"]["feature_factor"]:
-        logger.info("---------- pipeline: feature_factor ----------")
-
-        # Calculate factors
-        logger.info("Start calculating factors...")
-        calculate_factors(config, logger)
-        logger.info("Factors calculation completed.\n")
-
+      
     ############################################
     # Starting pipeline
 

@@ -18,3 +18,4 @@ def inference_ai_sentiment_advisory(config: dict, logger) -> None:
 
     # Inference AI sentiment advisory
     ai_sentiment_advisory.run()
+

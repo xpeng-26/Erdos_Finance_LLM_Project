@@ -24,7 +24,7 @@ class DataSource:
         self.logger = logger
         self.trading_days = self.config["strategy"]["trading_days"]
         self.ticker = self.config["strategy"]["ticker"]
-        
+
         # Get the start and end date for training
         self.start_date = self.config["strategy"]["train_start_date"]
         self.end_date = self.config["strategy"]["train_end_date"]
@@ -90,7 +90,7 @@ class DataSource:
         df.fillna(0, inplace=True)
         df = df.set_index("date")
         df = df.drop(columns=["symbol"])
-        df['return'] = df['close'].pct_change()
+        df["return"] = df["close"].pct_change()
         df = df.dropna()
 
         return df
@@ -222,7 +222,7 @@ class TradingEnv(gym.Env):
 
     An episode begins with a starting Net Asset Value (NAV) of 1 unit of cash.
     If the NAV drops to 0, the episode ends with a loss.
-    If the NAV hits 2.0, the agent wins. This indicates a successful 
+    If the NAV hits 2.0, the agent wins. This indicates a successful
     trading episode for the agent.
 
     The trading simulator tracks a buy-and-hold strategy as benchmark.
@@ -234,15 +234,17 @@ class TradingEnv(gym.Env):
         self.config = config
         self.logger = logger
         self.data_source = DataSource(config=self.config, logger=self.logger)
-        
+
         self.simulator = TradingSimulator(config=self.config, logger=self.logger)
         self.action_space = spaces.Discrete(3)
-        
+
         # Define the observation space
         self.observation_space = spaces.Box(
             low=self.data_source.min_values.values,
             high=self.data_source.max_values.values,
-            shape=(len(self.data_source.min_values),),  # Proper shape based on feature count
+            shape=(
+                len(self.data_source.min_values),
+            ),  # Proper shape based on feature count
             dtype=np.float32,
         )
 
@@ -271,7 +273,7 @@ class TradingEnv(gym.Env):
         Resets the trading environment by resetting the DataSource and TradingSimulator.
 
         This method initializes the trading environment to its starting state by resetting
-        both the data source and the trading simulator. After resetting, it retrieves and 
+        both the data source and the trading simulator. After resetting, it retrieves and
         returns the first observation from the data source.
 
         Returns:
@@ -281,39 +283,38 @@ class TradingEnv(gym.Env):
         self.data_source.reset()
         self.simulator.reset()
         return self.data_source.take_step()[0]
-    
+
     ############
     # These functions are for the stable_baselines3
     def reset(self, *, seed: int = None, options: dict = None):
-   
+
         if seed is not None:
             self.np_random, _ = seeding.np_random(seed)
         else:
             self.np_random, _ = seeding.np_random()
 
-    
         self.data_source.reset()
         self.simulator.reset()
 
-    #
+        #
         obs, _, _ = self.data_source.take_step()
         obs = np.array(obs, dtype=np.float32)
 
-   
-        return obs, {} 
-    
+        return obs, {}
+
     def step(self, action):
         # Execute one time step using your existing logic.
         obs, reward, done, info = self.trading_env_step(action)
         obs = np.array(obs, dtype=np.float32)
-    
+
         # Map your 'done' flag to 'terminated', and assume no truncation.
-        terminated = done      # 'terminated' reflects that an episode ended naturally.
-        truncated = False      # 'truncated' could be used if you implement time limits, etc.
-    
+        terminated = done  # 'terminated' reflects that an episode ended naturally.
+        truncated = (
+            False  # 'truncated' could be used if you implement time limits, etc.
+        )
+
         # Return five values as required by Gymnasium: (obs, reward, terminated, truncated, info)
         return obs, reward, terminated, truncated, info
-    
 
     def render(self, mode="human"):
         """
