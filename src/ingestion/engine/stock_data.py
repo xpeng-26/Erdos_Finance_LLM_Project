@@ -198,6 +198,9 @@ class StockDataManager:
             df_to_store = df_to_store.assign(
                 date=pd.to_datetime(df_to_store["date"], utc=True)
             )
+            df_to_store["date"] = pd.to_datetime(df_to_store["date"]).dt.strftime(
+                "%Y-%m-%d"
+            )
 
             # Validate price data before storing
             if df_to_store.isnull().any().any():
