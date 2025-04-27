@@ -1,4 +1,14 @@
+# AI-Driven Stock Trading using Reinforcement Learning and Large Language Model
+
+# Team Members
+[Xiangwei Peng](https://github.com/xpeng-26)
+
+[Xiaokang Wang](https://github.com/Mathheadkang)
+
+[Xu Zhuang](https://github.com/zxmath)
+
 # Introduction
+This project is for the [Erdös Institude](https://www.erdosinstitute.org) 2025 Spring deep learning boot camp.
 
 This project aims to predict stock price movements by combining financial news sentiment analysis using a local LLM with deep reinforcement learning–based trading strategies. It provides an end-to-end configurable pipeline covering data ingestion, feature engineering, agent training, and performance evaluation.
 
@@ -22,6 +32,15 @@ This project aims to predict stock price movements by combining financial news s
   - **DDQN**: Double DQN implemented with PyTorch for discrete-action single-asset trading.
   - **PPO** & **A2C**: Policy-based methods from Stable Baselines3.
   - **Trading Environments**: Built with Gymnasium for single-asset (`trading-v0`) and portfolio (`trading-port-v0`) scenarios.
+ 
+## Trading environment
+We use the **net asset value (NAV)** and the **Sharpe Ratio** as our evaluation metric. The trading rules are as follows:
+- We start at day 1 with NAV 1;
+- Everyday our observation space will be the techinical indicators and the LLM news factors;
+- At the end of the day, we will re-allocate the asset to all of the stocks. Here we allow shortselling. Mathematically, we will calculate the new weights of every stocks and normalize the sum of the weight to be between -1 and 1;
+- The strategy return will be computed using the next-day market return times the weights;
+- The NAV will be updated by multiplying the previous NAV with one plus the strategy return;
+- The Sharpe ratio will be computed using the daily return information of the trading strategy. 
 
 ## Experiment and Results
 
