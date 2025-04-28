@@ -58,7 +58,15 @@ We use the **net asset value (NAV)** and the **Sharpe Ratio** as our evaluation 
 
 ### Results
 
+![Result_1](picture/result_1.png)
+![Result_2](picture/result_2.png)
 
+#### Sharpe Ratio
+
+|                  | Market  |   DDQN  |   PPO   |    A2C   |
+|------------------|--------:|--------:|--------:|---------:|
+| **With News**    |  0.0592 |  0.0235 |  0.0993 |  -0.0150 |
+| **Without News** |  0.0592 |  0.0469 |  0.1473 |  -0.0077 |
 
 ## Conclusions
 
