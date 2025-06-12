@@ -28,7 +28,7 @@ class DataSource:
         self.tickers = self.config["strategy"]["tickers"]
         self.tickers_num = len(self.tickers)
         #######################################
-        
+
         self.start_date = self.config["strategy"]["train_start_date"]
         self.end_date = self.config["strategy"]["train_end_date"]
 
@@ -36,17 +36,23 @@ class DataSource:
 
         ############## Change here ##################
         self.min_values = (
-            self.data.drop(['date_seq'], axis = 1).groupby('symbol').min().reset_index(drop=True)
+            self.data.drop(["date_seq"], axis=1)
+            .groupby("symbol")
+            .min()
+            .reset_index(drop=True)
         )  # Return the min values of the data, this will be used to build the gym environment
         self.max_values = (
-            self.data.drop(['date_seq'], axis = 1).groupby('symbol').max().reset_index(drop=True)
+            self.data.drop(["date_seq"], axis=1)
+            .groupby("symbol")
+            .max()
+            .reset_index(drop=True)
         )  # Return the max values of the data, this will be used to build the gym environment
         #######################################
 
         # return dataframe or any other data structure
         self.step = 0  # Initialize step counter
         self.offset = 0  # Initialize offset for data slicing
-        self.date_length = self.data['date_seq'].max() - self.data['date_seq'].min() + 1
+        self.date_length = self.data["date_seq"].max() - self.data["date_seq"].min() + 1
 
     def load_data(self):
         """
@@ -98,7 +104,6 @@ class DataSource:
             """
         #######################################
 
-
         # Run the query and return the data
         db = sqlite3.connect(path)
         df = pd.read_sql_query(Query, db)
@@ -106,19 +111,18 @@ class DataSource:
         db.close()
         df = df.loc[:, ~df.columns.duplicated()]  # Remove duplicated columns
 
-
         ##### Change here ##################
-        #Convert the symbol column to integer type
-        df['symbol'] = df['symbol'].astype('category').cat.codes
+        # Convert the symbol column to integer type
+        df["symbol"] = df["symbol"].astype("category").cat.codes
         #######################################
-        df['return'] = df['close'].groupby(df['symbol']).pct_change()
-        df.fillna(0,inplace=True)
-        df['log_return'] = df['return'].apply(lambda x: np.log(1 + x))
+        df["return"] = df["close"].groupby(df["symbol"]).pct_change()
+        df.fillna(0, inplace=True)
+        df["log_return"] = df["return"].apply(lambda x: np.log(1 + x))
 
         # Add a sequential index for each symbol
         ############## Change here ##################
-        df['date_seq'] = df.groupby('symbol')['date'].cumcount()
-        df = df.drop(['date'], axis=1)
+        df["date_seq"] = df.groupby("symbol")["date"].cumcount()
+        df = df.drop(["date"], axis=1)
         #######################################
         return df
 
@@ -136,8 +140,14 @@ class DataSource:
     def take_step(self):
         """Returns data for current trading day and done signal"""
         ########## Change here ##################
-        obs = self.data[self.data['date_seq'] == self.offset + self.step].drop(['date_seq','symbol'], axis=1).values.reshape(self.tickers_num, -1)
-        market_return = self.data[self.data['date_seq'] == self.offset + self.step]["return"].values
+        obs = (
+            self.data[self.data["date_seq"] == self.offset + self.step]
+            .drop(["date_seq", "symbol"], axis=1)
+            .values.reshape(self.tickers_num, -1)
+        )
+        market_return = self.data[self.data["date_seq"] == self.offset + self.step][
+            "return"
+        ].values
         #######################################
         self.step += 1
         done = self.step > self.trading_days
@@ -184,8 +194,9 @@ class TradingSimulator:
         #######################################
 
         ####### Change here ##################
-        self.resolution = self.config['strategy']['resolution']
+        self.resolution = self.config["strategy"]["resolution"]
         #######################################
+
     def reset(self):
         """
         Reset the trading simulator to its initial state.
@@ -214,7 +225,9 @@ class TradingSimulator:
         ######### Change here ##################
         # Normalize the action, turn it into a portfolio
         action = np.array(action)
-        normalized_portfolio = (action - ((self.resolution-1)/2))/((self.resolution-1)/2)
+        normalized_portfolio = (action - ((self.resolution - 1) / 2)) / (
+            (self.resolution - 1) / 2
+        )
         end_position = sum(normalized_portfolio)
         if end_position > 1:
             normalized_portfolio = normalized_portfolio / end_position
@@ -230,13 +243,19 @@ class TradingSimulator:
         n_trades = end_position - start_position
         self.trades[self.step] = n_trades
         #######################################
-        
+
         ######### Change here ##################
         # Rough value
         trading_cost = self.trading_cost_bps * sum(abs(n_trades))
-        time_cost = 0 if np.array_equal(n_trades, np.zeros(self.ticker_num)) else self.time_cost_bps
+        time_cost = (
+            0
+            if np.array_equal(n_trades, np.zeros(self.ticker_num))
+            else self.time_cost_bps
+        )
         self.costs[self.step] = trading_cost + time_cost
-        reward = np.dot(start_position, market_return) - self.costs[max(0, self.step - 1)]
+        reward = (
+            np.dot(start_position, market_return) - self.costs[max(0, self.step - 1)]
+        )
         self.strategy_returns[self.step] = reward
         #######################################
 
@@ -249,7 +268,7 @@ class TradingSimulator:
                 1 + np.mean(self.market_returns[self.step])
             )
         #######################################
-        
+
         info = {
             "reward": reward,
             "nav": self.navs[self.step],
@@ -271,17 +290,17 @@ class TradingSimulator:
             "strategy_return": self.strategy_returns,
             "cost": self.costs,
         }
-    
+
         # Add position columns for each stock
         for i in range(self.ticker_num):
-            result_dict[f'position_{i}'] = self.positions[:, i]
-            result_dict[f'action_{i}'] = self.actions[:, i]
-            result_dict[f'trade_{i}'] = self.trades[:, i]
-            result_dict[f'market_return_{i}'] = self.market_returns[:, i]
-    
+            result_dict[f"position_{i}"] = self.positions[:, i]
+            result_dict[f"action_{i}"] = self.actions[:, i]
+            result_dict[f"trade_{i}"] = self.trades[:, i]
+            result_dict[f"market_return_{i}"] = self.market_returns[:, i]
+
         # Add net position column (first element of actions)
-        result_dict['net_position'] = self.actions[:, 0]
-    
+        result_dict["net_position"] = self.actions[:, 0]
+
         return pd.DataFrame(result_dict)
 
 
@@ -291,7 +310,7 @@ class TradingEnv(gym.Env):
 
     Provides daily observations for a stock price series
     An episode is defined as a sequence of 252 trading days with random start
-    Each day is a 'step' that allows the agent to choose actions of list of length 
+    Each day is a 'step' that allows the agent to choose actions of list of length
     number of tickers plus 1:
     - The first element of the list: range from 0 to 10, 11 position, after normalizing, represent
        the net position of the portfolio from -1 to 1.
@@ -306,7 +325,7 @@ class TradingEnv(gym.Env):
 
     An episode begins with a starting Net Asset Value (NAV) of 1 unit of cash.
     If the NAV drops to 0, the episode ends with a loss.
-    If the NAV hits 2.0, the agent wins. This indicates a successful 
+    If the NAV hits 2.0, the agent wins. This indicates a successful
     trading episode for the agent.
 
     The trading simulator tracks a buy-and-hold strategy as benchmark.
@@ -318,18 +337,25 @@ class TradingEnv(gym.Env):
         self.config = config
         self.logger = logger
         self.data_source = DataSource(config=self.config, logger=self.logger)
-        
+
         self.simulator = TradingSimulator(config=self.config, logger=self.logger)
         ###### Change here ##################
         self.action_space = spaces.MultiDiscrete(
-            [self.config['strategy']['resolution']] * (self.simulator.ticker_num)
+            [self.config["strategy"]["resolution"]] * (self.simulator.ticker_num)
         )
         #######################################
         ############ Change here ##################
         self.observation_space = spaces.Box(
-            low=self.data_source.min_values.values.reshape(self.simulator.ticker_num, -1),
-            high=self.data_source.max_values.values.reshape(self.simulator.ticker_num, -1),
-            shape=(self.simulator.ticker_num, len(self.data_source.min_values.columns)),  # Proper shape based on feature count
+            low=self.data_source.min_values.values.reshape(
+                self.simulator.ticker_num, -1
+            ),
+            high=self.data_source.max_values.values.reshape(
+                self.simulator.ticker_num, -1
+            ),
+            shape=(
+                self.simulator.ticker_num,
+                len(self.data_source.min_values.columns),
+            ),  # Proper shape based on feature count
             dtype=np.float32,
         )
         #######################################
@@ -359,7 +385,7 @@ class TradingEnv(gym.Env):
         Resets the trading environment by resetting the DataSource and TradingSimulator.
 
         This method initializes the trading environment to its starting state by resetting
-        both the data source and the trading simulator. After resetting, it retrieves and 
+        both the data source and the trading simulator. After resetting, it retrieves and
         returns the first observation from the data source.
 
         Returns:
@@ -369,41 +395,41 @@ class TradingEnv(gym.Env):
         self.data_source.reset()
         self.simulator.reset()
         return self.data_source.take_step()[0]
-    
+
     ############
     # These functions are for the stable_baselines3
     def reset(self, *, seed: int = None, options: dict = None):
-   
+
         if seed is not None:
             self.np_random, _ = seeding.np_random(seed)
         else:
             self.np_random, _ = seeding.np_random()
 
-    
         self.data_source.reset()
         self.simulator.reset()
 
-    #
+        #
         obs, _, _ = self.data_source.take_step()
         obs = np.array(obs, dtype=np.float32)
 
-   
-        return obs, {} 
+        return obs, {}
+
     def step(self, action):
         # Execute one time step using your existing logic.
         obs, reward, done, info = self.trading_env_step(action)
         obs = np.array(obs, dtype=np.float32)
-    
+
         # Map your 'done' flag to 'terminated', and assume no truncation.
-        terminated = done      # 'terminated' reflects that an episode ended naturally.
-        truncated = False      # 'truncated' could be used if you implement time limits, etc.
-    
+        terminated = done  # 'terminated' reflects that an episode ended naturally.
+        truncated = (
+            False  # 'truncated' could be used if you implement time limits, etc.
+        )
+
         # Return five values as required by Gymnasium: (obs, reward, terminated, truncated, info)
         return obs, reward, terminated, truncated, info
+
     def render(self, mode="human"):
         """
         Render the environment.
         """
         pass
-    
-    

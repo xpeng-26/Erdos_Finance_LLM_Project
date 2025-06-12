@@ -12,7 +12,7 @@ class DataSorce_single:
         self.config = config
         self.logger = logger
         self.ticker = self.config["strategy"]["ticker"]
-        
+
         # Get the start and end date for training
         self.start_date = self.config["strategy"]["eval_start_date"]
         self.end_date = self.config["strategy"]["eval_end_date"]
@@ -67,10 +67,10 @@ class DataSorce_single:
         self.logger.info(f"Data loaded from {path}, extract ticker: {self.ticker}")
         db.close()
         df = df.loc[:, ~df.columns.duplicated()]  # Remove duplicated columns
-        date = df['date'][1:]
+        date = df["date"][1:]
         df = df.set_index("date")
         df = df.drop(columns=["symbol"])
-        df['return'] = df['close'].pct_change()
+        df["return"] = df["close"].pct_change()
         df = df.dropna()
 
         return df, date
@@ -86,9 +86,6 @@ class DataSorce_single:
         Reset the environment to the initial state.
         """
         self.step = 0
-        
-
-
 
 
 class DataSorce_portfolio:
@@ -102,7 +99,9 @@ class DataSorce_portfolio:
         self.end_date = self.config["strategy"]["eval_end_date"]
 
         self.data, self.date = self.load_data()  # Load data from the source
-        self.trading_days = self.data['date_seq'].max() - self.data['date_seq'].min() + 1
+        self.trading_days = (
+            self.data["date_seq"].max() - self.data["date_seq"].min() + 1
+        )
 
         self.step = 0  # Initialize the step counter
 
@@ -155,7 +154,6 @@ class DataSorce_portfolio:
             """
         #######################################
 
-
         # Run the query and return the data
         db = sqlite3.connect(path)
         df = pd.read_sql_query(Query, db)
@@ -163,25 +161,29 @@ class DataSorce_portfolio:
         db.close()
         df = df.loc[:, ~df.columns.duplicated()]  # Remove duplicated columns
 
-
-        
-        #Convert the symbol column to integer type
-        df['symbol'] = df['symbol'].astype('category').cat.codes
+        # Convert the symbol column to integer type
+        df["symbol"] = df["symbol"].astype("category").cat.codes
         #######################################
-        df['return'] = df['close'].groupby(df['symbol']).pct_change()
-        df.fillna(0,inplace=True)
-        df['log_return'] = df['return'].apply(lambda x: np.log(1 + x))
+        df["return"] = df["close"].groupby(df["symbol"]).pct_change()
+        df.fillna(0, inplace=True)
+        df["log_return"] = df["return"].apply(lambda x: np.log(1 + x))
 
         # Add a sequential index for each symbol
-        df['date_seq'] = df.groupby('symbol')['date'].cumcount()
-        date = df['date'].unique()
-        df = df.drop(['date'], axis=1)
+        df["date_seq"] = df.groupby("symbol")["date"].cumcount()
+        date = df["date"].unique()
+        df = df.drop(["date"], axis=1)
         #######################################
         return df, date
 
     def take_step(self):
-        obs = self.data[self.data['date_seq'] == self.step].drop(['date_seq','symbol'], axis=1).values.reshape(self.tickers_num, -1)
-        market_return = np.array(self.data[self.data['date_seq'] == self.step]["return"].values)
+        obs = (
+            self.data[self.data["date_seq"] == self.step]
+            .drop(["date_seq", "symbol"], axis=1)
+            .values.reshape(self.tickers_num, -1)
+        )
+        market_return = np.array(
+            self.data[self.data["date_seq"] == self.step]["return"].values
+        )
         self.step += 1
         return obs, market_return
 
@@ -189,14 +191,12 @@ class DataSorce_portfolio:
         self.step = 0
 
 
-
 def make_env(config: dict, logger):
-    if config['strategy']['environment'] == 'single':
+    if config["strategy"]["environment"] == "single":
         data_source = DataSorce_single(config, logger)
-    elif config['strategy']['environment'] == 'portfolio':
+    elif config["strategy"]["environment"] == "portfolio":
         data_source = DataSorce_portfolio(config, logger)
     else:
         raise ValueError(f"Unknown env type {config['strategy']['environment']}")
 
     return data_source
-

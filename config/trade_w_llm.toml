@@ -4,11 +4,12 @@
 # set true to run the pipeline, false to skip the pipeline
 [pipeline]
 
-ingestion = false
-clean = false
-feature = false
-strategy = true
-evaluation = true
+ingestion_stock = true
+ingestion_news = false
+feature_factor = true
+feature_news = false
+strategy = false
+evaluation = false
 
 
 
@@ -33,18 +34,36 @@ local_data_path = "/Users/xiaokangwang/Documents/PycharmProjects/Projects for Er
 dirs_names = ["logs", "config_archive", "data_raw", "data_clean", "models", "feature", "stratergy", "evaluation"]
 
 # Database settings
-#db_name = "stock_daily_data.db"
-db_name = "stock_daily_data_aapl_cost_cvx.db"
+db_name = "stock_daily_data.db"
+# news data for all stocks (listed in stock_symbol_list below)
+db_news_name = "stock_news_data.db"
 
-start_date = "2015-01-01"
-end_date = "2024-12-31"
 
 
 
 ############################################
 # parameters for each step in the pipeline
 [ingestion]
-stock_list = ["AAPL", "MSFT", "NVDA", "GOOG"]
+# one more years to calculate the technical indicators
+cherry_start_date = "2021-03-01"
+# dates covered in the database
+start_date = "2022-03-01"
+end_date = "2025-02-28"
+# for price and news ingestion
+stock_list = ["AAPL", "COST", "CVX"]
+# stock_list = "20250408_over_medium_selected.csv"
+
+# news ingestion parameters
+# Maximum number of news items to retrieve per ticker
+# maximum allowed by the API is 1000
+news_limit_per_api_call = 1000
+# Maximum total number of API calls allowed
+# maximum allowed by the Free API is 25 per day, unlimited for paid users
+api_call_total_limit = 99999
+# Maximum API calls allowed per minute (Alpha Vantage standard tier allows 5 calls per minute)
+api_calls_per_minute_limit = 75
+# overwrite the news table if it already exists
+overwrite_news_table = true
 
 [feature]
 # Technical analysis factors configuration
@@ -93,6 +112,12 @@ atr = { timeperiod = 14 }
 obv = {} 
 
 ad = {}
+
+[feature.llm_model]
+# LLAMA_MODEL in the CONTRIBUTING.md
+model_path = "~/Tools/llm_tools/models/gemma/gemma-3-4b-it-q4_0.gguf"
+# LLAMA_LIB_OUTPUT in the CONTRIBUTING.md
+lib_path = "~/Tools/llm_tools/lib/libllama.dylib"
 
 [strategy]
 # the agent we want to train
