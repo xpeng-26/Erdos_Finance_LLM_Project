@@ -111,9 +111,11 @@ class DataSource:
         db.close()
         df = df.loc[:, ~df.columns.duplicated()]  # Remove duplicated columns
 
+        
         ##### Change here ##################
         # Convert the symbol column to integer type
         df["symbol"] = df["symbol"].astype("category").cat.codes
+        
         #######################################
         df["return"] = df["close"].groupby(df["symbol"]).pct_change()
         df.fillna(0, inplace=True)
@@ -124,6 +126,7 @@ class DataSource:
         df["date_seq"] = df.groupby("symbol")["date"].cumcount()
         df = df.drop(["date"], axis=1)
         #######################################
+        
         return df
 
     def reset(self):

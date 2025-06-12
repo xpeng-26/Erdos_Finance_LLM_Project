@@ -73,20 +73,20 @@ def main(opt_params):
     )
 
 
-		# Logging
-		# Initialize the logger
-		ensure_dir(dirs["logs"])
-		log_file = "{}_log_{}.txt".format(
-			os.path.splitext(os.path.basename(config_filename))[0],
-			config["date"]['today'])
-		logger = initialize_logger(
-			log_path = dirs["logs"],
-			log_file = log_file
-		)
-		
-		# create all the files
-		for directory in dirs.keys():
-			ensure_dir(dirs[directory])
+	# Logging
+    # Initialize the logger
+    ensure_dir(dirs["logs"])
+    log_file = "{}_log_{}.txt".format(
+        os.path.splitext(os.path.basename(config_filename))[0],
+        config["date"]['today'])
+    logger = initialize_logger(
+        log_path=dirs["logs"],
+        log_file=log_file
+    )
+
+    # create all the files
+    for directory in dirs.keys():
+        ensure_dir(dirs[directory])
 
       
     ############################################
@@ -111,57 +111,56 @@ def main(opt_params):
     if config["pipeline"]["feature_factor"]:
         logger.info("---------- pipeline: feature_factor ----------")
 
-			# Calculate factors
-			logger.info('Start calculating factors...')
-			calculate_factors(config, logger)
-			logger.info('Factors calculation completed.\n')
+        # Calculate factors
+        logger.info('Start calculating factors...')
+        calculate_factors(config, logger)
+        logger.info('Factors calculation completed.\n')
 
-		
-		if config['pipeline']['strategy']:
-			logger.info('---------- pipeline: strategy ----------')
-			logger.info('Start trading with reinforcement learning agent...')
-			# Train which agent
-			
-			if config['strategy']['DDQN']:
-				logger.info('Training with DDQN agent...')
-				# Trading with reinforcement learning agent
-				with warnings.catch_warnings():
-					warnings.filterwarnings("ignore", category=UserWarning)
-					train_trading_agent(config, logger)
-
-			if config['strategy']['PPO']:
-				logger.info('Training with PPO agent...')
-				train_PPO_agent(config, logger)
-
-			if config['strategy']['A2C']:
-				logger.info('Training with A2C agent...')
-				train_A2C_agent(config, logger)
-
-			logger.info('Trading with reinforcement learning agent completed.\n')
-
-		if config['pipeline']['evaluation']:
-			logger.info('---------- pipeline: evaluation ----------')
-			logger.info('Start evaluating the trading strategy...')
-			# Dump the final model
-			dump_final_DDQN(config, logger)
-			logger.info('Final model dumped.\n')
-			# Evaluate the trading strategy
-			evaluation_main(config, logger)
-			# evaluate_trading_strategy(config, logger)
-			logger.info('Trading strategy evaluation completed.\n')
-
-
-			
-
+    if config["pipeline"]["feature_news"]:
+        logger.info("---------- pipeline: feature_news ----------")
 
         # Calculate news features
-        logger.info(
-            "Start inferencing news features (sentiment score and advisory) ..."
-        )
+        logger.info("Start inferencing news features (sentiment score and advisory) ...")
         inference_ai_sentiment_advisory(config, logger)
-        logger.info(
-            "News features (sentiment score and advisory) inference completed.\n"
-        )
+        logger.info("News features (sentiment score and advisory) inference completed.\n")
+
+        
+    if config['pipeline']['strategy']:
+        logger.info('---------- pipeline: strategy ----------')
+        logger.info('Start trading with reinforcement learning agent...')
+        # Train which agent
+
+    if config['strategy']['DDQN']:
+        logger.info('Training with DDQN agent...')
+        # Trading with reinforcement learning agent
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", category=UserWarning)
+            train_trading_agent(config, logger)
+
+    if config['strategy']['PPO']:
+        logger.info('Training with PPO agent...')
+        train_PPO_agent(config, logger)
+
+    if config['strategy']['A2C']:
+        logger.info('Training with A2C agent...')
+        train_A2C_agent(config, logger)
+
+        logger.info('Trading with reinforcement learning agent completed.\n')
+
+    if config['pipeline']['evaluation']:
+        logger.info('---------- pipeline: evaluation ----------')
+        logger.info('Start evaluating the trading strategy...')
+        # Dump the final model
+        dump_final_DDQN(config, logger)
+        logger.info('Final model dumped.\n')
+        # Evaluate the trading strategy
+        evaluation_main(config, logger)
+        # evaluate_trading_strategy(config, logger)
+        logger.info('Trading strategy evaluation completed.\n')
+
+
+			
+
 
 
 ############################################

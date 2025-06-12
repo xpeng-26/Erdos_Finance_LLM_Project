@@ -92,9 +92,11 @@ def evaluation_main(config, logger):
         if env == "single":
             market_returns[day] = market_return
             market_navs[day] = market_navs[day - 1] * (1 + market_return)
+            
         elif env == "portfolio":
             market_returns[day] = np.mean(market_return)
             market_navs[day] = market_navs[day - 1] * (1 + np.mean(market_return))
+            
         else:
             raise ValueError(f"Unknown env type {env}")
 
